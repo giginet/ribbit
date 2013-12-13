@@ -20,6 +20,9 @@ class Role(models.Model):
     room = models.ForeignKey('Room')
     permission = models.CharField(verbose_name=_('Permission'), choices=PERMISSIONS, max_length=8)
 
+    def __unicode__(self):
+        return "%s - %s" % (self.room.title, self.user.username)
+
 """
 Model which indicates Chat room.
 """
@@ -46,6 +49,9 @@ class Room(models.Model):
     icon_image = models.ImageField(verbose_name=_('Icon image'), null=True, blank=True, upload_to=icon_image_path)
     created_at = models.DateTimeField(auto_now=True, verbose_name=_('Date created'))
     updated_at = models.DateTimeField(auto_now_add=True, verbose_name=_('Date updated'))
+
+    def __unicode__(self):
+        return "%(title)s(%(scope)s)" % {'title' : self.title, 'scope' : dict(self.ROOM_SCOPE)[self.scope]}
 
     class Meta:
         verbose_name = 'Room'
