@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title></title>
+    <title>Ribbit - Lobby</title>
 </head>
 <body>
-Lobby
+Welcome {{ user.username }}
+
+<p></p><a href="{% url 'rooms_room_create' %}">Create new Room</a></p>
+
 </body>
 </html>
