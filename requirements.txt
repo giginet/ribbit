@@ -1,0 +1,2 @@
+Django==1.6
+factory_boy==2.2.1
