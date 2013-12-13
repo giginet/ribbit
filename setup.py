@@ -9,8 +9,8 @@ setup(name='ribbit',
       url='https://github.com/giginet/ribbit',
       test_suite = "runtests.runtests",
       include_package_data = True,
-      requires=[
-        'django (>=1.6.0)',
-        'factory_boy (>=2.2.1)'
+      install_requires=[
+        'Django>=1.6.0',
+        'factory_boy>=2.2.1'
       ]
 )
