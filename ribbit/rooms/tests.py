@@ -1,5 +1,6 @@
 from django.test import TestCase
 from django.contrib.auth.models import Group
+from django.db import IntegrityError
 
 from models import Room, Role
 from users.factory_boy import UserFactory
@@ -27,5 +28,63 @@ class RoomCreationTestCase(TestCase):
     def test_author_will_be_an_admin_of_room(self):
         """Test member will be an admin of created room."""
         room = Room.objects.create(title='Test Chat', slug='test-chat', author=self.user)
-        role = Role.objects.get(user=self.user, room=room, permission='admin')
+        role = Role.objects.get(user=self.user, room=room, permission=Role.ADMIN)
+        self.assertIsNotNone(role, 'The author will be room admin')
+
+    def test_can_not_create_duplicated_slug(self):
+        """Test the room has duplicated slug will not be created."""
+        room = Room.objects.create(title='Test Chat', slug='test-chat', author=self.user)
+        def create_dupliacted_room():
+            room = Room.objects.create(title='Test Chat', slug='test-chat', author=self.user)
+        self.assertRaises(IntegrityError, create_dupliacted_room)
+
+    def test_has_member(self):
+        """Test has_member returns correct value"""
+        room = Room.objects.create(title='Test Chat', slug='test-chat', author=self.user)
+        user1 = UserFactory.build(username='mario')
+        user1.save()
+        self.assertFalse(room.has_member(user1), 'has_member returns false')
+        room.add_member(user1)
+        self.assertTrue(room.has_member(user1), 'has_member returns true')
+
+    def test_can_add_member(self):
+        """Test user can be added"""
+        room = Room.objects.create(title='Test Chat', slug='test-chat', author=self.user)
+        user1 = UserFactory.build(username='mario')
+        user1.save()
+        self.assertTrue(room.add_member(user1), 'add_member returns true')
+        user2 = UserFactory.build(username='luigi')
+        user2.save()
+        self.assertTrue(room.add_member(user2, permission=Role.VIEWER), 'add_member returns true')
+        self.assertEqual(room.members.count(), 3, 'the count of members is correct')
+        role = Role.objects.get(room=room, user=user1)
+        self.assertEqual(role.permission, Role.MEMBER, 'the default permission is correct')
+        role1 = Role.objects.get(room=room, user=user2)
+        self.assertEqual(role1.permission, Role.VIEWER, 'the member of permission is correct')
+
+    def test_can_remove_member(self):
+        room = Room.objects.create(title='Test Chat', slug='test-chat', author=self.user)
+        user1 = UserFactory.build(username='mario')
+        user1.save()
+        room.add_member(user1)
+        self.assertTrue(room.remove_member(user1), 'remove_member returns false')
+        self.assertEqual(room.members.count(), 1, 'the count of members is correct')
+
+    def test_can_get_suitable_administrators(self):
+        """Test administrators property can get suitable users"""
+        room = Room.objects.create(title='Test Chat', slug='test-chat', author=self.user)
+        user1 = UserFactory.build(username='mario')
+        user2 = UserFactory.build(username='luigi')
+        user3 = UserFactory.build(username='peach')
+        user1.save()
+        user2.save()
+        user3.save()
+        room.add_member(user1, permission=Role.ADMIN)
+        room.add_member(user2, permission=Role.VIEWER)
+        room.add_member(user3, permission=Role.MEMBER)
+        self.assertEqual(room.administrators.count(), 2, 'the count of administrators is correct')
+        self.assertEqual(room.administrators[0].username, 'kawaztan')
+        self.assertEqual(room.administrators[1].username, 'mario')
+
+
 

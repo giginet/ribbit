@@ -5,28 +5,33 @@ from django.utils.translation import ugettext as _
 
 from users.models import User
 
-"""
-Model which indicates relations between users and rooms.
-"""
 class Role(models.Model):
+    """
+    Model which indicates relations between users and rooms.
+    """
+
+    ADMIN = 2
+    MEMBER = 1
+    VIEWER = 0
 
     PERMISSIONS = (
-        ('admin', _('View, Write & Administrative')),
-        ('writer', _('View & Write')),
-        ('viewer', _('View Only'))
+        (ADMIN, _('View, Write & Administrative')),
+        (MEMBER, _('View & Write')),
+        (VIEWER, _('View Only'))
     )
 
     user = models.ForeignKey(User)
     room = models.ForeignKey('Room')
-    permission = models.CharField(verbose_name=_('Permission'), choices=PERMISSIONS, max_length=8)
+    permission = models.SmallIntegerField(verbose_name=_('Permission'), choices=PERMISSIONS)
 
     def __unicode__(self):
         return "%s - %s" % (self.room.title, self.user.username)
 
-"""
-Model which indicates Chat room.
-"""
+
 class Room(models.Model):
+    """
+    Model which indicates Chat room.
+    """
 
     ROOM_SCOPE = (
         ('public', _('Public')),
@@ -65,12 +70,45 @@ class Room(models.Model):
         group, created = Group.objects.get_or_create(name=self._get_room_group_name())
         self.group = group
         super(Room, self).save(**kwargs)
-        role = Role(user=self.author, room=self, permission='admin')
+        role = Role(user=self.author, room=self, permission=Role.ADMIN)
         role.save()
 
-    """
-    Get users who can manage this room
-    @return QuerySets contains room admin users.
-    """
+    def add_member(self, user, permission=Role.MEMBER):
+        """
+        Add the member to this room
+        @param user User who is added to this room.
+        @param permission Integer the integer which indicate to member permission.
+        @return boolean value which indicates to whether success or not
+        """
+        if not self.has_member(user):
+            role = Role.objects.create(room=self, user=user, permission=permission)
+            return True
+        return False
+
+    def remove_member(self, user):
+        """
+        Remove the member from this room
+        @param user User who is removed from this room
+        @return boolean value which indicates to whether success or not
+        """
+        if self.has_member(user):
+            role = Role.objects.get(room=self, user=user)
+            role.delete()
+            return True
+        return False
+
+    def has_member(self, user):
+        """
+        Return whether the user is a member or not
+        @param user
+        @return boolean
+        """
+        return Role.objects.filter(room=self, user=user).count() > 0
+
+    @property
     def administrators(self):
-        return self.members.filter(role__permission='admin')
+        """
+        Get users who can manage this room
+        @return QuerySets contains room admin users.
+        """
+        return self.members.filter(role__permission=Role.ADMIN)
