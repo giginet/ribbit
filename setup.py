@@ -10,6 +10,7 @@ setup(name='ribbit',
       test_suite = "runtests.runtests",
       include_package_data = True,
       install_requires=[
+        'PIL',
         'Django>=1.6.0',
         'factory_boy>=2.2.1'
       ]
