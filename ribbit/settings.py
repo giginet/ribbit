@@ -36,9 +36,9 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'users',
-    'rooms',
-    'messages',
+    'ribbit.apps.users',
+    'ribbit.apps.rooms',
+    'ribbit.apps.messages',
     'django.contrib.admin',
 )
 

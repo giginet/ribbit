@@ -5,9 +5,9 @@ from django.views.generic.detail import DetailView
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 
-from users.models import User
+from ribbit.apps.users.models import User
 
-from rooms.models import Room
+from ribbit.apps.rooms.models import Room
 
 """
 View class that to create

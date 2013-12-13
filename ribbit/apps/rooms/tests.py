@@ -3,7 +3,7 @@ from django.contrib.auth.models import Group
 from django.db import IntegrityError
 
 from models import Room, Role
-from users.factory_boy import UserFactory
+from ribbit.apps.users.factory_boy import UserFactory
 from factory_boy import RoomFactory
 
 class RoomCreationTestCase(TestCase):

@@ -3,7 +3,7 @@ from django.contrib.auth.models import Group, Permission
 from django.contrib.contenttypes.models import ContentType
 from django.utils.translation import ugettext as _
 
-from users.models import User
+from ribbit.apps.users.models import User
 
 class Role(models.Model):
     """

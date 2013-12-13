@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, include, url
 
-from rooms.views import RoomCreateView, RoomDetailView
+from ribbit.apps.rooms.views import RoomCreateView, RoomDetailView
 
 urlpatterns = patterns('rooms.views',
     url(r'^create/$', RoomCreateView.as_view(), name='rooms_room_create'),
