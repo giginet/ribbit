@@ -86,5 +86,34 @@ class RoomCreationTestCase(TestCase):
         self.assertEqual(room.administrators[0].username, 'kawaztan')
         self.assertEqual(room.administrators[1].username, 'mario')
 
+    def test_can_not_add_multiple_members(self):
+        """Test multiple members can not be added to the room."""
+        room = Room.objects.create(title='Test Chat', slug='test-chat', author=self.user)
+        user1 = UserFactory.build(username='mario')
+        user1.save()
+        self.assertTrue(room.add_member(user1), 'add_member returns true')
+        self.assertFalse(room.add_member(user1), 'add_member returns true')
 
+    def test_can_not_remove_non_member(self):
+        """Test the member who not join to the room can not be removed"""
+        room = Room.objects.create(title='Test Chat', slug='test-chat', author=self.user)
+        user1 = UserFactory.build(username='mario')
+        user1.save()
+        self.assertFalse(room.remove_member(user1), 'remove_member returns false')
 
+    def test_raise_error_when_create_multiple_role(self):
+        """Test """
+        room = Room.objects.create(title='Test Chat', slug='test-chat', author=self.user)
+        user1 = UserFactory.build(username='mario')
+        user1.save()
+        role = Role.objects.create(room=room, user=user1)
+        def create_role_multiple():
+            Role.objects.create(room=room, user=user1, permission=Role.ADMIN)
+        self.assertRaises(IntegrityError, create_role_multiple)
+
+    def test_unicode_returns_suitable_name(self):
+        """Test __unicode__ returns suitable room name"""
+        room = RoomFactory.create()
+        self.assertEqual(unicode(room), 'Test Chat(Public)', '__unicode__ retusns name correctly when room scope is public')
+        room.scope = 'private'
+        self.assertEqual(unicode(room), 'Test Chat(Invite Only)', '__unicode__ retusns name correctly when room scope is private')

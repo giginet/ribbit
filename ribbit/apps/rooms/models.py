@@ -22,10 +22,13 @@ class Role(models.Model):
 
     user = models.ForeignKey(User)
     room = models.ForeignKey('Room')
-    permission = models.SmallIntegerField(verbose_name=_('Permission'), choices=PERMISSIONS)
+    permission = models.SmallIntegerField(verbose_name=_('Permission'), choices=PERMISSIONS, default=MEMBER)
 
     def __unicode__(self):
         return "%s - %s" % (self.room.title, self.user.username)
+
+    class Meta:
+        unique_together = (('room', 'user'),)
 
 
 class Room(models.Model):
