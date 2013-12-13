@@ -54,6 +54,7 @@ MIDDLEWARE_CLASSES = (
 AUTH_USER_MODEL = 'users.User'
 
 LOGIN_URL = '/login'
+LOGIN_REDIRECT_URL = '/'
 
 ROOT_URLCONF = 'ribbit.urls'
 

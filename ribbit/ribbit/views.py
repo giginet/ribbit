@@ -10,7 +10,7 @@ class LoginView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(LoginView, self).get_context_data(**kwargs)
-        context['login_form'] = AuthenticationForm()
+        context['login_form'] = AuthenticationForm(data=self.request.POST)
         return context
 
 """
@@ -23,4 +23,4 @@ class IndexView(RedirectView):
     def get_redirect_url(self, *args, **kwargs):
         if self.request.user.is_authenticated():
             return reverse("ribbit_lobby")
-        return reverse("ribbit_login")
+        return reverse("users_login")
