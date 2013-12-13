@@ -2,7 +2,7 @@ from django.db import models
 from django.utils.translation import ugettext as _
 
 u"""
-    Model for Char room.
+    Model for Chat room.
 """
 class Room(models.Model):
 
@@ -15,6 +15,7 @@ class Room(models.Model):
         return ''
 
     name = models.CharField(max_length=128, verbose_name=_('Room'), null=False, blank=False)
+    description = models.CharField(max_length=1024, verbose_name=_('Description'), null=True, blank=True)
     scope = models.CharField(choices=ROOM_SCOPE, verbose_name=_('Scope'), default='public', max_length=16)
     icon_image = models.ImageField(verbose_name=_('Icon Image'), null=True, blank=True, upload_to=icon_image_path)
     created_at = models.DateTimeField(auto_now=True, verbose_name=_('Created At'))
