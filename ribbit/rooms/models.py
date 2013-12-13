@@ -59,7 +59,7 @@ class Room(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('rooms_room_detail', (), {'pk' : self.pk})
+        return ('rooms_room_detail', (), {'slug' : self.slug})
 
     def save(self, **kwargs):
         group, created = Group.objects.get_or_create(name=self._get_room_group_name())

@@ -6,6 +6,11 @@
 <body>
 Welcome {{ user.username }}
 
+<h2>Available Rooms</h2>
+{% for room in rooms %}
+    <p><a href="{% url 'rooms_room_detail' room.slug %}">{{ room.title }}</a></p>
+{% endfor %}
+
 <p></p><a href="{% url 'rooms_room_create' %}">Create new Room</a></p>
 
 </body>
