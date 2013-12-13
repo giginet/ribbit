@@ -5,7 +5,6 @@ from django.http import HttpResponseRedirect
 from django.utils.decorators import method_decorator
 from django.views.decorators.debug import sensitive_post_parameters
 from django.views.generic import FormView, View
-from django.core.urlresolvers import resolve
 
 class LoginView(FormView):
     form_class = AuthenticationForm

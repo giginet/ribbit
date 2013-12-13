@@ -2,7 +2,7 @@ from django.views.generic.base import RedirectView, TemplateView
 from django.contrib.auth.forms import AuthenticationForm
 from django.core.urlresolvers import reverse
 
-from rooms.models import Room
+from apps.rooms.models import Room
 
 """
 View class for not authenticated users.
