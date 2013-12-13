@@ -1,4 +1,6 @@
-from django.views.generic.base import View, TemplateView
+from django.views.generic.base import RedirectView, TemplateView
+from django.contrib.auth.forms import AuthenticationForm
+from django.core.urlresolvers import reverse
 
 """
 View class for not authenticated users.
@@ -6,16 +8,19 @@ View class for not authenticated users.
 class LoginView(TemplateView):
     template_name = 'ribbit/login.html'
 
+    def get_context_data(self, **kwargs):
+        context = super(LoginView, self).get_context_data(**kwargs)
+        context['login_form'] = AuthenticationForm()
+        return context
+
 """
 View class for autheticated users.
 """
 class LobbyView(TemplateView):
     template_name = 'ribbit/lobby.html'
 
-class IndexView(TemplateView):
-    def get(self, request, *args, **kwargs):
-        if request.user.is_authenticated():
-            self.template_name = LobbyView.template_name
-        else:
-            self.template_name = LoginView.template_name
-        return super(IndexView, self).get(request, *args, **kwargs)
+class IndexView(RedirectView):
+    def get_redirect_url(self, *args, **kwargs):
+        if self.request.user.is_authenticated():
+            return reverse("ribbit_lobby")
+        return reverse("ribbit_login")

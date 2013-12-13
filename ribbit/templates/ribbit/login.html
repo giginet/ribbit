@@ -4,6 +4,9 @@
     <title></title>
 </head>
 <body>
-Login
+<form action="" method="POST"> {% csrf_token %}
+    {{ login_form.as_p }}
+    <input type="submit" value="Login">
+</form>
 </body>
 </html>

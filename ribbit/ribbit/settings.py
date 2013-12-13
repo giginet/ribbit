@@ -53,7 +53,7 @@ MIDDLEWARE_CLASSES = (
 
 AUTH_USER_MODEL = 'users.User'
 
-LOGIN_URL = '/'
+LOGIN_URL = '/login'
 
 ROOT_URLCONF = 'ribbit.urls'
 
