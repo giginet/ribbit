@@ -53,6 +53,8 @@ MIDDLEWARE_CLASSES = (
 
 AUTH_USER_MODEL = 'users.User'
 
+LOGIN_URL = '/'
+
 ROOT_URLCONF = 'ribbit.urls'
 
 WSGI_APPLICATION = 'ribbit.wsgi.application'

@@ -12,5 +12,6 @@ urlpatterns = patterns('',
     # url(r'^blog/', include('blog.urls')),
 
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^', IndexView.as_view())
+    url(r'^rooms/', include('rooms.urls')),
+    url(r'^$', IndexView.as_view())
 )
