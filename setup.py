@@ -8,6 +8,7 @@ setup(name='ribbit',
       author_email='giginet.net@gmail.com',
       url='https://github.com/giginet/ribbit',
       requires=[
-        'django (>=1.6.0)'
+        'django (>=1.6.0)',
+        'factory_boy (>=2.2.1)'
       ]
 )
