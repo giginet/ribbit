@@ -1,8 +1,8 @@
 from django.db import models
-from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _
 
 from rooms.models import Room
+from users.models import User
 
 class Message(models.Model):
     body = models.CharField(verbose_name=_('Body'), max_length=4096)
