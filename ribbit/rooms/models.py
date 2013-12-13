@@ -51,6 +51,10 @@ class Room(models.Model):
         verbose_name = 'Room'
         verbose_name_plural = 'Rooms'
 
+    @models.permalink
+    def get_absolute_url(self):
+        return ('rooms_room_detail', (), {'pk' : self.pk})
+
     def save(self, **kwargs):
         group, created = Group.objects.get_or_create(name=self._get_room_group_name())
         self.group = group
