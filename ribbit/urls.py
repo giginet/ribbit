@@ -12,5 +12,6 @@ urlpatterns = patterns('',
     url(r'^rooms/', include('ribbit.apps.rooms.urls')),
     url(r'^login/$', LoginView.as_view(), name='users_login'),
     url(r'^lobby/$', LobbyView.as_view(), name='ribbit_lobby'),
+    url(r"^sockets/", include('django_socketio.urls')),
     url(r'^$', IndexView.as_view(), name='ribbit_index')
 )
