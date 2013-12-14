@@ -12,7 +12,7 @@ setup(name='ribbit',
       install_requires=[
         'PIL',
         'Django>=1.6.0',
-        'factory_boy>=2.2.1'
+        'factory_boy>=2.2.1',
         'gevent',
         'django-socketio'
       ]
