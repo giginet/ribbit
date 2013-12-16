@@ -9,6 +9,7 @@
 </head>
 <body>
 <h1>{{ object.title }}</h1>
+<input type="hidden" id="room-slug" value="{{ object.slug }}">
 <form>
     <input type="text" id="message" name="message">
     <input type="submit" id="submit" value="Join">

@@ -1,16 +1,18 @@
 Ribbit = {}
 class Chat
   constructor : (@slug='') ->
-    @socket = new io.Socket()
-    @socket.on('connect', @onConnected)
-    @socket.on('disconnect', @onDisconnected)
-    @socket.on('message', @onMessaged)
+    @
+#    @socket = new WebSocket("")
+#    @socket.on('connect', @onConnected)
+#    @socket.on('disconnect', @onDisconnected)
+#    @socket.on('message', @onMessaged)
 
   start : () ->
     @socket.connect()
 
   onConnected : () ->
-    @
+    console.log("connected to #{@slug}")
+    @socket.send({room : @slug, action : 'start'})
 
   onDisconnected : () ->
     @
@@ -31,9 +33,11 @@ class ChatView
             action : 'message'
             message : value
         @$messageForm.val('').focus()
+        return false
     )
 
 $ ->
-  Ribbit.chat = new Chat()
+  slug = $('#room-slug').val()
+  Ribbit.chat = new Chat(slug)
   Ribbit.chat.start()
   Ribbit.view = new ChatView(Ribbit.chat)

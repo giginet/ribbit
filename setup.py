@@ -13,7 +13,5 @@ setup(name='ribbit',
         'PIL',
         'Django>=1.6.0',
         'factory_boy>=2.2.1',
-        'gevent',
-        'django-socketio'
       ]
 )

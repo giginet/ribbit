@@ -6,10 +6,7 @@
   Chat = (function() {
     function Chat(slug) {
       this.slug = slug != null ? slug : '';
-      this.socket = new io.Socket();
-      this.socket.on('connect', this.onConnected);
-      this.socket.on('disconnect', this.onDisconnected);
-      this.socket.on('message', this.onMessaged);
+      this;
     }
 
     Chat.prototype.start = function() {
@@ -17,7 +14,11 @@
     };
 
     Chat.prototype.onConnected = function() {
-      return this;
+      console.log("connected to " + this.slug);
+      return this.socket.send({
+        room: this.slug,
+        action: 'start'
+      });
     };
 
     Chat.prototype.onDisconnected = function() {
@@ -47,7 +48,8 @@
             message: value
           };
         }
-        return this.$messageForm.val('').focus();
+        this.$messageForm.val('').focus();
+        return false;
       });
     }
 
@@ -56,7 +58,9 @@
   })();
 
   $(function() {
-    Ribbit.chat = new Chat();
+    var slug;
+    slug = $('#room-slug').val();
+    Ribbit.chat = new Chat(slug);
     Ribbit.chat.start();
     return Ribbit.view = new ChatView(Ribbit.chat);
   });

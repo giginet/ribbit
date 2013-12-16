@@ -1,3 +1,4 @@
 .idea
 *.egg-info
 db.sqlite3
+.python-version
