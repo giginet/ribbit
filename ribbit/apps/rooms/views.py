@@ -9,10 +9,10 @@ from ribbit.apps.users.models import User
 
 from ribbit.apps.rooms.models import Room
 
-"""
-View class that to create
-"""
 class RoomCreateView(CreateView):
+    """
+    View class that to create
+    """
     model = Room
     #fields = ('title', 'slug', 'description', 'scope', 'icon_image')
 
@@ -27,10 +27,10 @@ class RoomCreateView(CreateView):
     def dispatch(self, *args, **kwargs):
         return super(RoomCreateView, self).dispatch(*args, **kwargs)
 
-"""
-View class that shows details for each rooms.
-"""
 class RoomDetailView(DetailView):
+    """
+    View class that shows details for each rooms.
+    """
     model = Room
 
     @method_decorator(login_required)

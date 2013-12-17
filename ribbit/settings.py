@@ -35,6 +35,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'easy_thumbnails',
     'pulsar.apps.pulse',
     'ribbit.apps.users',
     'ribbit.apps.rooms',
@@ -85,6 +86,13 @@ USE_TZ = True
 
 # WebSocket
 WEB_SOCKET_END_POINT = '/ws'
+
+# easy-thumbnail
+THUMBNAIL_ALIASES = {
+    '': {
+        'avatar': {'size': (64, 64), 'crop': 'smart'},
+    },
+}
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/

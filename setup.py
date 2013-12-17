@@ -14,6 +14,7 @@ setup(name='ribbit',
         'Django>=1.6.0',
         'factory_boy>=2.2.1',
         'pulsar',
+        'easy-thumbnails',
         'honcho'
       ]
 )

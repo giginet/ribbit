@@ -1,8 +1,12 @@
+import os
 import json
 from django.db import models
 from django.contrib.auth.models import Group, Permission
 from django.core import serializers
 from django.utils.translation import ugettext as _
+from django.conf import settings
+
+from easy_thumbnails.fields import ThumbnailerImageField
 
 from ribbit.apps.users.models import User
 
@@ -48,8 +52,8 @@ class Room(models.Model):
     def _get_room_group_name(self):
         return "room_%s" % self.slug
 
-    def icon_image_path(filename):
-        return ''
+    def icon_image_path(instance, filename):
+        return os.path.join(settings.BASE_DIR, 'ribbit', 'static', 'uploads', 'icons', '%s.png' % instance.slug)
 
     title = models.CharField(max_length=128, verbose_name=_('Title'))
     slug = models.SlugField(max_length=32, verbose_name=_('Slug'), unique=True)
@@ -58,7 +62,7 @@ class Room(models.Model):
     author = models.ForeignKey(User, verbose_name=_('Author'), related_name='created_rooms')
     members = models.ManyToManyField(User, verbose_name=_('Members'), related_name='joined rooms', through=Role, editable=False)
     group = models.ForeignKey(Group, verbose_name=_('Member group'), editable=False, unique=True)
-    icon_image = models.ImageField(verbose_name=_('Icon image'), null=True, blank=True, upload_to=icon_image_path)
+    icon = ThumbnailerImageField(verbose_name=_('Icon image'), null=True, blank=True, upload_to=icon_image_path)
     created_at = models.DateTimeField(auto_now=True, verbose_name=_('Date created'))
     updated_at = models.DateTimeField(auto_now_add=True, verbose_name=_('Date updated'))
 
