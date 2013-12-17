@@ -1,0 +1,38 @@
+$imageSize: 64px;
+$margin: 10px;
+$boxHeight: $imageSize + $margin * 2;
+.message {
+  border: 1px #999 solid;
+  border-radius: 4px;
+  margin: $margin;
+
+  .icon {
+    background: #eeeeee;
+    vertical-align: middle;
+    margin: $margin;
+    border-radius: $imageSize / 2;
+    width: $imageSize;
+    height: $imageSize;
+    float: left;
+  }
+
+  .main-section {
+    border-left: 1px #999 solid;
+    margin-left: $margin + $imageSize + $margin;
+    min-height: $boxHeight;
+  }
+
+  .author {
+    font-weight: bold;
+    padding: 3px 3px 0;
+    margin-top: 0px;
+    position: relative;
+    height: 20px;
+  }
+
+  .body {
+    padding: 3px 7px 0;
+  }
+}
+
+

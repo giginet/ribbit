@@ -1,0 +1,24 @@
+.message {
+  border: 1px #999 solid;
+  border-radius: 4px;
+  margin: 10px; }
+  .message .icon {
+    background: #eeeeee;
+    vertical-align: middle;
+    margin: 10px;
+    border-radius: 32px;
+    width: 64px;
+    height: 64px;
+    float: left; }
+  .message .main-section {
+    border-left: 1px #999 solid;
+    margin-left: 84px;
+    min-height: 84px; }
+  .message .author {
+    font-weight: bold;
+    padding: 3px 3px 0;
+    margin-top: 0px;
+    position: relative;
+    height: 20px; }
+  .message .body {
+    padding: 3px 7px 0; }

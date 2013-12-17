@@ -63,7 +63,8 @@ class Chat(ws.WS):
 
                 response = {
                     'action' : 'receive',
-                    'user' : user.serialize(),
+                    'author' : user.serialize(),
+                    'body' : message.body,
                     'room' : room.serialize(),
                     'timestamp' : time.time()
                 }

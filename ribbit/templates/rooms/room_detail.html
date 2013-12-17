@@ -3,6 +3,7 @@
 <head>
     <script src="{{ STATIC_URL }}js/lib/jquery-2.0.3.min.js" charset="UTF-8"></script>
     <script src="{{ STATIC_URL }}js/chat.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/chat.css" type="text/css">
     <title></title>
 </head>
 <body>
@@ -11,5 +12,14 @@
 <input type="text" id="message" name="message">
 <input type="submit" id="send" value="Send">
 <input type="button" id="leave" value="Leave">
+<section id="message-list">
+    <article class="message" style="display: none;">
+        <img src="" class="icon">
+        <section class="main-section">
+            <div class="author"></div>
+            <div class="body"></div>
+        </section>
+    </article>
+</section>
 </body>
 </html>

@@ -1,5 +1,5 @@
 (function() {
-  var Chat, ChatView, Ribbit,
+  var Chat, ChatView, Message, Ribbit,
     __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
   Ribbit = {};
@@ -21,7 +21,6 @@
     };
 
     Chat.prototype.onConnected = function() {
-      console.log("connected to " + this.slug);
       return this.socket.send({
         room: this.slug,
         action: 'start'
@@ -33,7 +32,17 @@
     };
 
     Chat.prototype.onMessaged = function(e) {
-      return console.log(e.data);
+      var error, message, recieved;
+      try {
+        recieved = JSON.parse(e.data);
+      } catch (_error) {
+        error = _error;
+        recieved = {};
+      }
+      if (recieved['action'] === 'receive') {
+        message = new Message(recieved['body'], recieved['author']);
+        return Ribbit.view.$messageList.append(message.createView());
+      }
     };
 
     return Chat;
@@ -45,6 +54,7 @@
       var _this = this;
       this.chat = chat;
       this.$messageForm = $('#message');
+      this.$messageList = $('#message-list');
       this.$button = $('#send');
       this.$button.on('click', function() {
         var data, value;
@@ -70,10 +80,29 @@
   $(function() {
     var slug;
     slug = $('#room-slug').val();
-    console.log(slug);
     Ribbit.chat = new Chat(slug);
     Ribbit.chat.start();
     return Ribbit.view = new ChatView(Ribbit.chat);
   });
+
+  Message = (function() {
+    function Message(body, author) {
+      this.body = body;
+      this.author = author;
+      this.$template = $('.message');
+    }
+
+    Message.prototype.createView = function() {
+      var $view;
+      $view = this.$template.clone();
+      $view.show();
+      $view.find(".author").text("" + this.author['fields']['screen_name'] + "(@" + this.author['fields']['username'] + ")");
+      $view.find(".body").text(this.body);
+      return $view;
+    };
+
+    return Message;
+
+  })();
 
 }).call(this);
