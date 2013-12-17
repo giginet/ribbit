@@ -42,7 +42,7 @@
       }
       if (recieved['action'] === 'receive') {
         message = new Message(recieved);
-        return Ribbit.view.$messageList.append(Ribbit.view.createView(message));
+        return Ribbit.view.$messageList.append(Ribbit.view.createView(message).fadeIn('fast'));
       } else if (recieved['action'] === 'error') {
         return alert(recieved['body']);
       }
@@ -91,8 +91,11 @@
       var $view;
       $view = this.$messageTemplate.clone();
       $view.show();
-      $view.find(".author").text("" + message.author['fields']['screen_name'] + "(@" + message.author['fields']['username'] + ")");
+      $view.find(".author").text("" + message.author['screen_name'] + "(@" + message.author['username'] + ")");
       $view.find(".body").text(message.body);
+      $view.find(".avatar").css({
+        'background-image': "url(" + message.author['avatar'] + ")"
+      });
       return $view;
     };
 

@@ -23,7 +23,7 @@ class Chat
       console.log e.data
     if recieved['action'] is 'receive'
       message = new Message(recieved)
-      Ribbit.view.$messageList.append(Ribbit.view.createView(message))
+      Ribbit.view.$messageList.append(Ribbit.view.createView(message).fadeIn('fast'))
     else if recieved['action'] is 'error'
       alert(recieved['body'])
 
@@ -55,8 +55,9 @@ class ChatView
   createView : (message) ->
     $view = @$messageTemplate.clone()
     $view.show()
-    $view.find(".author").text("#{message.author['fields']['screen_name']}(@#{message.author['fields']['username']})")
+    $view.find(".author").text("#{message.author['screen_name']}(@#{message.author['username']})")
     $view.find(".body").text(message.body)
+    $view.find(".avatar").css({'background-image': "url(#{message.author['avatar']})"})
     $view
 
 $ ->

@@ -53,7 +53,7 @@ class Room(models.Model):
         return "room_%s" % self.slug
 
     def icon_image_path(instance, filename):
-        return os.path.join(settings.BASE_DIR, 'ribbit', 'static', 'uploads', 'icons', '%s.png' % instance.slug)
+        return os.path.join(settings.STATIC_DIR, 'uploads', 'icons', '%s.png' % instance.slug)
 
     title = models.CharField(max_length=128, verbose_name=_('Title'))
     slug = models.SlugField(max_length=32, verbose_name=_('Slug'), unique=True)
@@ -80,13 +80,14 @@ class Room(models.Model):
         Return a dictionary which contains each fields
         @return dict
         """
-        return json.loads(serializers.serialize('json', [self, ], fields=(
-            'title',
-            'slug',
-            'description',
-            'scope',
-            'icon_image'
-        )))[0]
+        return {
+            'pk': self.pk,
+            'title': self.title,
+            'slug': self.slug,
+            'description': self.description,
+            'scope': self.scope,
+            'icon': os.path.join(settings.STATIC_URL, os.path.relpath(self.icon['thumbnail'].url, settings.STATIC_DIR))
+        }
 
     @models.permalink
     def get_absolute_url(self):

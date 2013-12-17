@@ -90,17 +90,20 @@ WEB_SOCKET_END_POINT = '/ws'
 # easy-thumbnail
 THUMBNAIL_ALIASES = {
     '': {
-        'avatar': {'size': (64, 64), 'crop': 'smart'},
+        'thumbnail': {'size': (64, 64), 'crop': 'smart'},
     },
 }
+THUMBNAIL_BASEDIR = 'uploads'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'ribbit', 'static')
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'ribbit', 'static'),
 )
+STATIC_DIR = STATICFILES_DIRS[0]
 
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
