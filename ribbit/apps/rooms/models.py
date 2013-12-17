@@ -30,6 +30,9 @@ class Role(models.Model):
     class Meta:
         unique_together = (('room', 'user'),)
 
+class RoomManager(models.Manager):
+    def get_viewable_rooms(self):
+        pass
 
 class Room(models.Model):
     """
@@ -57,6 +60,8 @@ class Room(models.Model):
     icon_image = models.ImageField(verbose_name=_('Icon image'), null=True, blank=True, upload_to=icon_image_path)
     created_at = models.DateTimeField(auto_now=True, verbose_name=_('Date created'))
     updated_at = models.DateTimeField(auto_now_add=True, verbose_name=_('Date updated'))
+
+    objects = RoomManager()
 
     def __unicode__(self):
         return "%(title)s(%(scope)s)" % {'title' : self.title, 'scope' : dict(self.ROOM_SCOPE)[self.scope]}
@@ -107,6 +112,15 @@ class Room(models.Model):
         @return boolean
         """
         return Role.objects.filter(room=self, user=user).count() > 0
+
+    def add_message(self, body, author):
+        """
+        Add message to this room
+        @param body string message body
+        @param author user
+        """
+        from ribbit.apps.messages.models import Message
+        return Message.objects.create(room=self, body=body, author=author)
 
     @property
     def administrators(self):

@@ -22,14 +22,16 @@ class Chat
 class ChatView
   constructor : (@chat) ->
     @$messageForm = $('#message')
-    @$button = $('send')
-    @$button.on('submit', =>
+    @$button = $('#send')
+    @$button.on('click', =>
         value = $('#message').val()
         if value
           data =
             room : @chat.slug
-            action : 'message'
-            message : value
+            action : 'post'
+            user : @chat.user
+            body : value
+        @chat.socket.send(JSON.stringify(data))
         @$messageForm.val('').focus()
         false
     )

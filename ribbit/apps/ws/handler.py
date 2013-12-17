@@ -6,14 +6,16 @@ import time
 import json
 from pulsar.apps import ws, pubsub
 
+from ribbit.apps.messages.models import Message
+from ribbit.apps.rooms.models import Room
+
 class Client(pubsub.Client):
 
     def __init__(self, connection):
         self.connection = connection
 
     def __call__(self, channel, message):
-        if channel == 'webchat':
-            self.connection.write(message)
+        self.connection.write(message)
 
 class Chat(ws.WS):
     '''The websocket handler managing the chat application.
@@ -40,21 +42,32 @@ class Chat(ws.WS):
         self.pubsub(websocket).add_client(client)
         client.connection.write("welcome")
 
-    def on_message(self, websocket, msg):
-        '''When a new message arrives, it publishes to all listening clients.
+    def on_message(self, websocket, message):
         '''
-        if msg:
-            lines = []
-            for l in msg.split('\n'):
-                l = l.strip()
-                if l:
-                    lines.append(l)
-            msg = ' '.join(lines)
-            if msg:
+        When a new message arrives, it publishes to all listening clients.
+        '''
+        if message:
+            try:
+                data = json.loads(message)
+            except:
+                data = None
+            if data:
                 user = websocket.handshake.get('django.user')
+                # ToDo check permissions
                 if user.is_authenticated():
-                    user = user.username
+                    username = user.username
                 else:
-                    user = 'anonymous'
-                msg = {'message': msg, 'user': user, 'time': time.time()}
-                self.pubsub(websocket).publish('webchat', json.dumps(msg))
+                    username = 'anonymous'
+                self.pubsub(websocket).publish('webchat', data['body'])
+                if data['action'] == 'post':
+                    room = Room.objects.get(slug=data['room'])
+                    if room:
+                        message = room.add_message(data['body'], user)
+
+                    response = {
+                        'action' : 'receive',
+                        'user' : username,
+                        'room' : room.slug,
+                        'timestamp' : time.time()
+                    }
+                    self.pubsub(websocket).publish('webchat', json.dumps(response))

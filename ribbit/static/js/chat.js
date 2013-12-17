@@ -45,17 +45,19 @@
       var _this = this;
       this.chat = chat;
       this.$messageForm = $('#message');
-      this.$button = $('send');
-      this.$button.on('submit', function() {
+      this.$button = $('#send');
+      this.$button.on('click', function() {
         var data, value;
         value = $('#message').val();
         if (value) {
           data = {
             room: _this.chat.slug,
-            action: 'message',
-            message: value
+            action: 'post',
+            user: _this.chat.user,
+            body: value
           };
         }
+        _this.chat.socket.send(JSON.stringify(data));
         _this.$messageForm.val('').focus();
         return false;
       });
