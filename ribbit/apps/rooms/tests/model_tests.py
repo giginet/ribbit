@@ -2,11 +2,11 @@ from django.test import TestCase
 from django.contrib.auth.models import Group
 from django.db import IntegrityError
 
-from models import Room, Role
+from ..models import Room, Role
 from ribbit.apps.users.factory_boy import UserFactory
-from factory_boy import RoomFactory
+from ..factory_boy import RoomFactory
 
-class RoomCreationTestCase(TestCase):
+class RoomTestCase(TestCase):
     def setUp(self):
         self.user = UserFactory.create()
         self.user.save()
@@ -102,7 +102,7 @@ class RoomCreationTestCase(TestCase):
         self.assertFalse(room.remove_member(user1), 'remove_member returns false')
 
     def test_raise_error_when_create_multiple_role(self):
-        """Test """
+        """Test the error is raised when multiple roles are created"""
         room = Room.objects.create(title='Test Chat', slug='test-chat', author=self.user)
         user1 = UserFactory.build(username='mario')
         user1.save()
@@ -117,3 +117,42 @@ class RoomCreationTestCase(TestCase):
         self.assertEqual(unicode(room), 'Test Chat(Public)', '__unicode__ retusns name correctly when room scope is public')
         room.scope = 'private'
         self.assertEqual(unicode(room), 'Test Chat(Invite Only)', '__unicode__ retusns name correctly when room scope is private')
+
+    def test_can_get_correct_permission(self):
+        """Test correct permission can be returend."""
+        room = Room.objects.create(title='Test Chat', slug='test-chat', author=self.user)
+        user0 = UserFactory.build(username='sonic')
+        user1 = UserFactory.build(username='tales')
+        user2 = UserFactory.build(username='shadow')
+        user3 = UserFactory.build(username='emmy')
+        user0.save()
+        user1.save()
+        user2.save()
+        user3.save()
+        room.add_member(user0, permission=Role.ADMIN)
+        room.add_member(user1, permission=Role.MEMBER)
+        room.add_member(user2, permission=Role.VIEWER)
+
+        self.assertTrue(room.is_viewable(user0), 'Admin user can view the room')
+        self.assertTrue(room.is_viewable(user1), 'Member user can view the room')
+        self.assertTrue(room.is_viewable(user2), 'Viewer user can view the room')
+        self.assertFalse(room.is_viewable(user3), 'Not member can not view the room')
+
+        self.assertTrue(room.is_writable(user0), 'Admin user can write to the room')
+        self.assertTrue(room.is_writable(user1), 'Member user can write to the room')
+        self.assertFalse(room.is_writable(user2), 'Viewer user can not write to the room')
+        self.assertFalse(room.is_writable(user3), 'Not member can not write to the room')
+
+        self.assertTrue(room.is_administrable(user0), 'Admin user can manage the room')
+        self.assertFalse(room.is_administrable(user1), 'Member user can not manage the room')
+        self.assertFalse(room.is_administrable(user2), 'Viewer user can not manage the room')
+        self.assertFalse(room.is_administrable(user3), 'Not member can not manage the room')
+
+    def test_is_joinable_returns_correct_value(self):
+        """Test is_joinable returns correct value"""
+        room = Room.objects.create(title='Test Chat', slug='test-chat', author=self.user)
+        user0 = UserFactory.build(username='sonic')
+        self.assertTrue(room.is_joinable(user0), 'Everyone can join to a public room')
+
+        room1 = RoomFactory.build(scope='private')
+        self.assertFalse(room1.is_joinable(user0), 'Anyone can not join to a public room')

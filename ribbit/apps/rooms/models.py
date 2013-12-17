@@ -151,8 +151,11 @@ class Room(models.Model):
         @param user
         @return boolean
         """
-        role = Role.objects.get(room=self, user=user)
-        return role.permission >= Role.VIEWER
+        try:
+            role = Role.objects.get(room=self, user=user)
+            return role.permission >= Role.VIEWER
+        except:
+            return False
 
     def is_writable(self, user):
         """
@@ -160,8 +163,11 @@ class Room(models.Model):
         @param user
         @return boolean
         """
-        role = Role.objects.get(room=self, user=user)
-        return role.permission >= Role.MEMBER
+        try:
+            role = Role.objects.get(room=self, user=user)
+            return role.permission >= Role.MEMBER
+        except:
+            return False
 
     def is_administrable(self, user):
         """
@@ -169,8 +175,11 @@ class Room(models.Model):
         @param user
         @return boolean
         """
-        role = Role.objects.get(room=self, user=user)
-        return role.permission >= Role.ADMIN
+        try:
+            role = Role.objects.get(room=self, user=user)
+            return role.permission >= Role.ADMIN
+        except:
+            return False
 
     @property
     def administrators(self):
