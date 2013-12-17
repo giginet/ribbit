@@ -51,7 +51,6 @@ class Chat(ws.WS):
                 'action' : 'error',
                 'body' : 'Invalid Room ID'}
             ))
-        client.connection.write(websocket.handshake.environ['pulsar.cfg'])
 
     def on_message(self, websocket, message):
         '''

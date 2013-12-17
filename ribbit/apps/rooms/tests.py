@@ -39,13 +39,13 @@ class RoomCreationTestCase(TestCase):
         self.assertRaises(IntegrityError, create_dupliacted_room)
 
     def test_has_member(self):
-        """Test has_member returns correct value"""
+        """Test is_member returns correct value"""
         room = Room.objects.create(title='Test Chat', slug='test-chat', author=self.user)
         user1 = UserFactory.build(username='mario')
         user1.save()
-        self.assertFalse(room.has_member(user1), 'has_member returns false')
+        self.assertFalse(room.is_member(user1), 'is_member returns false')
         room.add_member(user1)
-        self.assertTrue(room.has_member(user1), 'has_member returns true')
+        self.assertTrue(room.is_member(user1), 'is_member returns true')
 
     def test_can_add_member(self):
         """Test user can be added"""

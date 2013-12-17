@@ -72,6 +72,10 @@ class Room(models.Model):
         verbose_name_plural = 'Rooms'
 
     def serialize(self):
+        """
+        Return a dictionary which contains each fields
+        @return dict
+        """
         return json.loads(serializers.serialize('json', [self, ], fields=(
             'title',
             'slug',
@@ -98,7 +102,7 @@ class Room(models.Model):
         @param permission Integer the integer which indicate to member permission.
         @return boolean value which indicates to whether success or not
         """
-        if not self.has_member(user):
+        if not self.is_member(user):
             role = Role.objects.create(room=self, user=user, permission=permission)
             return True
         return False
@@ -109,13 +113,13 @@ class Room(models.Model):
         @param user User who is removed from this room
         @return boolean value which indicates to whether success or not
         """
-        if self.has_member(user):
+        if self.is_member(user):
             role = Role.objects.get(room=self, user=user)
             role.delete()
             return True
         return False
 
-    def has_member(self, user):
+    def is_member(self, user):
         """
         Return whether the user is a member or not
         @param user
@@ -131,6 +135,33 @@ class Room(models.Model):
         """
         from ribbit.apps.messages.models import Message
         return Message.objects.create(room=self, body=body, author=author)
+
+    def is_viewable(self, user):
+        """
+        Return whether passed user can view this room or not
+        @param user
+        @return boolean
+        """
+        role = Role.objects.get(room=self, user=user)
+        return role.permission >= Role.VIEWER
+
+    def is_writable(self, user):
+        """
+        Return whether passed user can write to this room or not
+        @param user
+        @return boolean
+        """
+        role = Role.objects.get(room=self, user=user)
+        return role.permission >= Role.MEMBER
+
+    def is_administrable(self, user):
+        """
+        Return whether passed user can manage this room or not
+        @param user
+        @return boolean
+        """
+        role = Role.objects.get(room=self, user=user)
+        return role.permission >= Role.ADMIN
 
     @property
     def administrators(self):
