@@ -1,7 +1,7 @@
 Ribbit = {}
 class Chat
   constructor : (@slug='') ->
-    @socket = new WebSocket("ws://localhost:8060/ws")
+    @socket = new WebSocket("ws://localhost:8060/ws?#{@slug}")
     @socket.onopen = @onConnected
     @socket.onclose = @onDisconnected
     @socket.onmessage = @onMessaged
@@ -20,9 +20,12 @@ class Chat
       recieved = JSON.parse(e.data)
     catch error
       recieved = {}
+      console.log e.data
     if recieved['action'] is 'receive'
       message = new Message(recieved)
       Ribbit.view.$messageList.append(Ribbit.view.createView(message))
+    else if recieved['action'] is 'error'
+      alert(recieved['body'])
 
 class ChatView
   constructor : (@chat) ->

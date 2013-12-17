@@ -11,36 +11,47 @@ from ribbit.apps.rooms.models import Room
 
 class Client(pubsub.Client):
 
-    def __init__(self, connection):
+    def __init__(self, connection, room):
         self.connection = connection
+        self.room = room
 
     def __call__(self, channel, message):
-        self.connection.write(message)
+        if self.room.slug == channel:
+            self.connection.write(message)
 
 class Chat(ws.WS):
     '''The websocket handler managing the chat application.
     '''
-    _pubsub = None
+    _pubsub_cache = {}
 
-    def pubsub(self, websocket):
-        if not self._pubsub:
+    def pubsub(self, websocket, room):
+        if not room.slug in self._pubsub_cache.keys():
             # ``pulsar.cfg`` is injected by the pulsar server into
             # the wsgi environ. Here we pick up the name of the wsgi
             # application running the server. This is **only** needed by the
             # test suite which tests several servers/clients at once.
             name = websocket.handshake.environ['pulsar.cfg'].name
-            self._pubsub = pubsub.PubSub(name=name)
-            self._pubsub.subscribe('webchat')
-        return self._pubsub
+            self._pubsub_cache[room.slug] = pubsub.PubSub(name=name)
+            self._pubsub_cache[room.slug].subscribe(room.slug)
+        return self._pubsub_cache[room.slug]
 
     def on_open(self, websocket):
         '''A new websocket connection is established.
 
         Add it to the set of clients listening for messages.
         '''
-        client = Client(websocket)
-        self.pubsub(websocket).add_client(client)
-        client.connection.write("welcome")
+        room_slug = websocket.handshake.environ.get('QUERY_STRING', '')
+        # ToDo check permissions
+        try:
+            room = Room.objects.get(slug=room_slug)
+            client = Client(websocket, room)
+            self.pubsub(websocket, room).add_client(client)
+        except:
+            client.connection.write(json.dumps({
+                'action' : 'error',
+                'body' : 'Invalid Room ID'}
+            ))
+        client.connection.write(websocket.handshake.environ['pulsar.cfg'])
 
     def on_message(self, websocket, message):
         '''
@@ -68,4 +79,4 @@ class Chat(ws.WS):
                     'room' : room.serialize(),
                     'timestamp' : time.time()
                 }
-                self.pubsub(websocket).publish('webchat', json.dumps(response))
+                self.pubsub(websocket, room).publish(room.slug, json.dumps(response))

@@ -10,7 +10,7 @@
       this.onMessaged = __bind(this.onMessaged, this);
       this.onDisconnected = __bind(this.onDisconnected, this);
       this.onConnected = __bind(this.onConnected, this);
-      this.socket = new WebSocket("ws://localhost:8060/ws");
+      this.socket = new WebSocket("ws://localhost:8060/ws?" + this.slug);
       this.socket.onopen = this.onConnected;
       this.socket.onclose = this.onDisconnected;
       this.socket.onmessage = this.onMessaged;
@@ -38,10 +38,13 @@
       } catch (_error) {
         error = _error;
         recieved = {};
+        console.log(e.data);
       }
       if (recieved['action'] === 'receive') {
         message = new Message(recieved);
         return Ribbit.view.$messageList.append(Ribbit.view.createView(message));
+      } else if (recieved['action'] === 'error') {
+        return alert(recieved['body']);
       }
     };
 
