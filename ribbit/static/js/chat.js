@@ -6,27 +6,26 @@
   Chat = (function() {
     function Chat(slug) {
       this.slug = slug != null ? slug : '';
-      this;
+      this.socket = new WebSocket("ws://localhost:9000/chat");
+      this.socket.onopen = this.onConnected;
+      this.socket.onclose = this.onDisconnected;
+      this.socket.onmessage = this.onMessaged;
     }
 
     Chat.prototype.start = function() {
-      return this.socket.connect();
+      return this;
     };
 
     Chat.prototype.onConnected = function() {
-      console.log("connected to " + this.slug);
-      return this.socket.send({
-        room: this.slug,
-        action: 'start'
-      });
+      return console.log("connected to " + this.slug);
     };
 
     Chat.prototype.onDisconnected = function() {
       return this;
     };
 
-    Chat.prototype.onMessaged = function() {
-      return this;
+    Chat.prototype.onMessaged = function(e) {
+      return console.log(e.data);
     };
 
     return Chat;
@@ -35,21 +34,24 @@
 
   ChatView = (function() {
     function ChatView(chat) {
+      var _this = this;
       this.chat = chat;
       this.$messageForm = $('#message');
       this.$form = $('form');
-      this.$form.on('submit', function() {
+      this.$button = $('#send');
+      this.$button.on('click', function() {
         var data, value;
         value = $('#message').val();
         if (value) {
           data = {
-            room: this.chat.slug,
+            room: _this.chat.slug,
             action: 'message',
             message: value
           };
+          _this.chat.socket.send(value);
+          _this.$messageForm.val('').focus();
+          return false;
         }
-        this.$messageForm.val('').focus();
-        return false;
       });
     }
 

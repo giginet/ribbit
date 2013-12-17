@@ -1,39 +1,40 @@
 Ribbit = {}
 class Chat
   constructor : (@slug='') ->
-    @
-#    @socket = new WebSocket("")
-#    @socket.on('connect', @onConnected)
-#    @socket.on('disconnect', @onDisconnected)
-#    @socket.on('message', @onMessaged)
+    @socket = new WebSocket("ws://localhost:9000/chat")
+    @socket.onopen = @onConnected
+    @socket.onclose = @onDisconnected
+    @socket.onmessage = @onMessaged
 
   start : () ->
-    @socket.connect()
+    @
+    #@socket.connect()
 
   onConnected : () ->
     console.log("connected to #{@slug}")
-    @socket.send({room : @slug, action : 'start'})
 
   onDisconnected : () ->
     @
 
-  onMessaged : () ->
-    @
+  onMessaged : (e) ->
+    console.log e.data
 
 
 class ChatView
   constructor : (@chat) ->
     @$messageForm = $('#message')
     @$form = $('form')
-    @$form.on('submit', ->
+    @$button = $('#send')
+    @$button.on('click', =>
         value = $('#message').val()
         if value
           data =
             room : @chat.slug
             action : 'message'
             message : value
-        @$messageForm.val('').focus()
-        return false
+          @chat.socket.send(value)
+          @$messageForm.val('').focus()
+          false
     )
 
 $ ->
