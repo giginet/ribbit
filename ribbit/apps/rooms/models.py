@@ -1,6 +1,7 @@
+import json
 from django.db import models
 from django.contrib.auth.models import Group, Permission
-from django.contrib.contenttypes.models import ContentType
+from django.core import serializers
 from django.utils.translation import ugettext as _
 
 from ribbit.apps.users.models import User
@@ -69,6 +70,15 @@ class Room(models.Model):
     class Meta:
         verbose_name = 'Room'
         verbose_name_plural = 'Rooms'
+
+    def serialize(self):
+        return json.loads(serializers.serialize('json', [self, ], fields=(
+            'title',
+            'slug',
+            'description',
+            'scope',
+            'icon_image'
+        )))[0]
 
     @models.permalink
     def get_absolute_url(self):

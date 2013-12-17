@@ -46,28 +46,25 @@ class Chat(ws.WS):
         '''
         When a new message arrives, it publishes to all listening clients.
         '''
-        if message:
-            try:
-                data = json.loads(message)
-            except:
-                data = None
-            if data:
-                user = websocket.handshake.get('django.user')
-                # ToDo check permissions
-                if user.is_authenticated():
-                    username = user.username
-                else:
-                    username = 'anonymous'
-                self.pubsub(websocket).publish('webchat', data['body'])
-                if data['action'] == 'post':
-                    room = Room.objects.get(slug=data['room'])
-                    if room:
-                        message = room.add_message(data['body'], user)
+        try:
+            data = json.loads(message)
+        except:
+            data = None
+        if not data: return
 
-                    response = {
-                        'action' : 'receive',
-                        'user' : username,
-                        'room' : room.slug,
-                        'timestamp' : time.time()
-                    }
-                    self.pubsub(websocket).publish('webchat', json.dumps(response))
+        user = websocket.handshake.get('django.user')
+        # ToDo check permissions
+        if user.is_authenticated():
+            username = user.username
+            if data['action'] == 'post':
+                room = Room.objects.get(slug=data['room'])
+                if room:
+                    message = room.add_message(data['body'], user)
+
+                response = {
+                    'action' : 'receive',
+                    'user' : user.serialize(),
+                    'room' : room.serialize(),
+                    'timestamp' : time.time()
+                }
+                self.pubsub(websocket).publish('webchat', json.dumps(response))
