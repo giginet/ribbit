@@ -21,26 +21,40 @@ class Chat
     catch error
       recieved = {}
     if recieved['action'] is 'receive'
-      message = new Message(recieved['body'], recieved['author'])
-      Ribbit.view.$messageList.append(message.createView())
+      message = new Message(recieved)
+      Ribbit.view.$messageList.append(Ribbit.view.createView(message))
 
 class ChatView
   constructor : (@chat) ->
-    @$messageForm = $('#message')
+    @$messageForm = $('#message-box')
     @$messageList = $('#message-list')
-    @$button = $('#send')
-    @$button.on('click', =>
-        value = $('#message').val()
-        if value
-          data =
-            room : @chat.slug
-            action : 'post'
-            user : @chat.user
-            body : value
-        @chat.socket.send(JSON.stringify(data))
-        @$messageForm.val('').focus()
-        false
+    @$messageTemplate = $('.message')
+    @$messageTemplate.remove()
+    @$form = $('#message-form')
+    submit = (e) =>
+      value = @$messageForm.val()
+      if value
+        data =
+          room : @chat.slug
+          action : 'post'
+          user : @chat.user
+          body : value
+      @chat.socket.send(JSON.stringify(data))
+      @$messageForm.val('').focus()
+      false
+    @$form.on('click', submit)
+    @$form.on('keydown', (e) ->
+      ENTER_KEY = 13
+      if e.keyCode == ENTER_KEY
+        submit(e)
     )
+
+  createView : (message) ->
+    $view = @$messageTemplate.clone()
+    $view.show()
+    $view.find(".author").text("#{message.author['fields']['screen_name']}(@#{message.author['fields']['username']})")
+    $view.find(".body").text(message.body)
+    $view
 
 $ ->
   slug = $('#room-slug').val()
@@ -49,14 +63,8 @@ $ ->
   Ribbit.view = new ChatView(Ribbit.chat)
 
 class Message
+  constructor : (@data) ->
+    @body = @data['body']
+    @author = @data['author']
 
 
-  constructor : (@body, @author) ->
-    @$template = $('.message')
-
-  createView : () ->
-    $view = @$template.clone()
-    $view.show()
-    $view.find(".author").text("#{@author['fields']['screen_name']}(@#{@author['fields']['username']})")
-    $view.find(".body").text(@body)
-    $view

@@ -9,9 +9,6 @@
 <body>
 <h1>{{ object.title }}</h1>
 <input type="hidden" id="room-slug" value="{{ object.slug }}">
-<input type="text" id="message" name="message">
-<input type="submit" id="send" value="Send">
-<input type="button" id="leave" value="Leave">
 <section id="message-list">
     <article class="message" style="display: none;">
         <img src="" class="icon">
@@ -20,6 +17,12 @@
             <div class="body"></div>
         </section>
     </article>
+</section>
+<section>
+    <form id="message-form" action="/">
+        <textarea id="message-box" name="message"></textarea>
+        <input type="submit" id="send-button" value="Send">
+    </form>
 </section>
 </body>
 </html>

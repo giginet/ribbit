@@ -22,3 +22,7 @@
     height: 20px; }
   .message .body {
     padding: 3px 7px 0; }
+
+#message-box {
+  width: 80%;
+  height: 100px; }

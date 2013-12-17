@@ -40,8 +40,8 @@
         recieved = {};
       }
       if (recieved['action'] === 'receive') {
-        message = new Message(recieved['body'], recieved['author']);
-        return Ribbit.view.$messageList.append(message.createView());
+        message = new Message(recieved);
+        return Ribbit.view.$messageList.append(Ribbit.view.createView(message));
       }
     };
 
@@ -51,14 +51,17 @@
 
   ChatView = (function() {
     function ChatView(chat) {
-      var _this = this;
+      var submit,
+        _this = this;
       this.chat = chat;
-      this.$messageForm = $('#message');
+      this.$messageForm = $('#message-box');
       this.$messageList = $('#message-list');
-      this.$button = $('#send');
-      this.$button.on('click', function() {
+      this.$messageTemplate = $('.message');
+      this.$messageTemplate.remove();
+      this.$form = $('#message-form');
+      submit = function(e) {
         var data, value;
-        value = $('#message').val();
+        value = _this.$messageForm.val();
         if (value) {
           data = {
             room: _this.chat.slug,
@@ -70,8 +73,25 @@
         _this.chat.socket.send(JSON.stringify(data));
         _this.$messageForm.val('').focus();
         return false;
+      };
+      this.$form.on('click', submit);
+      this.$form.on('keydown', function(e) {
+        var ENTER_KEY;
+        ENTER_KEY = 13;
+        if (e.keyCode === ENTER_KEY) {
+          return submit(e);
+        }
       });
     }
+
+    ChatView.prototype.createView = function(message) {
+      var $view;
+      $view = this.$messageTemplate.clone();
+      $view.show();
+      $view.find(".author").text("" + message.author['fields']['screen_name'] + "(@" + message.author['fields']['username'] + ")");
+      $view.find(".body").text(message.body);
+      return $view;
+    };
 
     return ChatView;
 
@@ -86,20 +106,11 @@
   });
 
   Message = (function() {
-    function Message(body, author) {
-      this.body = body;
-      this.author = author;
-      this.$template = $('.message');
+    function Message(data) {
+      this.data = data;
+      this.body = this.data['body'];
+      this.author = this.data['author'];
     }
-
-    Message.prototype.createView = function() {
-      var $view;
-      $view = this.$template.clone();
-      $view.show();
-      $view.find(".author").text("" + this.author['fields']['screen_name'] + "(@" + this.author['fields']['username'] + ")");
-      $view.find(".body").text(this.body);
-      return $view;
-    };
 
     return Message;
 
