@@ -1,8 +1,9 @@
 import os
 import json
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.contrib.auth.models import Group, Permission
-from django.core import serializers
 from django.utils.translation import ugettext as _
 from django.conf import settings
 
@@ -49,7 +50,7 @@ class Room(models.Model):
         ('private', _('Invite Only')),
     )
 
-    def _get_room_group_name(self):
+    def get_room_group_name(self):
         return "room_%s" % self.slug
 
     def icon_image_path(instance, filename):
@@ -61,7 +62,7 @@ class Room(models.Model):
     scope = models.CharField(choices=ROOM_SCOPE, verbose_name=_('Scope'), default='public', max_length=16)
     author = models.ForeignKey(User, verbose_name=_('Author'), related_name='created_rooms')
     members = models.ManyToManyField(User, verbose_name=_('Members'), related_name='joined rooms', through=Role, editable=False)
-    group = models.ForeignKey(Group, verbose_name=_('Member group'), editable=False, unique=True)
+    group = models.ForeignKey(Group, verbose_name=_('Member group'), editable=False, unique=True, null=True, blank=False)
     icon = ThumbnailerImageField(verbose_name=_('Icon image'), null=True, blank=True, upload_to=icon_image_path)
     created_at = models.DateTimeField(auto_now=True, verbose_name=_('Date created'))
     updated_at = models.DateTimeField(auto_now_add=True, verbose_name=_('Date updated'))
@@ -95,13 +96,6 @@ class Room(models.Model):
     @models.permalink
     def get_absolute_url(self):
         return ('rooms_room_detail', (), {'slug' : self.slug})
-
-    def save(self, **kwargs):
-        group, created = Group.objects.get_or_create(name=self._get_room_group_name())
-        self.group = group
-        super(Room, self).save(**kwargs)
-        role = Role(user=self.author, room=self, permission=Role.ADMIN)
-        role.save()
 
     def add_member(self, user, permission=Role.MEMBER):
         """
@@ -196,3 +190,19 @@ class Room(models.Model):
         @return QuerySets contains room admin users.
         """
         return self.members.filter(role__permission=Role.ADMIN)
+
+@receiver(post_save, sender=Room)
+def create_group(**kwargs):
+    created = kwargs.get('created')
+    instance = kwargs.get('instance')
+    if created:
+        group, created = Group.objects.get_or_create(name=instance.get_room_group_name())
+        instance.group = group
+
+@receiver(post_save, sender=Room)
+def add_admin(**kwargs):
+    created = kwargs.get('created')
+    instance = kwargs.get('instance')
+    if created:
+        role = Role(user=instance.author, room=instance, permission=Role.ADMIN)
+        role.save()
