@@ -18,10 +18,13 @@ class User(AbstractUser):
     twitter = models.CharField(verbose_name=_('Twitter ID'), max_length=15, null=True, blank=True)
 
     def serialize(self):
-        return {
+        dict = {
             'pk': self.pk,
             'username': self.username,
             'screen_name': self.screen_name,
             'twitter': self.twitter,
-            'avatar': os.path.join(settings.STATIC_URL, os.path.relpath(self.avatar['thumbnail'].url, settings.STATIC_DIR))
+            'avatar': ''
         }
+        if self.avatar:
+            dict['avatar'] = os.path.join(settings.STATIC_URL, os.path.relpath(self.avatar['thumbnail'].url, settings.STATIC_DIR))
+        return dict

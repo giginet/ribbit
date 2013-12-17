@@ -80,14 +80,17 @@ class Room(models.Model):
         Return a dictionary which contains each fields
         @return dict
         """
-        return {
+        dict = {
             'pk': self.pk,
             'title': self.title,
             'slug': self.slug,
             'description': self.description,
             'scope': self.scope,
-            'icon': os.path.join(settings.STATIC_URL, os.path.relpath(self.icon['thumbnail'].url, settings.STATIC_DIR))
+            'icon': ''
         }
+        if self.icon:
+            dict['icon'] = os.path.join(settings.STATIC_URL, os.path.relpath(self.icon['thumbnail'].url, settings.STATIC_DIR))
+        return dict
 
     @models.permalink
     def get_absolute_url(self):

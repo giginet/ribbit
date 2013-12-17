@@ -2,9 +2,9 @@ from django.test import TestCase
 from django.contrib.auth.models import Group
 from django.db import IntegrityError
 
-from ..models import Room, Role
 from ribbit.apps.users.factory_boy import UserFactory
-from ..factory_boy import RoomFactory
+from ribbit.apps.rooms.models import Room, Role
+from ribbit.apps.rooms.factory_boy import RoomFactory
 
 class RoomTestCase(TestCase):
     def setUp(self):
@@ -156,3 +156,15 @@ class RoomTestCase(TestCase):
 
         room1 = RoomFactory.build(scope='private')
         self.assertFalse(room1.is_joinable(user0), 'Anyone can not join to a public room')
+
+    def test_serialize(self):
+        """Test serialize() can return correct dict"""
+        room = Room.objects.create(title='Test Chat', slug='test-chat', author=self.user, description="This is a test chat")
+        self.assertDictEqual(room.serialize(), {
+            'pk': room.pk,
+            'icon': '',
+            'title': 'Test Chat',
+            'slug': 'test-chat',
+            'scope': 'public',
+            'description': 'This is a test chat'
+        }, 'serialize() returns correct dict')
