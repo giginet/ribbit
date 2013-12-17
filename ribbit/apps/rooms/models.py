@@ -136,6 +136,15 @@ class Room(models.Model):
         from ribbit.apps.messages.models import Message
         return Message.objects.create(room=self, body=body, author=author)
 
+    def is_joinable(self, user):
+        """
+        Return whether passed user can join to this room or not
+        @param user
+        @return boolean
+        """
+        # ToDo : Implement member invitation and join request
+        return self.scope == 'public'
+
     def is_viewable(self, user):
         """
         Return whether passed user can view this room or not
