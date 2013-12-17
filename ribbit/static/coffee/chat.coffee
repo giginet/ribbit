@@ -1,31 +1,29 @@
 Ribbit = {}
 class Chat
   constructor : (@slug='') ->
-    @
-#    @socket = new WebSocket("")
-#    @socket.on('connect', @onConnected)
-#    @socket.on('disconnect', @onDisconnected)
-#    @socket.on('message', @onMessaged)
+    @socket = new WebSocket("ws://localhost:8060/ws")
+    @socket.onopen = @onConnected
+    @socket.onclose = @onDisconnected
+    @socket.onmessage = @onMessaged
 
   start : () ->
-    @socket.connect()
+    @
 
-  onConnected : () ->
+  onConnected : () =>
     console.log("connected to #{@slug}")
     @socket.send({room : @slug, action : 'start'})
 
-  onDisconnected : () ->
+  onDisconnected : () =>
     @
 
-  onMessaged : () ->
-    @
-
+  onMessaged : (e) =>
+    console.log e.data
 
 class ChatView
   constructor : (@chat) ->
     @$messageForm = $('#message')
-    @$form = $('form')
-    @$form.on('submit', ->
+    @$button = $('send')
+    @$button.on('submit', =>
         value = $('#message').val()
         if value
           data =
@@ -33,11 +31,12 @@ class ChatView
             action : 'message'
             message : value
         @$messageForm.val('').focus()
-        return false
+        false
     )
 
 $ ->
   slug = $('#room-slug').val()
+  console.log slug
   Ribbit.chat = new Chat(slug)
   Ribbit.chat.start()
   Ribbit.view = new ChatView(Ribbit.chat)

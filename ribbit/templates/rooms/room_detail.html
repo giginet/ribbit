@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-    {% load socketio_tags %}
-    {% socketio %}
     <script src="{{ STATIC_URL }}js/lib/jquery-2.0.3.min.js" charset="UTF-8"></script>
     <script src="{{ STATIC_URL }}js/chat.js" charset="utf-8"></script>
     <title></title>
@@ -10,10 +8,8 @@
 <body>
 <h1>{{ object.title }}</h1>
 <input type="hidden" id="room-slug" value="{{ object.slug }}">
-<form>
-    <input type="text" id="message" name="message">
-    <input type="submit" id="submit" value="Join">
-    <input type="button" id="leave" value="Leave">
-</form>
+<input type="text" id="message" name="message">
+<input type="submit" id="send" value="Send">
+<input type="button" id="leave" value="Leave">
 </body>
 </html>
