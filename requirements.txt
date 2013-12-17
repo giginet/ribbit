@@ -1,0 +1,9 @@
+Django==1.6.1
+PIL==1.1.7
+Pillow==2.2.2
+easy-thumbnails==1.4
+factory-boy==2.2.1
+honcho==0.5.0
+pulsar==0.7.3
+-e git+git@github.com:giginet/ribbit.git@c98f0bc99cfdd92827aa6de48fce1344b79e11e2#egg=ribbit-master
+six==1.4.1
