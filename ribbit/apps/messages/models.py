@@ -18,4 +18,4 @@ class Message(models.Model):
         verbose_name_plural = _('Messages')
 
     def __unicode__(self):
-        return "%s (%s)" % (self.body[:100], self.author.username)
+        return "%s (%s) at %s" % (self.body[:100], self.author.screen_name, self.room.title)
