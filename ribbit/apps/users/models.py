@@ -22,14 +22,17 @@ class User(AbstractUser):
     def __unicode__(self):
         return "%s(%s)" % (self.screen_name, self.username)
 
+    def avatar_url(self):
+        if not self.avatar:
+            return ''
+        return os.path.join(settings.STATIC_URL, os.path.relpath(self.avatar['thumbnail'].url, settings.STATIC_DIR))
+
     def serialize(self):
         dict = {
             'pk': self.pk,
             'username': self.username,
             'screen_name': self.screen_name,
             'twitter': self.twitter,
-            'avatar': ''
+            'avatar': self.avatar_url()
         }
-        if self.avatar:
-            dict['avatar'] = os.path.join(settings.STATIC_URL, os.path.relpath(self.avatar['thumbnail'].url, settings.STATIC_DIR))
         return dict
