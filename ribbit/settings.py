@@ -35,6 +35,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
     'easy_thumbnails',
     'pulsar.apps.pulse',
     'ribbit.apps.users',

@@ -15,7 +15,8 @@ setup(name='ribbit',
         'factory_boy>=2.2.1',
         'pulsar',
         'easy-thumbnails',
-        'honcho'
+        'honcho',
+        'djangorestframework'
       ],
       dependency_links = ['git+git@github.com:giginet/ribbit.git@c98f0bc99cfdd92827aa6de48fce1344b79e11e2#egg=ribbit-master',]
 )
