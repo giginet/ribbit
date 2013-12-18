@@ -1,5 +1,4 @@
-from django.shortcuts import render
-
+from django.http.response import HttpResponseForbidden
 from django.views.generic.edit import CreateView
 from django.views.generic.detail import DetailView
 from django.contrib.auth.decorators import login_required
@@ -36,3 +35,10 @@ class RoomDetailView(DetailView):
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
         return super(RoomDetailView, self).dispatch(*args, **kwargs)
+
+    def render_to_response(self, context, **response_kwargs):
+        room = self.get_object()
+        user = self.request.user
+        if not room.is_viewable(user) and not room.is_joinable(user):
+            self.response_class = HttpResponseForbidden
+        return super(RoomDetailView, self).render_to_response(context, **response_kwargs)
