@@ -1,9 +1,7 @@
 import os
-import json
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils.translation import ugettext as _
-from django.core import serializers
 from django.conf import settings
 
 from easy_thumbnails.fields import ThumbnailerImageField
@@ -16,6 +14,13 @@ class User(AbstractUser):
     screen_name = models.CharField(verbose_name=_('Screen Name'), max_length=32)
     avatar = ThumbnailerImageField(verbose_name=_('Avatar'), null=True, blank=True, upload_to=avatar_image_path)
     twitter = models.CharField(verbose_name=_('Twitter ID'), max_length=15, null=True, blank=True)
+
+    class Meta:
+        verbose_name = _('User')
+        verbose_name_plural = _('Users')
+
+    def __unicode__(self):
+        return "%s(%s)" % (self.screen_name, self.username)
 
     def serialize(self):
         dict = {

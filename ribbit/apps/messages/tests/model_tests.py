@@ -27,6 +27,6 @@ class MessageTestCase(TestCase):
         self.assertEqual(unicode(message), 'toxuttoxuru- (mayuri) at lab chat', '__unicode__() returns correct value')
 
     def test_meta_class(self):
-        message = MessageFactory.build()
+        """Test meta class attributes is correct"""
         self.assertEqual(Message._meta.verbose_name.title(), 'Message', 'Meta.verbose_name is correct')
         self.assertEqual(Message._meta.verbose_name_plural.title(), 'Messages', 'Meta.verbose_name_plural is correct')

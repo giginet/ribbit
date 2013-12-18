@@ -25,6 +25,12 @@ class RoomTestCase(TestCase):
         group = Group.objects.get(name='room_%s' % room.slug)
         self.assertIsNotNone(group, "The group was created")
 
+    def test_meta_class(self):
+        """Test meta class attributes is correct"""
+        self.assertEqual(Room._meta.verbose_name.title(), 'Room', 'Meta.verbose_name is correct')
+        self.assertEqual(Room._meta.verbose_name_plural.title(), 'Rooms', 'Meta.verbose_name_plural is correct')
+
+
     def test_author_will_be_an_admin_of_room(self):
         """Test member will be an admin of created room."""
         room = Room.objects.create(title='Test Chat', slug='test-chat', author=self.user)
