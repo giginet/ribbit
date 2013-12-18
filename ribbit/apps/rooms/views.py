@@ -36,9 +36,9 @@ class RoomDetailView(DetailView):
     def dispatch(self, *args, **kwargs):
         return super(RoomDetailView, self).dispatch(*args, **kwargs)
 
-    def render_to_response(self, context, **response_kwargs):
+    def get(self, request, *args, **kwargs):
         room = self.get_object()
         user = self.request.user
         if not room.is_viewable(user) and not room.is_joinable(user):
-            self.response_class = HttpResponseForbidden
-        return super(RoomDetailView, self).render_to_response(context, **response_kwargs)
+            return HttpResponseForbidden('Permission Denied')
+        return super(RoomDetailView, self).get(request, *args, **kwargs)

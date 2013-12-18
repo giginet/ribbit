@@ -7,7 +7,7 @@
     first_name: かわず
     screen_name: かわずたん
     twitter: "@kawaztan"
-    avatar: "/static/fixtures/avatar/profile1.png"
+    avatar: "avatars/profile1.png"
     is_staff: True
     is_superuser: True
 - model: users.user
@@ -18,7 +18,7 @@
     last_name: 碇
     first_name: シンジ
     screen_name: シンジ
-    avatar: "/static/fixtures/avatar/profile2.jpg"
+    avatar: "avatars/profile2.jpg"
 - model: users.user
   pk: 3
   fields:
@@ -27,7 +27,7 @@
     last_name: 綾波
     first_name: レイ
     screen_name: レイ
-    avatar: "/static/fixtures/avatar/profile3.jpg"
+    avatar: "avatars/profile3.jpg"
 - model: users.user
   pk: 4
   fields:
@@ -36,7 +36,7 @@
     last_name: 惣流
     first_name: アスカ
     screen_name: アスカ
-    avatar: "/static/fixtures/avatar/profile4.jpg"
+    avatar: "avatars/profile4.jpg"
 - model: users.user
   pk: 5
   fields:
@@ -45,7 +45,7 @@
     last_name: 渚
     first_name: カヲル
     screen_name: カヲル
-    avatar: "/static/fixtures/avatar/profile5.jpg"
+    avatar: "avatars/profile5.jpg"
 - model: users.user
   pk: 6
   fields:
@@ -62,7 +62,7 @@
     last_name: 葛城
     first_name: ミサト
     screen_name: ミサト
-    avatar: "/static/fixtures/avatar/profile7.jpg"
+    avatar: "avatars/profile7.jpg"
 - model: users.user
   pk: 8
   fields:

@@ -4,5 +4,5 @@ db.sqlite3
 .python-version
 ribbit/static/uploads/avatars/*
 ribbit/static/uploads/icons/*
-!ribbit/static/uploads/avatars/.gitkeep
-!ribbit/static/uploads/icons/.gitkeep
+!ribbit/static/uploads/avatars/profile*
+!ribbit/static/uploads/icons/icon*

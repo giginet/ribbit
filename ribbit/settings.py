@@ -87,6 +87,10 @@ USE_L10N = True
 
 USE_TZ = True
 
+FIXTURE_DIR = (
+    os.path.join(BASE_DIR, 'ribbit', 'fixture')
+)
+
 # WebSocket
 WEB_SOCKET_END_POINT = '/ws'
 

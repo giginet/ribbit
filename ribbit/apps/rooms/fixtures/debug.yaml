@@ -6,7 +6,7 @@
     slug: my-fantastic-game
     scope: public
     author: 1
-    icon: "/static/fixtures/icon/icon1.png"
+    icon: "icons/icon1.png"
     created_at: "2013-03-16T17:41:28+00:00"
     updated_at: "2013-03-16T17:41:28+00:00"
 - model: rooms.room
@@ -17,7 +17,7 @@
     slug: second-impact
     scope: public
     author: 2
-    icon: "/static/fixtures/icon/icon2.jpg"
+    icon: "icons/icon2.jpg"
     created_at: "2013-03-16T17:41:28+00:00"
     updated_at: "2013-03-16T17:41:28+00:00"
 - model: rooms.room
@@ -28,7 +28,7 @@
     slug: seele
     scope: private
     author: 3
-    icon: "/static/fixtures/icon/icon3.jpg"
+    icon: "icons/icon3.jpg"
     created_at: "2013-03-16T17:41:28+00:00"
     updated_at: "2013-03-16T17:41:28+00:00"
 - model: rooms.room
@@ -39,7 +39,7 @@
     slug: nerv
     scope: private
     author: 4
-    icon: "/static/fixtures/icon/icon4.jpg"
+    icon: "icons/icon4.jpg"
     created_at: "2013-03-16T17:41:28+00:00"
     updated_at: "2013-03-16T17:41:28+00:00"
 - model: rooms.room
@@ -50,7 +50,7 @@
     slug: wille
     scope: public
     author: 5
-    icon: "/static/fixtures/icon/icon5.png"
+    icon: "icons/icon5.png"
     created_at: "2013-03-16T17:41:28+00:00"
     updated_at: "2013-03-16T17:41:28+00:00"
 - model: rooms.role
