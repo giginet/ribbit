@@ -11,10 +11,13 @@ from ribbit.apps.rooms.models import Room
 
 class Client(pubsub.Client):
 
+    clients = []
+
     def __init__(self, connection, user, room):
         self.connection = connection
         self.user = user
         self.room = room
+        self.clients = []
 
     def __call__(self, channel, message):
         if self.room.slug == channel:

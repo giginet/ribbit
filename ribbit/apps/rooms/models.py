@@ -37,8 +37,21 @@ class Role(models.Model):
         unique_together = (('room', 'user'),)
 
 class RoomManager(models.Manager):
-    def get_viewable_rooms(self):
-        pass
+    def get_joined_rooms(self, user):
+        """
+        Return the QuerySet which contains user have joined
+        @param user
+        @return QuerySet
+        """
+        return self.filter(members__contains=user)
+
+    def get_not_joined_rooms(self, user):
+        """
+        Return the QuerySet which contains user haven't joined
+        @param user
+        @return QuerySet
+        """
+        return self.exclude(member__contains=user)
 
 class Room(models.Model):
     """
