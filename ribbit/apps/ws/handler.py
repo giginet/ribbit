@@ -47,10 +47,10 @@ class Chat(ws.WS):
         return self._pubsub_cache[room.slug]
 
     def on_open(self, websocket):
-        '''A new websocket connection is established.
-
+        """
+        A new websocket connection is established.
         Add it to the set of clients listening for messages.
-        '''
+        """
         room_slug = websocket.handshake.environ.get('QUERY_STRING', '')
         user = websocket.handshake.get('django.user')
 
@@ -60,21 +60,22 @@ class Chat(ws.WS):
             client = Client(websocket, user, room)
             self.pubsub(websocket, room).add_client(client)
         except:
-            client.connection.write(json.dumps({
-                'action' : 'error',
-                'body' : 'Invalid Room ID'}
-            ))
+            client.send_error('Invalid Room ID')
+            self.pubsub(websocket, room).remove_client(client)
+            return
         if not user.is_authenticated():
             client.send_error('Authentication Required')
             self.pubsub(websocket, room).remove_client(client)
         elif not room.is_joinable(user) and not room.is_viewable(user):
             client.send_error('Permission Denied')
             self.pubsub(websocket, room).remove_client(client)
+        if not room.is_member(user):
+            room.add_member(user)
 
     def on_message(self, websocket, message):
-        '''
+        """
         When a new message arrives, it publishes to all listening clients.
-        '''
+        """
         try:
             data = json.loads(message)
         except:
