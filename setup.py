@@ -16,7 +16,8 @@ setup(name='ribbit',
         'easy-thumbnails',
         'honcho',
         'djangorestframework',
-        'pulsar'
+        'pulsar',
+        'pyyaml'
       ],
       dependency_links = ['git+https://github.com/quantmind/pulsar.git@c5ffacf8ebf0faded40aa3d675c10d3d8fb2f17c#egg=pulsar',]
 )

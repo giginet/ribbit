@@ -1,10 +1,11 @@
 Django==1.6.1
 PIL==1.1.7
 Pillow==2.2.2
+PyYAML==3.10
 djangorestframework==2.3.10
 easy-thumbnails==1.4
 factory-boy==2.2.1
 honcho==0.5.0
 pulsar==0.7.4-alpha.1
--e git+git@github.com:giginet/ribbit.git@5e5699be76de1f1de7619f4d5ffeec98a515fdff#egg=ribbit-origin/room_permissions
+-e git+git@github.com:giginet/ribbit.git@d0942d7b63ace2a62887ff31ef3729a7c8575aec#egg=ribbit-origin/room_permissions
 six==1.4.1

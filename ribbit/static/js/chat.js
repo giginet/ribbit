@@ -38,7 +38,6 @@
       } catch (_error) {
         error = _error;
         recieved = {};
-        console.log(e.data);
       }
       if (recieved['action'] === 'receive') {
         message = new Message(recieved);

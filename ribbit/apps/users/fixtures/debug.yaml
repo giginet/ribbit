@@ -1,0 +1,73 @@
+- model: users.user
+  pk: 1
+  fields:
+    username: kawaztan
+    password: pbkdf2_sha256$12000$NtoiGBOkohpk$aV2t59Fp0adNeZ0xJXoT3rQJlpFKou50kk26ihGtxas=
+    last_name: 井ノ中
+    first_name: かわず
+    screen_name: かわずたん
+    twitter: "@kawaztan"
+    avatar: "/static/fixtures/avatar/profile1.png"
+    is_staff: True
+    is_superuser: True
+- model: users.user
+  pk: 2
+  fields:
+    username: user0
+    password: pbkdf2_sha256$12000$NtoiGBOkohpk$aV2t59Fp0adNeZ0xJXoT3rQJlpFKou50kk26ihGtxas=
+    last_name: 碇
+    first_name: シンジ
+    screen_name: シンジ
+    avatar: "/static/fixtures/avatar/profile2.jpg"
+- model: users.user
+  pk: 3
+  fields:
+    username: user1
+    password: pbkdf2_sha256$12000$NtoiGBOkohpk$aV2t59Fp0adNeZ0xJXoT3rQJlpFKou50kk26ihGtxas=
+    last_name: 綾波
+    first_name: レイ
+    screen_name: レイ
+    avatar: "/static/fixtures/avatar/profile3.jpg"
+- model: users.user
+  pk: 4
+  fields:
+    username: user2
+    password: pbkdf2_sha256$12000$NtoiGBOkohpk$aV2t59Fp0adNeZ0xJXoT3rQJlpFKou50kk26ihGtxas=
+    last_name: 惣流
+    first_name: アスカ
+    screen_name: アスカ
+    avatar: "/static/fixtures/avatar/profile4.jpg"
+- model: users.user
+  pk: 5
+  fields:
+    username: user3
+    password: pbkdf2_sha256$12000$NtoiGBOkohpk$aV2t59Fp0adNeZ0xJXoT3rQJlpFKou50kk26ihGtxas=
+    last_name: 渚
+    first_name: カヲル
+    screen_name: カヲル
+    avatar: "/static/fixtures/avatar/profile5.jpg"
+- model: users.user
+  pk: 6
+  fields:
+    username: user4
+    password: pbkdf2_sha256$12000$NtoiGBOkohpk$aV2t59Fp0adNeZ0xJXoT3rQJlpFKou50kk26ihGtxas=
+    last_name: 真希波
+    first_name: マリ
+    screen_name: マリ
+- model: users.user
+  pk: 7
+  fields:
+    username: user5
+    password: pbkdf2_sha256$12000$NtoiGBOkohpk$aV2t59Fp0adNeZ0xJXoT3rQJlpFKou50kk26ihGtxas=
+    last_name: 葛城
+    first_name: ミサト
+    screen_name: ミサト
+    avatar: "/static/fixtures/avatar/profile7.jpg"
+- model: users.user
+  pk: 8
+  fields:
+    username: user6
+    password: pbkdf2_sha256$12000$NtoiGBOkohpk$aV2t59Fp0adNeZ0xJXoT3rQJlpFKou50kk26ihGtxas=
+    last_name: 碇
+    first_name: ゲンドウ
+    screen_name: ゲンドウ

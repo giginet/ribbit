@@ -1,0 +1,151 @@
+- model: rooms.room
+  pk: 1
+  fields:
+    title: 僕の考えた最強のゲーム開発スレ
+    description: 最強のゲームを考えるスレです
+    slug: my-fantastic-game
+    scope: public
+    author: 1
+    icon: "/static/fixtures/icon/icon1.png"
+    created_at: "2013-03-16T17:41:28+00:00"
+    updated_at: "2013-03-16T17:41:28+00:00"
+- model: rooms.room
+  pk: 2
+  fields:
+    title: セカンドインパクト
+    description: 地球がヤバい
+    slug: second-impact
+    scope: public
+    author: 2
+    icon: "/static/fixtures/icon/icon2.jpg"
+    created_at: "2013-03-16T17:41:28+00:00"
+    updated_at: "2013-03-16T17:41:28+00:00"
+- model: rooms.room
+  pk: 3
+  fields:
+    title: Seele
+    description: 全てはゼーレのシナリオ通り
+    slug: seele
+    scope: private
+    author: 3
+    icon: "/static/fixtures/icon/icon3.jpg"
+    created_at: "2013-03-16T17:41:28+00:00"
+    updated_at: "2013-03-16T17:41:28+00:00"
+- model: rooms.room
+  pk: 4
+  fields:
+    title: Nerv
+    description: 人類補完計画やってます
+    slug: nerv
+    scope: private
+    author: 4
+    icon: "/static/fixtures/icon/icon4.jpg"
+    created_at: "2013-03-16T17:41:28+00:00"
+    updated_at: "2013-03-16T17:41:28+00:00"
+- model: rooms.room
+  pk: 5
+  fields:
+    title: Wille
+    description: エヴァー
+    slug: wille
+    scope: public
+    author: 5
+    icon: "/static/fixtures/icon/icon5.png"
+    created_at: "2013-03-16T17:41:28+00:00"
+    updated_at: "2013-03-16T17:41:28+00:00"
+- model: rooms.role
+  pk: 1
+  fields:
+    user: 1
+    room: 1
+    permission: 2
+- model: rooms.role
+  pk: 2
+  fields:
+    user: 2
+    room: 2
+    permission: 2
+- model: rooms.role
+  pk: 3
+  fields:
+    user: 3
+    room: 2
+    permission: 1
+- model: rooms.role
+  pk: 4
+  fields:
+    user: 8
+    room: 2
+    permission: 0
+- model: rooms.role
+  pk: 5
+  fields:
+    user: 8
+    room: 3
+    permission: 2
+- model: rooms.role
+  pk: 6
+  fields:
+    user: 2
+    room: 4
+    permission: 1
+- model: rooms.role
+  pk: 7
+  fields:
+    user: 5
+    room: 4
+    permission: 1
+- model: rooms.role
+  pk: 8
+  fields:
+    user: 3
+    room: 4
+    permission: 1
+- model: rooms.role
+  pk: 9
+  fields:
+    user: 8
+    room: 4
+    permission: 2
+- model: rooms.role
+  pk: 10
+  fields:
+    user: 7
+    room: 5
+    permission: 2
+- model: rooms.role
+  pk: 11
+  fields:
+    user: 4
+    room: 5
+    permission: 1
+- model: rooms.role
+  pk: 12
+  fields:
+    user: 6
+    room: 5
+    permission: 1
+- model: rooms.role
+  pk: 13
+  fields:
+    user: 4
+    room: 2
+    permission: 1
+- model: rooms.role
+  pk: 14
+  fields:
+    user: 5
+    room: 2
+    permission: 1
+- model: rooms.role
+  pk: 15
+  fields:
+    user: 6
+    room: 2
+    permission: 0
+- model: rooms.role
+  pk: 16
+  fields:
+    user: 7
+    room: 2
+    permission: 2
