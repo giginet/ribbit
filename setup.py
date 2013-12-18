@@ -13,10 +13,10 @@ setup(name='ribbit',
         'PIL',
         'Django>=1.6.0',
         'factory_boy>=2.2.1',
-        'pulsar',
         'easy-thumbnails',
         'honcho',
-        'djangorestframework'
+        'djangorestframework',
+        'pulsar'
       ],
-      dependency_links = ['git+git@github.com:giginet/ribbit.git@c98f0bc99cfdd92827aa6de48fce1344b79e11e2#egg=ribbit-master',]
+      dependency_links = ['git+https://github.com/quantmind/pulsar.git@c5ffacf8ebf0faded40aa3d675c10d3d8fb2f17c#egg=pulsar',]
 )

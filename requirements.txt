@@ -5,6 +5,6 @@ djangorestframework==2.3.10
 easy-thumbnails==1.4
 factory-boy==2.2.1
 honcho==0.5.0
-pulsar==0.7.3
--e git+git@github.com:giginet/ribbit.git@989582749c932e2ad1154367cb040112512d5b3c#egg=ribbit-origin/dev
+pulsar==0.7.4-alpha.1
+-e git+git@github.com:giginet/ribbit.git@5e5699be76de1f1de7619f4d5ffeec98a515fdff#egg=ribbit-origin/room_permissions
 six==1.4.1
