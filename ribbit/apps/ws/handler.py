@@ -11,17 +11,25 @@ from ribbit.apps.rooms.models import Room
 
 class Client(pubsub.Client):
 
-    def __init__(self, connection, room):
+    def __init__(self, connection, user, room):
         self.connection = connection
+        self.user = user
         self.room = room
 
     def __call__(self, channel, message):
         if self.room.slug == channel:
             self.connection.write(message)
 
+    def send_error(self, body):
+        self.connection.write(json.dumps({
+            'action' : 'error',
+            'body' : body
+        }))
+
 class Chat(ws.WS):
-    '''The websocket handler managing the chat application.
-    '''
+    """
+    The websocket handler managing the chat application.
+    """
     _pubsub_cache = {}
 
     def pubsub(self, websocket, room):
@@ -41,16 +49,24 @@ class Chat(ws.WS):
         Add it to the set of clients listening for messages.
         '''
         room_slug = websocket.handshake.environ.get('QUERY_STRING', '')
+        user = websocket.handshake.get('django.user')
+
         # ToDo check permissions
         try:
             room = Room.objects.get(slug=room_slug)
-            client = Client(websocket, room)
+            client = Client(websocket, user, room)
             self.pubsub(websocket, room).add_client(client)
         except:
             client.connection.write(json.dumps({
                 'action' : 'error',
                 'body' : 'Invalid Room ID'}
             ))
+        if not user.is_authenticated():
+            client.send_error('Authentication Required')
+            self.pubsub(websocket, room).remove_client(client)
+        elif not room.is_joinable(user) and not room.is_viewable(user):
+            client.send_error('Permission Denied')
+            self.pubsub(websocket, room).remove_client(client)
 
     def on_message(self, websocket, message):
         '''
@@ -63,14 +79,11 @@ class Chat(ws.WS):
         if not data: return
 
         user = websocket.handshake.get('django.user')
-        # ToDo check permissions
+        room = Room.objects.get(slug=data['room'])
         if user.is_authenticated():
             username = user.username
-            if data['action'] == 'post':
-                room = Room.objects.get(slug=data['room'])
-                if room:
-                    message = room.add_message(data['body'], user)
-
+            if data['action'] == 'post' and room.is_writable(user):
+                message = room.add_message(data['body'], user)
                 response = {
                     'action' : 'receive',
                     'author' : user.serialize(),
