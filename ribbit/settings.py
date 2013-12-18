@@ -38,6 +38,8 @@ INSTALLED_APPS = (
     'rest_framework',
     'easy_thumbnails',
     'pulsar.apps.pulse',
+    'ribbit.apps.apis',
+    'ribbit.apps.ws',
     'ribbit.apps.users',
     'ribbit.apps.rooms',
     'ribbit.apps.messages',
