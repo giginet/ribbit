@@ -4,10 +4,10 @@ from django.core.urlresolvers import reverse
 
 from apps.rooms.models import Room
 
-"""
-View class for not authenticated users.
-"""
 class LoginView(TemplateView):
+    """
+    View class for not authenticated users.
+    """
     template_name = 'ribbit/login.html'
 
     def get_context_data(self, **kwargs):
@@ -15,15 +15,16 @@ class LoginView(TemplateView):
         context['login_form'] = AuthenticationForm(data=self.request.POST)
         return context
 
-"""
-View class for autheticated users.
-"""
 class LobbyView(TemplateView):
+    """
+    View class for autheticated users.
+    """
     template_name = 'ribbit/lobby.html'
 
     def get_context_data(self, **kwargs):
         context = super(LobbyView, self).get_context_data(**kwargs)
-        context['rooms'] = Room.objects.all()
+        context['joined_rooms'] = Room.objects.get_joined_rooms(self.request.user)
+        context['not_joined_rooms'] = Room.objects.get_not_joined_rooms(self.request.user)
         return context
 
 class IndexView(RedirectView):

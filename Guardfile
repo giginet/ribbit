@@ -3,5 +3,5 @@ guard 'sass', input: 'ribbit/static/sass', output: 'ribbit/static/css'
 
 guard 'livereload' do
   watch(%r{ribbit/static/.+\.(css|js)})
-  watch(%r{ribbit/template/.+\.(html)})
+  watch(%r{ribbit/templates/.+\.(html)})
 end

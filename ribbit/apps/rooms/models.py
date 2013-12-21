@@ -43,7 +43,7 @@ class RoomManager(models.Manager):
         @param user
         @return QuerySet
         """
-        return self.filter(members__contains=user)
+        return self.filter(members=user)
 
     def get_not_joined_rooms(self, user):
         """
@@ -51,7 +51,7 @@ class RoomManager(models.Manager):
         @param user
         @return QuerySet
         """
-        return self.exclude(member__contains=user)
+        return self.exclude(members=user)
 
 class Room(models.Model):
     """
