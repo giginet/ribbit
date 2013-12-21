@@ -9,7 +9,7 @@ from ribbit.apps.users.factory_boy import UserFactory
 
 from ribbit.apps.users.models import User
 
-class RoomViewTest(TestCase):
+class RoomCreateViewTest(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username='kawaztan', password='password')
         self.another_user = User.objects.create_user(username='another', password='password')
@@ -27,6 +27,11 @@ class RoomViewTest(TestCase):
         url = reverse('rooms_room_create')
         response = c.get(url)
         self.assertRedirects(response, "%s?next=%s" % (settings.LOGIN_URL, url), status_code=302, target_status_code=301)
+
+class RoomDetailViewTest(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='kawaztan', password='password')
+        self.another_user = User.objects.create_user(username='another', password='password')
 
     def test_not_authorized_user_cant_view_any_room(self):
         """Test not authorized user can't access to any rooms."""
