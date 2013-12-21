@@ -9,7 +9,7 @@ from django.conf import settings
 
 def runtests():
     TestRunner = get_runner(settings)
-    test_runner = TestRunner(verbosity=1, interactive=True, pattern='*_tests.py')
+    test_runner = TestRunner(verbosity=1, interactive=True)
     failures = test_runner.run_tests(['ribbit.apps'])
     sys.exit(bool(failures))
 
