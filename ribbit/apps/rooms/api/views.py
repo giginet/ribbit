@@ -3,8 +3,8 @@ from django.shortcuts import get_object_or_404
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 
-from serializers import RoomSerializer
-from models import Room
+from ribbit.apps.rooms.api.serializers import RoomSerializer
+from ribbit.apps.rooms.models import Room
 
 class RoomViewSet(ViewSet):
     """

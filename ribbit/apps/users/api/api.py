@@ -1,8 +1,9 @@
-from serializers import UserSerializer
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 
-from models import User
+from ribbit.apps.users.api.serializers import UserSerializer
+from ribbit.apps.users.models import User
+
 
 class UserViewSet(ViewSet):
     """

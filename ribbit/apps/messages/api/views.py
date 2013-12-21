@@ -1,14 +1,9 @@
-import json
-from django.shortcuts import get_object_or_404
-
-from rest_framework.views import APIView
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 
-from serializers import MessageSerializer
-from rest_framework import permissions
+from ribbit.apps.messages.api.serializers import MessageSerializer
 from ribbit.apps.rooms.models import Room
-from models import Message
+from ribbit.apps.messages.models import Message
 
 class MessageViewSet(ViewSet):
     """
