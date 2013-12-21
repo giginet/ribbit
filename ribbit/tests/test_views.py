@@ -18,7 +18,7 @@ class RibbitIndexViewTest(TestCase):
         c = Client()
         url = reverse('ribbit_index')
         response = c.get(url)
-        self.assertRedirects(response, reverse('users_login'), status_code=301, target_status_code=200)
+        self.assertRedirects(response, reverse('users_user_login'), status_code=301, target_status_code=200)
 
     def test_authenticated_user(self):
         """Test authenticated user redirect to the lobby view."""

@@ -37,4 +37,4 @@ class IndexView(RedirectView):
     def get_redirect_url(self, *args, **kwargs):
         if self.request.user.is_authenticated():
             return reverse("ribbit_lobby")
-        return reverse("users_login")
+        return reverse("users_user_login")
