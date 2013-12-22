@@ -1,12 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <script src="{{ STATIC_URL }}js/lib/jquery-2.0.3.min.js" charset="UTF-8"></script>
-    <script src="{{ STATIC_URL }}js/chat.js" charset="utf-8"></script>
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/chat.css" type="text/css">
-    <title></title>
-</head>
-<body>
+{% block javascript %}<script src="{{ STATIC_URL }}js/chat.js" charset="utf-8"></script>{% endblock %}
+{% block javascript %}<link rel="stylesheet" href="{{ STATIC_URL }}css/chat.css" type="text/css">{% endblock %}
+{% block content %}
 <h1>{{ object.title }}</h1>
 <p><a href="{% url 'rooms_room_update' room.slug %}">Manage this room</a></p>
 <form method="POST" action="{% url 'rooms_room_leave' room.slug %}">{% csrf_token %}
@@ -28,5 +22,4 @@
         <input type="submit" id="send-button" value="Send">
     </form>
 </section>
-</body>
-</html>
+{% endblock %}

@@ -1,9 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Ribbit - Lobby</title>
-</head>
-<body>
+{% extends "ribbit/base.html" %}
+{% block title %}Ribbit - Lobby{% endblock %}
+{% block content %}
 Welcome {{ user.username }}
 
 <h2>Joined Rooms</h2>
@@ -20,6 +17,4 @@ Welcome {{ user.username }}
 {% endfor %}
 </ul>
 <p></p><a href="{% url 'rooms_room_create' %}">Create new Room</a></p>
-
-</body>
-</html>
+{% endblock %}

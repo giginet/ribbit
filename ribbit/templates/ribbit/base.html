@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}Ribbit{% endblock %}</title>
+    <script src="{{ STATIC_URL }}js/lib/jquery-2.0.3.min.js" charset="UTF-8"></script>
+    {% block javascript %}{% endblock %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/base.css" type="text/css">
+    {% block css %}{% endblock %}
+</head>
+<body>
+<header id="header">
+    <section class="logo">
+        <h1>Ribbit</h1>
+    </section>
+    <nav class="user-info">
+        {% if user.is_authenticated %}
+            <ul class="user-menu">
+                <li class="nav-item user">
+                    <a href="">
+                        <div class="avatar"></div>
+                        <span>{{ user.screen_name }}</span>
+                    </a>
+                </li>
+                <li class="nav-item preferences">
+                    <a href="#!" alt="Preferences">
+                        <div class="nav-image"></div>
+                    </a>
+                </li>
+                <li class="nav-item logout">
+                    <a href="#!" alt="Logout">
+                        <div class="nav-image"></div>
+                    </a>
+                </li>
+            </ul>
+        {% else %}
+            not login
+        {% endif %}
+    </nav>
+</header>
+    <section id="content">
+        {% block content %}
+        {% endblock %}
+    </section>
+</body>
+</html>

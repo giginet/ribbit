@@ -1,0 +1,121 @@
+@import "compass/css3/background-size";
+$header-height: 50px;
+$logo-height: 40px;
+$global-background-color: #fefefe;
+$default-background-size: 100% auto;
+$header-color: mediumseagreen;
+$avatar-size: 32px;
+#header {
+  background-color: $header-color;
+  margin: 0;
+  padding: 0;
+  border-bottom: 1px #666666 solid;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  width: 100%;
+  height: $header-height;
+
+  .logo, .user-info {
+    width: 200px;
+    height: $header-height;
+    display: block;
+    position: relative;
+    top: 0;
+  }
+  .logo {
+    float: left;
+    h1 {
+      font-size: 32px;
+      color: $global-background-color;
+      margin: ($header-height - $logo-height) / 2 16px;
+      vertical-align: middle;
+    }
+  }
+  .user-info {
+    $user-nav-width: 200px;
+    $icon-nav-width: 50px;
+    $separate-border-weight: 1px;
+    $user-info-width: $user-nav-width + $icon-nav-width * 2 + $separate-border-weight * 3;
+    padding: 0;
+    float: right;
+    width: $user-info-width;
+    ul {
+      margin: 0;
+      padding: 0;
+      li {
+        display: block;
+        height: $header-height;
+        float: left;
+        border-left: $separate-border-weight $global-background-color solid;
+        a {
+          width: 100%;
+          height: 100%;
+          display: block;
+          position: relative;
+          text-decoration: none;
+          span {
+            color: $global-background-color;
+            font-weight: bold;
+            width: $user-nav-width - $avatar-size - 40;
+            position: absolute;
+            top: 14px;
+            left: 0px;
+            display: inline-block;
+            margin: 0;
+            margin-left: $avatar-size + ($header-height - $avatar-size);
+          }
+          .avatar {
+            display: inline-block;
+            margin: ($header-height - $avatar-size) / 2;
+          }
+          &:hover {
+            background-color: tint($header-color, 30%);
+          }
+        }
+
+        &.user {
+          width: $user-nav-width;
+        }
+
+        &.preferences {
+        }
+
+        &.logout {
+        }
+
+        &.logout, &.preferences {
+          width: $icon-nav-width;
+          .nav-image {
+            background-color: #eee;
+            background-repeat: no-repeat;
+            top: ($header-height - $avatar-size) / 2;
+            left: ($header-height - $avatar-size) / 2;
+            position: absolute;
+            width: 32px;
+            height: 32px;
+            display: block;
+          }
+        }
+      }
+    }
+
+  }
+
+}
+
+.avatar {
+  background-color: #eee;
+  border: 0.5px #666666 solid;
+  border-radius: $avatar-size / 2;
+  width: $avatar-size;
+  height: $avatar-size;
+  display: inline-block;
+}
+
+#content {
+  background-color: $global-background-color;
+  margin-top: $header-height;
+  padding-top: 20px;
+}
