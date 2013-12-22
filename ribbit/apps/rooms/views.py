@@ -1,9 +1,10 @@
 from django import forms
-from django.http.response import HttpResponseForbidden
+from django.http.response import HttpResponseForbidden, HttpResponseNotAllowed, HttpResponseRedirect
 from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic.detail import DetailView
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from django.core.urlresolvers import reverse
 
 from ribbit.apps.users.models import User
 
@@ -98,3 +99,25 @@ class RoomUpdateView(UpdateView):
     @room_permission_required(role=Role.ADMIN)
     def dispatch(self, *args, **kwargs):
         return super(RoomUpdateView, self).dispatch(*args, **kwargs)
+
+class RoomLeaveView(DetailView):
+    """
+    View class which enables users to leave from the room.
+    """
+    model = Room
+
+    def get(self, request, *args, **kwargs):
+        return HttpResponseNotAllowed("Get access is not allowed.")
+
+    def post(self, request, *args, **kwargs):
+        room = self.get_object()
+        user = self.request.user
+        if room.is_member(user):
+            room.remove_member(user)
+            return HttpResponseRedirect(reverse('ribbit_lobby'))
+        return super(RoomLeaveView, self).post(request, *args, **kwargs)
+
+    @method_decorator(login_required)
+    @room_permission_required(role=Role.VIEWER)
+    def dispatch(self, request, *args, **kwargs):
+        return super(RoomLeaveView, self).dispatch(request, *args, **kwargs)

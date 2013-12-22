@@ -9,6 +9,9 @@
 <body>
 <h1>{{ object.title }}</h1>
 <p><a href="{% url 'rooms_room_update' room.slug %}">Manage this room</a></p>
+<form method="POST" action="{% url 'rooms_room_leave' room.slug %}">{% csrf_token %}
+    <input type="submit" value="Leave this room">
+</form>
 <input type="hidden" id="room-slug" value="{{ object.slug }}">
 <section id="message-list">
     <article class="message" style="display: none;">

@@ -205,3 +205,50 @@ class RoomUpdateViewTestCase(TestCase):
         self.assertFalse(room.is_active)
         self.assertEqual(room.title, 'new Title')
         self.assertEqual(room.description, 'new Description')
+
+class RoomLeaveViewTestCase(TestCase):
+    def setUp(self):
+        self.user = UserFactory.create(username='kawaztan')
+        self.user.set_password('password')
+        self.user.save()
+
+    def test_get_access(self):
+        """Test get access is not allowed"""
+        room = RoomFactory.create()
+        room.add_member(self.user)
+        c = Client()
+        self.assertTrue(c.login(username='kawaztan', password='password'))
+        url = reverse('rooms_room_leave', args=(room.slug,))
+        response = c.get(url)
+        self.assertEqual(response.status_code, 405)
+
+    def test_not_authorized(self):
+        """Test not authorized user can't leave"""
+        room = RoomFactory.create()
+        c = Client()
+        self.assertTrue(c.login(username='kawaztan', password='password'))
+        url = reverse('rooms_room_leave', args=(room.slug,))
+        response = c.post(url)
+        self.assertEqual(response.status_code, 403)
+
+    def test_not_member(self):
+        """Test not member can't leave"""
+        room = RoomFactory.create()
+        c = Client()
+        self.assertTrue(c.login(username='kawaztan', password='password'))
+        url = reverse('rooms_room_leave', args=(room.slug,))
+        response = c.post(url)
+        self.assertEqual(response.status_code, 403)
+        self.assertContains(response, 'Permission Denied', status_code=403)
+
+    def test_can_leave(self):
+        """Test member can leave from the room"""
+        room = RoomFactory.create()
+        c = Client()
+        self.assertTrue(c.login(username='kawaztan', password='password'))
+        room.add_member(self.user)
+        self.assertTrue(room.is_member(self.user))
+        url = reverse('rooms_room_leave', args=(room.slug,))
+        response = c.post(url)
+        room = Room.objects.get(slug=room.slug)
+        self.assertFalse(room.is_member(self.user))
