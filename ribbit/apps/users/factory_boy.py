@@ -1,8 +1,9 @@
 import factory
 from models import User
 
-class UserFactory(factory.Factory):
+class UserFactory(factory.django.DjangoModelFactory):
     FACTORY_FOR = User
+    FACTORY_DJANGO_GET_OR_CREATE = ('username',)
 
     last_name = 'Inonaka'
     first_name = 'Kawaz'

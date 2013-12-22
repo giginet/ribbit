@@ -13,7 +13,7 @@ class RoomTestCase(TestCase):
 
     def test_can_create_room(self):
         """Test whether can create new room and get fields."""
-        room = RoomFactory.create()
+        room = RoomFactory.create(slug='test-chat')
         self.assertEqual(room.title, 'Test Chat', "Can get room's title")
         self.assertEqual(room.slug, 'test-chat', "Can get room's slug")
         self.assertEqual(room.scope, 'public', "Can get room's scope and default value will be public.")
