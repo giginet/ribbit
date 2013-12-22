@@ -53,8 +53,6 @@ class Chat(ws.WS):
         """
         room_slug = websocket.handshake.environ.get('QUERY_STRING', '')
         user = websocket.handshake.get('django.user')
-
-        # ToDo check permissions
         try:
             room = Room.objects.get(slug=room_slug)
             client = Client(websocket, user, room)
@@ -69,8 +67,6 @@ class Chat(ws.WS):
         elif not room.is_joinable(user) and not room.is_viewable(user):
             client.send_error('Permission Denied')
             self.pubsub(websocket, room).remove_client(client)
-        if not room.is_member(user):
-            room.add_member(user)
 
     def on_message(self, websocket, message):
         """

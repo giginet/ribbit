@@ -41,4 +41,6 @@ class RoomDetailView(DetailView):
         user = self.request.user
         if not room.is_viewable(user) and not room.is_joinable(user):
             return HttpResponseForbidden('Permission Denied')
+        if not room.is_member(user):
+            room.add_member(user)
         return super(RoomDetailView, self).get(request, *args, **kwargs)

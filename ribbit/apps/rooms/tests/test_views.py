@@ -81,3 +81,13 @@ class RoomDetailViewTestCase(TestCase):
         response = c.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'rooms/room_detail.html')
+
+    def test_not_member(self):
+        """Test user become a room member when user access to joinable rooms."""
+        room = RoomFactory.create()
+        c = Client()
+        self.assertTrue(c.login(username='kawaztan', password='password'))
+        self.assertFalse(room.is_member(self.user))
+        url = reverse('rooms_room_detail', args=(room.slug,))
+        response = c.get(url)
+        self.assertTrue(room.is_member(self.user))
