@@ -7,6 +7,6 @@ class UserFactory(factory.django.DjangoModelFactory):
 
     last_name = 'Inonaka'
     first_name = 'Kawaz'
-    username = 'kawaztan'
+    username = factory.sequence(lambda n: 'kawaztan{0}'.format(n))
     email = 'webmaster@kawaz.org'
     screen_name = 'Kawaz tan'

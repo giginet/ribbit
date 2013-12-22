@@ -9,7 +9,7 @@ from ribbit.apps.users.factory_boy import UserFactory
 
 from ribbit.apps.users.models import User
 
-class UserViewTest(TestCase):
+class UserViewTestCase(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username='kawaztan', password='password')
 

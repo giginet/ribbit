@@ -7,11 +7,11 @@ from django.conf import settings
 from ribbit.apps.rooms.factory_boy import RoomFactory, RoleFactory
 from ribbit.apps.users.factory_boy import UserFactory
 
-from ribbit.apps.users.models import User
-
-class RibbitIndexViewTest(TestCase):
+class RibbitIndexViewTestCase(TestCase):
     def setUp(self):
-        self.user = User.objects.create_user(username='kawaztan', password='password')
+        self.user = UserFactory.create(username='kawaztan')
+        self.user.set_password('password')
+        self.user.save()
 
     def test_not_authenticated_user(self):
         """Test not authenticated user redirect to the login view."""
@@ -27,12 +27,13 @@ class RibbitIndexViewTest(TestCase):
         response = c.get(reverse('ribbit_index'))
         self.assertRedirects(response, reverse('ribbit_lobby'), status_code=301, target_status_code=200)
 
-class RibbitLobbyViewTest(TestCase):
+class RibbitLobbyViewTestCase(TestCase):
     def setUp(self):
-        self.user = User.objects.create_user(username='kawaztan', password='password')
-        self.user2 = User.objects.create_user(username='kawaztan2', password='password')
+        self.user = UserFactory.create(username='kawaztan')
+        self.user.set_password('password')
+        self.user.save()
         self.room0 = RoomFactory.create(slug='room0', author=self.user)
-        self.room1 = RoomFactory.create(slug='room1', author=self.user2)
+        self.room1 = RoomFactory.create(slug='room1')
         self.room2 = RoomFactory.create(slug='room2', author=self.user)
         self.room0.save()
         self.room1.save()
