@@ -159,3 +159,29 @@ class RoomTestCase(TestCase):
             'scope': 'public',
             'description': 'This is a test chat'
         }, 'serialize() returns correct dict')
+
+class RoomManagerTestCase(TestCase):
+    def test_get_joined_rooms(self):
+        """Test get_joined_rooms return rooms correctly"""
+        user = UserFactory.create()
+        rooms = [RoomFactory.create() for i in xrange(5)]
+        rooms[0].add_member(user)
+        rooms[2].add_member(user)
+        rooms[4].add_member(user)
+        qs = Room.objects.get_joined_rooms(user)
+        self.assertEqual(len(qs), 3)
+        self.assertEqual(qs[0], rooms[0])
+        self.assertEqual(qs[1], rooms[2])
+        self.assertEqual(qs[2], rooms[4])
+
+    def test_get_not_joined_rooms(self):
+        """Test get_not_joined_rooms return rooms correctly"""
+        user = UserFactory.create()
+        rooms = [RoomFactory.create() for i in xrange(5)]
+        rooms[0].add_member(user)
+        rooms[2].add_member(user)
+        rooms[4].add_member(user)
+        qs = Room.objects.get_not_joined_rooms(user)
+        self.assertEqual(len(qs), 2)
+        self.assertEqual(qs[0], rooms[1])
+        self.assertEqual(qs[1], rooms[3])
