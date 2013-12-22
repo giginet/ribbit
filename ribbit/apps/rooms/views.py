@@ -1,13 +1,40 @@
 from django import forms
 from django.http.response import HttpResponseForbidden
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic.detail import DetailView
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 
 from ribbit.apps.users.models import User
 
-from ribbit.apps.rooms.models import Room
+from ribbit.apps.rooms.models import Room, Role
+
+def room_permission_required(role=Role.MEMBER):
+    def _decorator(function):
+        def actual(*args, **kwargs):
+            view = args[0]
+            room = view.get_object()
+            user = view.request.user
+            results = {
+                Role.ADMIN : room.is_administrable(user),
+                Role.MEMBER : room.is_member(user),
+                Role.VIEWER : room.is_viewable(user)
+            }
+            if not results[role]:
+                return HttpResponseForbidden('Permission Denied')
+            return function(*args, **kwargs)
+        return actual
+    return _decorator
+
+def room_joinable_required(function):
+    def _actual(*args, **kwargs):
+        view = args[0]
+        room = view.get_object()
+        user = view.request.user
+        if not room.is_joinable(user) and not room.is_member(user):
+            return HttpResponseForbidden('Permission Denied')
+        return function(*args, **kwargs)
+    return _actual
 
 class RoomCreateView(CreateView):
     """
@@ -44,19 +71,30 @@ class RoomCreateView(CreateView):
 
 class RoomDetailView(DetailView):
     """
-    View class that shows details for each rooms.
+    View class which shows details for each rooms.
     """
     model = Room
 
     @method_decorator(login_required)
+    @room_joinable_required
     def dispatch(self, *args, **kwargs):
         return super(RoomDetailView, self).dispatch(*args, **kwargs)
 
     def get(self, request, *args, **kwargs):
         room = self.get_object()
         user = self.request.user
-        if not room.is_viewable(user) and not room.is_joinable(user):
-            return HttpResponseForbidden('Permission Denied')
         if not room.is_member(user):
             room.add_member(user)
         return super(RoomDetailView, self).get(request, *args, **kwargs)
+
+class RoomUpdateView(UpdateView):
+    """
+    View class which shows the view to update each rooms.
+    """
+    model = Room
+    fields = ('title', 'description', 'is_active',)
+
+    @method_decorator(login_required)
+    @room_permission_required(role=Role.ADMIN)
+    def dispatch(self, *args, **kwargs):
+        return super(RoomUpdateView, self).dispatch(*args, **kwargs)

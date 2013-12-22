@@ -5,7 +5,7 @@ from django.core.urlresolvers import reverse
 from django.conf import settings
 
 from ribbit.apps.rooms.factory_boy import RoomFactory, RoleFactory
-from ribbit.apps.rooms.models import Room
+from ribbit.apps.rooms.models import Room, Role
 from ribbit.apps.users.factory_boy import UserFactory
 
 class RoomCreateViewTestCase(TestCase):
@@ -115,6 +115,7 @@ class RoomDetailViewTestCase(TestCase):
         url = reverse('rooms_room_detail', args=(room.slug,))
         response = c.get(url)
         self.assertEqual(response.status_code, 403)
+        self.assertContains(response, 'Permission Denied', status_code=403)
 
     def test_permitted_user_can_access_private_room(self):
         """Test the permitted user can access to the private rooms."""
@@ -146,3 +147,61 @@ class RoomDetailViewTestCase(TestCase):
         url = reverse('rooms_room_detail', args=(room.slug,))
         response = c.get(url)
         self.assertTrue(room.is_member(self.user))
+
+class RoomUpdateViewTestCase(TestCase):
+    def setUp(self):
+        self.user = UserFactory.create(username='kawaztan')
+        self.user.set_password('password')
+        self.user.save()
+
+    def test_not_authorized(self):
+        """Not authorized user can't access to the RoomUpdateView"""
+        room = RoomFactory.create()
+        c = Client()
+        url = reverse('rooms_room_update', args=(room.slug,))
+        response = c.get(url)
+        self.assertRedirects(response, "%s?next=%s" % (settings.LOGIN_URL, url), status_code=302, target_status_code=301)
+
+    def test_not_admin(self):
+        """Not admin user can't access to the RoomUpdateView"""
+        room = RoomFactory.create()
+        room.add_member(self.user)
+        c = Client()
+        self.assertTrue(c.login(username='kawaztan', password='password'))
+        self.assertTrue(room.is_writable(self.user))
+        self.assertFalse(room.is_administrable(self.user))
+        url = reverse('rooms_room_update', args=(room.slug,))
+        response = c.get(url)
+        self.assertEqual(response.status_code, 403)
+        self.assertContains(response, 'Permission Denied', status_code=403)
+
+    def test_can_access(self):
+        """Admin user can access to the RoomUpdateView"""
+        room = RoomFactory.create()
+        room.add_member(self.user, Role.ADMIN)
+        c = Client()
+        self.assertTrue(c.login(username='kawaztan', password='password'))
+        self.assertTrue(room.is_administrable(self.user))
+        url = reverse('rooms_room_update', args=(room.slug,))
+        response = c.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'rooms/room_form.html')
+
+    def test_can_update(self):
+        """Test user can update the room via RoomUpdateView"""
+        room = RoomFactory.create()
+        room.add_member(self.user, Role.ADMIN)
+        c = Client()
+        self.assertTrue(c.login(username='kawaztan', password='password'))
+        self.assertTrue(room.is_administrable(self.user))
+        url = reverse('rooms_room_update', args=(room.slug,))
+        response = c.post(url, {
+            'title' : 'new Title',
+            'description' : 'new Description',
+            'is_active' : False
+        })
+        room = Room.objects.get(slug=room.slug)
+        self.assertRedirects(response, room.get_absolute_url(), status_code=302, target_status_code=200)
+        self.assertFalse(room.is_active)
+        self.assertEqual(room.title, 'new Title')
+        self.assertEqual(room.description, 'new Description')
