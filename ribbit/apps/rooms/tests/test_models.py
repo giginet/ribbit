@@ -165,10 +165,13 @@ class RoomManagerTestCase(TestCase):
     def test_get_joined_rooms(self):
         """Test get_joined_rooms return rooms correctly"""
         user = UserFactory.create()
-        rooms = [RoomFactory.create() for i in xrange(5)]
+        rooms = [RoomFactory.create() for i in xrange(6)]
         rooms[0].add_member(user)
         rooms[2].add_member(user)
         rooms[4].add_member(user)
+        rooms[5].add_member(user)
+        rooms[5].is_active = False
+        rooms[5].save()
         qs = Room.objects.get_joined_rooms(user)
         self.assertEqual(len(qs), 3)
         self.assertEqual(qs[0], rooms[0])
@@ -178,11 +181,31 @@ class RoomManagerTestCase(TestCase):
     def test_get_not_joined_rooms(self):
         """Test get_not_joined_rooms return rooms correctly"""
         user = UserFactory.create()
-        rooms = [RoomFactory.create() for i in xrange(5)]
+        rooms = [RoomFactory.create() for i in xrange(6)]
         rooms[0].add_member(user)
         rooms[2].add_member(user)
         rooms[4].add_member(user)
+        rooms[5].is_active = False
+        rooms[5].save()
         qs = Room.objects.get_not_joined_rooms(user)
         self.assertEqual(len(qs), 2)
         self.assertEqual(qs[0], rooms[1])
         self.assertEqual(qs[1], rooms[3])
+
+    def test_get_available(self):
+        """Test get_availables returns available rooms"""
+        rooms = [RoomFactory.create(is_active=i % 2 == 0) for i in xrange(6)]
+        qs = Room.objects.get_availables()
+        self.assertEqual(len(qs), 3)
+        self.assertEqual(qs[0], rooms[0])
+        self.assertEqual(qs[1], rooms[2])
+        self.assertEqual(qs[2], rooms[4])
+
+    def test_get_not_available(self):
+        """Test get_not_availables returns not available rooms"""
+        rooms = [RoomFactory.create(is_active=i % 2 == 0) for i in xrange(6)]
+        qs = Room.objects.get_not_availables()
+        self.assertEqual(len(qs), 3)
+        self.assertEqual(qs[0], rooms[1])
+        self.assertEqual(qs[1], rooms[3])
+        self.assertEqual(qs[2], rooms[5])

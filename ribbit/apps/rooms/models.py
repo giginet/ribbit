@@ -37,13 +37,27 @@ class Role(models.Model):
         unique_together = (('room', 'user'),)
 
 class RoomManager(models.Manager):
+    def get_availables(self):
+        """
+        Return the QuerySet which contains available room only.
+        @return QuerySet
+        """
+        return self.filter(is_active=True)
+
+    def get_not_availables(self):
+        """
+        Return the QuerySet which contains not available room only
+        @return QuerySet
+        """
+        return self.filter(is_active=False)
+
     def get_joined_rooms(self, user):
         """
         Return the QuerySet which contains user have joined
         @param user
         @return QuerySet
         """
-        return self.filter(members=user)
+        return self.get_availables().filter(members=user)
 
     def get_not_joined_rooms(self, user):
         """
@@ -51,7 +65,7 @@ class RoomManager(models.Manager):
         @param user
         @return QuerySet
         """
-        return self.exclude(members=user)
+        return self.get_availables().exclude(members=user)
 
 class Room(models.Model):
     """
@@ -77,6 +91,7 @@ class Room(models.Model):
     members = models.ManyToManyField(User, verbose_name=_('Members'), related_name='joined rooms', through=Role, editable=False)
     group = models.ForeignKey(Group, verbose_name=_('Member group'), editable=False, unique=True, null=True, blank=False)
     icon = ThumbnailerImageField(verbose_name=_('Icon image'), null=True, blank=True, upload_to=icon_image_path)
+    is_active = models.BooleanField(verbose_name=_('Is active'), default=True, blank=True)
     created_at = models.DateTimeField(auto_now=True, verbose_name=_('Date created'))
     updated_at = models.DateTimeField(auto_now_add=True, verbose_name=_('Date updated'))
 
