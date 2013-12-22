@@ -11,10 +11,16 @@ class MessageViewSet(ViewSet):
     """
     def list(self, request, format):
         room_slug = request.GET.get('room', '')
-        try:
-            room = Room.objects.get(slug=room_slug)
-            qs = Message.objects.filter(room=room)
-            serializer = MessageSerializer(qs, many=True)
-            return Response(serializer.data)
-        except:
-            return Response(status=404, data={'status': 'error', 'message' : 'Room ID is invalid'})
+        since = request.GET.get('since', None)
+        count = request.GET.get('count', '100')
+        room = Room.objects.get(slug=room_slug)
+        kwargs = {
+            'room' : room
+        }
+        if count.isdigit(): kwargs['count'] = int(count)
+        if since:
+            message = Message.objects.get(pk=since)
+            kwargs['since'] = message
+        qs = Message.objects.get_recent_messages(**kwargs)
+        serializer = MessageSerializer(qs, many=True)
+        return Response(serializer.data)
