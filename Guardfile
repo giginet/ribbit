@@ -1,7 +1,11 @@
 guard 'coffeescript', input: 'ribbit/static/coffee', output: 'ribbit/static/js'
-guard 'sass', input: 'ribbit/static/sass', output: 'ribbit/static/css'
 
 guard 'livereload' do
   watch(%r{ribbit/static/.+\.(css|js)})
   watch(%r{ribbit/templates/.+\.(html)})
+end
+
+guard :compass, configuration_file: 'config/compass_config.rb',
+      compile_on_start: true do
+  watch(%r{ribbit/static/.+\.(sass|scss)})
 end
