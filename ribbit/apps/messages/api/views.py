@@ -14,7 +14,7 @@ class MessageViewSet(ViewSet):
 
     permission_classes = [ViewPermission]
 
-    def list(self, request, format):
+    def list(self, request, format=None):
         try:
             room_slug = request.GET.get('room', '')
             since = request.GET.get('since', None)
