@@ -115,10 +115,7 @@ class Room(models.Model):
             'slug': self.slug,
             'description': self.description,
             'scope': self.scope,
-            'icon': ''
         }
-        if self.icon:
-            dict['icon'] = os.path.join(settings.STATIC_URL, os.path.relpath(self.icon['thumbnail'].url, settings.STATIC_DIR))
         return dict
 
     @models.permalink

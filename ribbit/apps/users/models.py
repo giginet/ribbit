@@ -33,6 +33,5 @@ class User(AbstractUser):
             'username': self.username,
             'screen_name': self.screen_name,
             'twitter': self.twitter,
-            'avatar': self.avatar_url()
         }
         return dict
