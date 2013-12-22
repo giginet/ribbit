@@ -19,5 +19,5 @@ setup(name='ribbit',
         'pulsar',
         'pyyaml'
       ],
-      dependency_links = ['git+https://github.com/quantmind/pulsar.git@c5ffacf8ebf0faded40aa3d675c10d3d8fb2f17c#egg=pulsar',]
+      dependency_links = ['git+https://github.com/quantmind/pulsar.git@344a0f6ec78c09260d2f67b15ba434dec0914f57#egg=pulsar',]
 )
