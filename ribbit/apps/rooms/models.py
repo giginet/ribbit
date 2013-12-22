@@ -115,6 +115,7 @@ class Room(models.Model):
             'slug': self.slug,
             'description': self.description,
             'scope': self.scope,
+            'icon': ''
         }
         return dict
 
