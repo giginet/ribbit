@@ -5,6 +5,7 @@ from django.core.urlresolvers import reverse
 from django.conf import settings
 
 from ribbit.apps.rooms.factory_boy import RoomFactory, RoleFactory
+from ribbit.apps.rooms.models import Room
 from ribbit.apps.users.factory_boy import UserFactory
 
 class RoomCreateViewTestCase(TestCase):
@@ -27,6 +28,60 @@ class RoomCreateViewTestCase(TestCase):
         url = reverse('rooms_room_create')
         response = c.get(url)
         self.assertRedirects(response, "%s?next=%s" % (settings.LOGIN_URL, url), status_code=302, target_status_code=301)
+        response = c.post(url)
+        self.assertRedirects(response, "%s?next=%s" % (settings.LOGIN_URL, url), status_code=302, target_status_code=301)
+
+    def test_post_form(self):
+        """Test room was created when user post to the form"""
+        c = Client()
+        self.assertTrue(c.login(username='kawaztan', password='password'))
+        url = reverse('rooms_room_create')
+        response = c.post(url, {
+            'title' : 'My Chat',
+            'slug' : 'my-chat',
+            'description' : 'This is my chat',
+            'scope' : 'public'
+        })
+        room = Room.objects.get(slug='my-chat')
+        self.assertRedirects(response, room.get_absolute_url(), status_code=302, target_status_code=200)
+        self.assertEqual(room.title, 'My Chat')
+        self.assertEqual(room.slug, 'my-chat')
+        self.assertEqual(room.description, 'This is my chat')
+        self.assertEqual(room.author, self.user)
+        self.assertEqual(room.scope, 'public')
+
+    def test_post_form_with_blank(self):
+        """Test room was created when user post to the form"""
+        c = Client()
+        self.assertTrue(c.login(username='kawaztan', password='password'))
+        url = reverse('rooms_room_create')
+        response = c.post(url, {
+        })
+        self.assertFormError(response, 'form', 'title', 'This field is required.')
+        self.assertFormError(response, 'form', 'slug', 'This field is required.')
+        self.assertFormError(response, 'form', 'scope', 'This field is required.')
+        get_room = lambda :Room.objects.get(slug='my-chat')
+        self.assertRaises(Exception, get_room)
+
+    def test_post_form_with_invalid_author(self):
+        """Test room was created when user post to the form"""
+        c = Client()
+        self.assertTrue(c.login(username='kawaztan', password='password'))
+        url = reverse('rooms_room_create')
+        response = c.post(url, {
+            'title' : 'My Chat',
+            'slug' : 'my-chat',
+            'description' : 'This is my chat',
+            'scope' : 'public',
+            'author' : self.another_user
+        })
+        room = Room.objects.get(slug='my-chat')
+        self.assertRedirects(response, room.get_absolute_url(), status_code=302, target_status_code=200)
+        self.assertEqual(room.title, 'My Chat')
+        self.assertEqual(room.slug, 'my-chat')
+        self.assertEqual(room.description, 'This is my chat')
+        self.assertEqual(room.author, self.user)
+        self.assertEqual(room.scope, 'public')
 
 class RoomDetailViewTestCase(TestCase):
     def setUp(self):

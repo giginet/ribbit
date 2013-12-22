@@ -1,3 +1,4 @@
+from django import forms
 from django.http.response import HttpResponseForbidden
 from django.views.generic.edit import CreateView
 from django.views.generic.detail import DetailView
@@ -12,8 +13,15 @@ class RoomCreateView(CreateView):
     """
     View class that to create
     """
+    class RoomCreateForm(forms.ModelForm):
+        author = forms.ModelChoiceField(queryset=User.objects.all(), widget=forms.HiddenInput())
+
+        class Meta:
+            model = Room
+            fields = ['title', 'slug', 'description', 'scope', 'icon', 'author']
+
     model = Room
-    #fields = ('title', 'slug', 'description', 'scope', 'icon_image')
+    form_class = RoomCreateForm
 
     def get_form_kwargs(self):
         if self.request.method == 'POST':
@@ -21,6 +29,14 @@ class RoomCreateView(CreateView):
             qd.update({'author_id' : unicode(self.request.user.id)})
             self.request.POST = qd
         return super(RoomCreateView, self).get_form_kwargs()
+
+    def get_form_kwargs(self):
+        kwargs = super(RoomCreateView, self).get_form_kwargs()
+        if self.request.method == 'POST':
+            data = kwargs['data'].copy()
+            data['author'] = self.request.user.pk
+            kwargs['data'] = data
+        return kwargs
 
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
