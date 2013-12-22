@@ -1,5 +1,6 @@
+{% extends "ribbit/base.html" %}
 {% block javascript %}<script src="{{ STATIC_URL }}js/chat.js" charset="utf-8"></script>{% endblock %}
-{% block javascript %}<link rel="stylesheet" href="{{ STATIC_URL }}css/chat.css" type="text/css">{% endblock %}
+{% block css %}<link rel="stylesheet" href="{{ STATIC_URL }}css/chat.css" type="text/css">{% endblock %}
 {% block content %}
 <h1>{{ object.title }}</h1>
 <p><a href="{% url 'rooms_room_update' room.slug %}">Manage this room</a></p>

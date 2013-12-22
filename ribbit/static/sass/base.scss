@@ -4,12 +4,13 @@ $logo-height: 40px;
 $global-background-color: #fefefe;
 $default-background-size: 100% auto;
 $header-color: mediumseagreen;
+$border-color: #666;
 $avatar-size: 32px;
 #header {
   background-color: $header-color;
   margin: 0;
   padding: 0;
-  border-bottom: 1px #666666 solid;
+  border-bottom: 1px $border-color solid;
   position: absolute;
   top: 0;
   left: 0;
@@ -48,7 +49,7 @@ $avatar-size: 32px;
         display: block;
         height: $header-height;
         float: left;
-        border-left: $separate-border-weight $global-background-color solid;
+        border-left: $separate-border-weight $border-color solid;
         a {
           width: 100%;
           height: 100%;
@@ -107,7 +108,7 @@ $avatar-size: 32px;
 
 .avatar {
   background-color: #eee;
-  border: 0.5px #666666 solid;
+  border: 0.5px $border-color solid;
   border-radius: $avatar-size / 2;
   width: $avatar-size;
   height: $avatar-size;

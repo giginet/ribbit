@@ -24,3 +24,9 @@ class LoginView(FormView):
     def dispatch(self, request, *args, **kwargs):
         request.session.set_test_cookie()
         return super(LoginView, self).dispatch(request, *args, **kwargs)
+
+class LogoutView(View):
+    def post(self, request, *args, **kwargs):
+        redirect_to = settings.LOGIN_URL
+        auth_logout(request)
+        return HttpResponseRedirect(redirect_to)
