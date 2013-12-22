@@ -15,6 +15,7 @@ class RoomTestCase(TestCase):
         room = RoomFactory.create(slug='test-chat', author=self.user)
         self.assertEqual(room.title, 'Test Chat', "Can get room's title")
         self.assertEqual(room.slug, 'test-chat', "Can get room's slug")
+        self.assertEqual(room.description, '', "Set blank string for default description")
         self.assertEqual(room.scope, 'public', "Can get room's scope and default value will be public.")
         self.assertEqual(room.author, self.user, "Can get room's author")
 

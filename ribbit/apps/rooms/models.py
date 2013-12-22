@@ -71,7 +71,7 @@ class Room(models.Model):
 
     title = models.CharField(max_length=128, verbose_name=_('Title'))
     slug = models.SlugField(max_length=32, verbose_name=_('Slug'), unique=True)
-    description = models.CharField(max_length=1024, verbose_name=_('Description'), null=True, blank=True)
+    description = models.CharField(max_length=1024, verbose_name=_('Description'), default='')
     scope = models.CharField(choices=ROOM_SCOPE, verbose_name=_('Scope'), default='public', max_length=16)
     author = models.ForeignKey(User, verbose_name=_('Author'), related_name='created_rooms')
     members = models.ManyToManyField(User, verbose_name=_('Members'), related_name='joined rooms', through=Role, editable=False)
