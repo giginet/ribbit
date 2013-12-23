@@ -1,3 +1,4 @@
+from django import forms
 from django.conf import settings
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login as auth_login, logout as auth_logout
@@ -7,7 +8,12 @@ from django.views.decorators.debug import sensitive_post_parameters
 from django.views.generic import FormView, View
 
 class LoginView(FormView):
-    form_class = AuthenticationForm
+
+    class CustomAuthenticationForm(AuthenticationForm):
+        username = forms.CharField(widget=forms.TextInput(attrs={'class': 'username', 'placeholder': 'Username'}))
+        password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'password', 'placeholder':'Password'}))
+
+    form_class = CustomAuthenticationForm
     template_name = 'users/login.html'
 
     def form_valid(self, form):

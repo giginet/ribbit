@@ -7,3 +7,12 @@
 body.bp {
   @include blueprint-print(true);
 }
+
+form {
+  @include blueprint-form;
+  @include blueprint-form-layout;
+}
+
+form.inline {
+  @include blueprint-inline-form;
+}

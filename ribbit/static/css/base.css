@@ -109,10 +109,11 @@
 
 /* line 118, ../sass/base.scss */
 body {
+  color: #333;
   background-color: #fefefe;
 }
 
-/* line 122, ../sass/base.scss */
+/* line 123, ../sass/base.scss */
 #content {
   margin-top: 50px;
   padding-top: 20px;

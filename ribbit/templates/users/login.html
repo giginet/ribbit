@@ -1,7 +1,14 @@
 {% extends "ribbit/base.html" %}
+{% block css %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/contents/login.css" type="text/css">
+{% endblock %}
 {% block content %}
-<form action="" method="POST"> {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" class="button button-flat-primary" value="Login">
-</form>
+<section class="login">
+    <h1>Sign in</h1>
+    <form action="" method="POST"> {% csrf_token %}
+        {{ form.username }}
+        {{ form.password }}
+        <input type="submit" class="button button-flat-primary button-large" value="Login">
+    </form>
+</section>
 {% endblock %}
