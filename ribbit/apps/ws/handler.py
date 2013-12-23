@@ -6,6 +6,7 @@ import time
 import json
 from pulsar.apps import ws, pubsub
 
+from ribbit.apps.messages.api.serializers import MessageSerializer
 from ribbit.apps.messages.models import Message
 from ribbit.apps.rooms.models import Room
 
@@ -84,11 +85,9 @@ class Chat(ws.WS):
             username = user.username
             if data['action'] == 'post' and room.is_writable(user):
                 message = room.add_message(data['body'], user)
+                serializer = MessageSerializer(message)
                 response = {
                     'action' : 'receive',
-                    'author' : user.serialize(),
-                    'body' : message.body,
-                    'room' : room.serialize(),
-                    'timestamp' : time.time()
+                    'message':  serializer.data
                 }
                 self.pubsub(websocket, room).publish(room.slug, json.dumps(response))

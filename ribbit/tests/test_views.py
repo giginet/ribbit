@@ -60,8 +60,8 @@ class RibbitLobbyViewTestCase(TestCase):
         self.assertTrue(c.login(username='kawaztan', password='password'))
         url = reverse('ribbit_lobby')
         response = c.get(url)
-        self.assertIsNotNone(response.context.get('joined_rooms'))
-        self.assertIsNotNone(response.context.get('not_joined_rooms'))
+        self.assertIsNotNone(response.context[0].get('joined_rooms'))
+        self.assertIsNotNone(response.context[0].get('not_joined_rooms'))
 
     def test_joined_rooms(self):
         """Test joined_rooms has correct rooms."""
@@ -69,7 +69,7 @@ class RibbitLobbyViewTestCase(TestCase):
         self.assertTrue(c.login(username='kawaztan', password='password'))
         url = reverse('ribbit_lobby')
         response = c.get(url)
-        qs = response.context.get('joined_rooms')
+        qs = response.context[0].get('joined_rooms')
         self.assertEqual(len(qs), 2)
         self.assertEqual(qs[0], self.room0)
         self.assertEqual(qs[1], self.room2)
@@ -80,6 +80,6 @@ class RibbitLobbyViewTestCase(TestCase):
         self.assertTrue(c.login(username='kawaztan', password='password'))
         url = reverse('ribbit_lobby')
         response = c.get(url)
-        qs = response.context.get('not_joined_rooms')
+        qs = response.context[0].get('not_joined_rooms')
         self.assertEqual(len(qs), 1)
         self.assertEqual(qs[0], self.room1)

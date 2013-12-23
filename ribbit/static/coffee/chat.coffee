@@ -16,12 +16,14 @@ class Chat
     @
 
   onMessaged : (e) =>
+    console.log(e.data)
+    recieved = JSON.parse(e.data)
     try
       recieved = JSON.parse(e.data)
     catch error
       recieved = {}
     if recieved['action'] is 'receive'
-      message = new Message(recieved)
+      message = new Ribbit.models.Message(recieved['message'])
       Ribbit.view.$messageList.append(Ribbit.view.createView(message).fadeIn('fast'))
     else if recieved['action'] is 'error'
       alert(recieved['body'])
@@ -64,9 +66,4 @@ $ ->
   Ribbit.chat = new Chat(slug)
   Ribbit.chat.start()
   Ribbit.view = new ChatView(Ribbit.chat)
-
-class Message
-  constructor : (@data) ->
-    @body = @data['body']
-    @author = @data['author']
 

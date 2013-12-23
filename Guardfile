@@ -1,4 +1,4 @@
-guard 'coffeescript', input: 'ribbit/static/coffee', output: 'ribbit/static/js'
+guard 'coffeescript', input: 'ribbit/static/coffee', output: 'ribbit/static/js', bare: true
 
 guard 'livereload' do
   watch(%r{ribbit/static/.+\.(css|js)})
