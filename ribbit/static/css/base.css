@@ -108,8 +108,12 @@
 }
 
 /* line 118, ../sass/base.scss */
-#content {
+body {
   background-color: #fefefe;
+}
+
+/* line 122, ../sass/base.scss */
+#content {
   margin-top: 50px;
   padding-top: 20px;
 }

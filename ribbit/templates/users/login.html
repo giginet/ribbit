@@ -1,12 +1,7 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title></title>
-</head>
-<body>
+{% extends "ribbit/base.html" %}
+{% block content %}
 <form action="" method="POST"> {% csrf_token %}
     {{ form.as_p }}
-    <input type="submit" value="Login">
+    <input type="submit" class="button button-flat-primary" value="Login">
 </form>
-</body>
-</html>
+{% endblock %}

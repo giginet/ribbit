@@ -115,8 +115,11 @@ $avatar-size: 32px;
   display: inline-block;
 }
 
-#content {
+body {
   background-color: $global-background-color;
+}
+
+#content {
   margin-top: $header-height;
   padding-top: 20px;
 }
