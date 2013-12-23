@@ -6,8 +6,7 @@
 <section class="login">
     <h1>Sign in</h1>
     <form action="" method="POST"> {% csrf_token %}
-        {{ form.username }}
-        {{ form.password }}
+        {{ form }}
         <input type="submit" class="button button-flat-primary button-large" value="Login">
     </form>
 </section>

@@ -23,9 +23,10 @@ class User(AbstractUser):
         return "%s(%s)" % (self.screen_name, self.username)
 
     def avatar_url(self):
-        if not self.avatar:
-            return ''
-        return os.path.join(settings.STATIC_URL, os.path.relpath(self.avatar['thumbnail'].url, settings.STATIC_DIR))
+        return ''
+        # if not self.avatar:
+        #     return ''
+        # return os.path.join(settings.STATIC_URL, os.path.relpath(self.avatar['thumbnail'].url, settings.STATIC_DIR))
 
     def serialize(self):
         dict = {

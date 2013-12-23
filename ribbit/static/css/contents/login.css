@@ -38,3 +38,7 @@
   border-radius: 0 0 8px 8px;
   margin-bottom: 15px;
 }
+/* line 41, ../../sass/contents/login.scss */
+.login label {
+  display: none;
+}
