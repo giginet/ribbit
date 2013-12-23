@@ -1,0 +1,23 @@
+<section class="room-list">
+    <h2>{{ title }}</h2><table>
+    <tbody>
+    {% for room in rooms %}
+        <tr {% if room.scope == 'private' %}class="private"{% endif %}>
+            <td class="room-icon-cell">
+                <img src="">
+            </td>
+            <td class="room-name-cell">
+                <a href="{% url 'rooms_room_detail' room.slug %}">{{ room.title }}</a>
+            </td>
+            <td class="room-members-cell">
+                <ul class="room-member-list">
+                    {% for member in room.members.all %}
+                        <li class="room-member-avatar"></li>
+                    {% endfor %}
+                </ul>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+</section>

@@ -1,4 +1,3 @@
-@import "compass/css3/background-size";
 $header-height: 50px;
 $logo-height: 40px;
 $global-background-color: #fefefe;
@@ -17,6 +16,11 @@ $avatar-size: 32px;
   display: block;
   width: 100%;
   height: $header-height;
+
+  a {
+    color: $global-background-color;
+    text-decoration: none;
+  }
 
   .logo, .user-info {
     width: 200px;
@@ -123,4 +127,18 @@ body {
 #content {
   margin-top: $header-height;
   padding-top: 20px;
+}
+
+a {
+  color: #3cb371;
+  text-decoration: none;
+
+  &:hover {
+    color: shade(#3cb371, 30%);
+  }
+}
+
+h2 {
+  font-size: 24px;
+  margin-bottom: 15px;
 }

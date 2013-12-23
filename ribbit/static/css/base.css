@@ -1,4 +1,4 @@
-/* line 9, ../sass/base.scss */
+/* line 8, ../sass/base.scss */
 #header {
   background-color: mediumseagreen;
   margin: 0;
@@ -11,7 +11,12 @@
   width: 100%;
   height: 50px;
 }
-/* line 21, ../sass/base.scss */
+/* line 20, ../sass/base.scss */
+#header a {
+  color: #fefefe;
+  text-decoration: none;
+}
+/* line 25, ../sass/base.scss */
 #header .logo, #header .user-info {
   width: 200px;
   height: 50px;
@@ -19,36 +24,36 @@
   position: relative;
   top: 0;
 }
-/* line 28, ../sass/base.scss */
+/* line 32, ../sass/base.scss */
 #header .logo {
   float: left;
 }
-/* line 30, ../sass/base.scss */
+/* line 34, ../sass/base.scss */
 #header .logo h1 {
   font-size: 32px;
   color: #fefefe;
   margin: 5px 16px;
   vertical-align: middle;
 }
-/* line 37, ../sass/base.scss */
+/* line 41, ../sass/base.scss */
 #header .user-info {
   padding: 0;
   float: right;
   width: 303px;
 }
-/* line 45, ../sass/base.scss */
+/* line 49, ../sass/base.scss */
 #header .user-info ul {
   margin: 0;
   padding: 0;
 }
-/* line 48, ../sass/base.scss */
+/* line 52, ../sass/base.scss */
 #header .user-info ul li {
   display: block;
   height: 50px;
   float: left;
   border-left: 1px #666666 solid;
 }
-/* line 53, ../sass/base.scss */
+/* line 57, ../sass/base.scss */
 #header .user-info ul li a {
   width: 100%;
   height: 100%;
@@ -56,7 +61,7 @@
   position: relative;
   text-decoration: none;
 }
-/* line 59, ../sass/base.scss */
+/* line 63, ../sass/base.scss */
 #header .user-info ul li a span {
   color: #fefefe;
   font-weight: bold;
@@ -68,24 +73,24 @@
   margin: 0;
   margin-left: 50px;
 }
-/* line 70, ../sass/base.scss */
+/* line 74, ../sass/base.scss */
 #header .user-info ul li a .avatar {
   display: inline-block;
   margin: 9px;
 }
-/* line 74, ../sass/base.scss */
+/* line 78, ../sass/base.scss */
 #header .user-info ul li a:hover {
   background-color: #76c99b;
 }
-/* line 79, ../sass/base.scss */
+/* line 83, ../sass/base.scss */
 #header .user-info ul li.user {
   width: 200px;
 }
-/* line 89, ../sass/base.scss */
+/* line 93, ../sass/base.scss */
 #header .user-info ul li.logout, #header .user-info ul li.preferences {
   width: 50px;
 }
-/* line 91, ../sass/base.scss */
+/* line 95, ../sass/base.scss */
 #header .user-info ul li.logout .nav-image, #header .user-info ul li.preferences .nav-image {
   background-color: #eee;
   background-repeat: no-repeat;
@@ -97,7 +102,7 @@
   display: block;
 }
 
-/* line 109, ../sass/base.scss */
+/* line 113, ../sass/base.scss */
 .avatar {
   background-color: #eee;
   border: 0.5px #666666 solid;
@@ -107,14 +112,30 @@
   display: inline-block;
 }
 
-/* line 118, ../sass/base.scss */
+/* line 122, ../sass/base.scss */
 body {
   color: #333;
   background-color: #fefefe;
 }
 
-/* line 123, ../sass/base.scss */
+/* line 127, ../sass/base.scss */
 #content {
   margin-top: 50px;
   padding-top: 20px;
+}
+
+/* line 132, ../sass/base.scss */
+a {
+  color: #3cb371;
+  text-decoration: none;
+}
+/* line 136, ../sass/base.scss */
+a:hover {
+  color: #2a7d4f;
+}
+
+/* line 141, ../sass/base.scss */
+h2 {
+  font-size: 24px;
+  margin-bottom: 15px;
 }

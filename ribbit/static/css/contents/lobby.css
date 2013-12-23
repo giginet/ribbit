@@ -1,0 +1,88 @@
+/* line 2, ../../sass/contents/lobby.scss */
+.room-list {
+  margin: 10px;
+}
+/* line 6, ../../sass/contents/lobby.scss */
+.room-list table {
+  width: 600px;
+  border: 2px solid black;
+}
+/* line 2, ../../../../../../.rbenv/versions/1.9.3-p448/lib/ruby/gems/1.9.1/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/utilities/tables/_scaffolding.scss */
+.room-list table th {
+  text-align: center;
+  font-weight: bold;
+}
+/* line 6, ../../../../../../.rbenv/versions/1.9.3-p448/lib/ruby/gems/1.9.1/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/utilities/tables/_scaffolding.scss */
+.room-list table td,
+.room-list table th {
+  padding: 2px;
+}
+/* line 8, ../../../../../../.rbenv/versions/1.9.3-p448/lib/ruby/gems/1.9.1/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/utilities/tables/_scaffolding.scss */
+.room-list table td.numeric,
+.room-list table th.numeric {
+  text-align: right;
+}
+/* line 14, ../../../../../../.rbenv/versions/1.9.3-p448/lib/ruby/gems/1.9.1/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/utilities/tables/_borders.scss */
+.room-list table th, .room-list table td {
+  border-right: 1px solid #233551;
+  border-bottom: 1px solid #233551;
+  border-left-width: 0px;
+  border-top-width: 0px;
+}
+/* line 21, ../../../../../../.rbenv/versions/1.9.3-p448/lib/ruby/gems/1.9.1/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/utilities/tables/_borders.scss */
+.room-list table th:last-child, .room-list table th.last, .room-list table td:last-child, .room-list table td.last {
+  border-right-width: 0px;
+}
+/* line 29, ../../../../../../.rbenv/versions/1.9.3-p448/lib/ruby/gems/1.9.1/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/utilities/tables/_borders.scss */
+.room-list table tbody tr:last-child th, .room-list table tbody tr:last-child td, .room-list table tfoot tr:last-child th, .room-list table tfoot tr:last-child td {
+  border-bottom-width: 0px;
+}
+/* line 32, ../../../../../../.rbenv/versions/1.9.3-p448/lib/ruby/gems/1.9.1/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/utilities/tables/_borders.scss */
+.room-list table tbody tr.last th, .room-list table tbody tr.last td, .room-list table tfoot tr.last th, .room-list table tfoot tr.last td {
+  border-bottom-width: 0px;
+}
+/* line 4, ../../../../../../.rbenv/versions/1.9.3-p448/lib/ruby/gems/1.9.1/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/utilities/tables/_borders.scss */
+.room-list table thead th {
+  border-bottom: 2px solid black;
+}
+/* line 7, ../../../../../../.rbenv/versions/1.9.3-p448/lib/ruby/gems/1.9.1/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/utilities/tables/_borders.scss */
+.room-list table tfoot th, .room-list table tfoot td {
+  border-top: 2px solid black;
+}
+/* line 10, ../../../../../../.rbenv/versions/1.9.3-p448/lib/ruby/gems/1.9.1/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/utilities/tables/_borders.scss */
+.room-list table th:first-child {
+  border-right: 2px solid black;
+}
+/* line 15, ../../sass/contents/lobby.scss */
+.room-list tr.private td {
+  background-color: #fcf8e9;
+}
+/* line 23, ../../sass/contents/lobby.scss */
+.room-list .room-icon-cell {
+  width: 80px;
+  position: relative;
+  padding: 0;
+}
+/* line 27, ../../sass/contents/lobby.scss */
+.room-list .room-icon-cell img {
+  margin: 8px;
+  width: 64px;
+  height: 64px;
+  border: 1px #666666 solid;
+  border-radius: 32px;
+}
+/* line 36, ../../sass/contents/lobby.scss */
+.room-list .room-name-cell {
+  width: 300px;
+  padding: 5px 15px;
+}
+/* line 42, ../../sass/contents/lobby.scss */
+.room-list .room-members-cell li {
+  background-color: #eee;
+  margin: 2px 2px;
+  width: 24px;
+  height: 24px;
+  border-radius: 12px;
+  float: left;
+  display: inline-block;
+}

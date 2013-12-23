@@ -1,20 +1,12 @@
 {% extends "ribbit/base.html" %}
 {% block title %}Ribbit - Lobby{% endblock %}
+{% block css %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/contents/lobby.css" type="text/css">
+{% endblock %}
 {% block content %}
-Welcome {{ user.username }}
 
-<h2>Joined Rooms</h2>
-<ul>
-{% for room in joined_rooms %}
-    <li><a href="{% url 'rooms_room_detail' room.slug %}">{{ room.title }}</a></li>
-{% endfor %}
-</ul>
+<p><a href="{% url 'rooms_room_create' %}" class="button button-flat-primary button-large">Create new Room</a></p>
+{% include "components/room_list.html" with rooms=joined_rooms title="Joined Rooms" %}
+{% include "components/room_list.html" with rooms=not_joined_rooms title="Available Rooms" %}
 
-<h2>Available Rooms</h2>
-<ul>
-{% for room in not_joined_rooms %}
-    <li><a href="{% url 'rooms_room_detail' room.slug %}">{{ room.title }}</a></li>
-{% endfor %}
-</ul>
-<p></p><a href="{% url 'rooms_room_create' %}">Create new Room</a></p>
 {% endblock %}

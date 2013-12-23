@@ -12,10 +12,12 @@
     <link rel="stylesheet" href="{{ STATIC_URL }}css/buttons/buttons.css" type="text/css">
     {% block css %}{% endblock %}
 </head>
-<body>
+<body class="bp">
 <header id="header">
     <section class="logo">
-        <h1>Ribbit</h1>
+        <h1>
+            <a href="{% url 'ribbit_lobby' %}">Ribbit</a>
+        </h1>
     </section>
     <nav class="user-info">
         {% if user.is_authenticated %}

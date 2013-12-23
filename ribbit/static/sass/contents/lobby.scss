@@ -1,0 +1,53 @@
+@import "compass/utilities/tables";
+.room-list {
+
+  margin: 10px;
+
+  table {
+    width: 600px;
+    $table-color: #7a98c6;
+    @include table-scaffolding;
+    @include inner-table-borders(1px, darken($table-color, 40%));
+    @include outer-table-borders(2px);
+  }
+
+  tr.private {
+    td {
+      background-color: #fcf8e9;
+    }
+  }
+
+  td {
+  }
+
+  .room-icon-cell {
+    width: 80px;
+    position: relative;
+    padding: 0;
+    img {
+      margin: 8px;
+      width: 64px;
+      height: 64px;
+      border: 1px #666666 solid;
+      border-radius: 32px;
+    }
+  }
+
+  .room-name-cell {
+    width: 300px;
+    padding: 5px 15px;
+  }
+
+  .room-members-cell {
+    li {
+      background-color: #eee;
+      margin: 2px 2px;
+      width: 24px;
+      height: 24px;
+      border-radius: 12px;
+      float: left;
+      display: inline-block;
+    }
+  }
+
+}
