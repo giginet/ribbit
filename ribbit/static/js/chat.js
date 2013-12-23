@@ -9,14 +9,25 @@ Chat = (function() {
     this.onMessaged = __bind(this.onMessaged, this);
     this.onDisconnected = __bind(this.onDisconnected, this);
     this.onConnected = __bind(this.onConnected, this);
-    this.socket = new WebSocket("ws://localhost:8060/ws?" + this.slug);
+    this.HOST = "localhost:8060";
+    this.socket = new WebSocket("ws://" + this.HOST + "/ws?" + this.slug);
     this.socket.onopen = this.onConnected;
     this.socket.onclose = this.onDisconnected;
     this.socket.onmessage = this.onMessaged;
   }
 
   Chat.prototype.start = function() {
-    return this;
+    return $.getJSON("http://" + this.HOST + "/api/messages.json?room=" + this.slug, function(data) {
+      var message, messageJSON, _i, _len, _ref, _results;
+      _ref = data.reverse();
+      _results = [];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        messageJSON = _ref[_i];
+        message = new Ribbit.models.Message(messageJSON);
+        _results.push(Ribbit.view.addMessageView(message));
+      }
+      return _results;
+    });
   };
 
   Chat.prototype.onConnected = function() {
@@ -32,8 +43,6 @@ Chat = (function() {
 
   Chat.prototype.onMessaged = function(e) {
     var error, message, recieved;
-    console.log(e.data);
-    recieved = JSON.parse(e.data);
     try {
       recieved = JSON.parse(e.data);
     } catch (_error) {
@@ -42,7 +51,7 @@ Chat = (function() {
     }
     if (recieved['action'] === 'receive') {
       message = new Ribbit.models.Message(recieved['message']);
-      return Ribbit.view.$messageList.append(Ribbit.view.createView(message).fadeIn('fast'));
+      return Ribbit.view.addMessageView(message);
     } else if (recieved['action'] === 'error') {
       return alert(recieved['body']);
     }
@@ -87,16 +96,13 @@ ChatView = (function() {
     });
   }
 
-  ChatView.prototype.createView = function(message) {
+  ChatView.prototype.addMessageView = function(message) {
     var $view;
     $view = this.$messageTemplate.clone();
     $view.show();
     $view.find(".author").text("" + message.author['screen_name'] + "(@" + message.author['username'] + ")");
     $view.find(".body").text(message.body);
-    $view.find(".avatar").css({
-      'background-image': "url(" + message.author['avatar'] + ")"
-    });
-    return $view;
+    return this.$messageList.append($view.fadeIn('fast'));
   };
 
   return ChatView;
@@ -107,6 +113,6 @@ $(function() {
   var slug;
   slug = $('#room-slug').val();
   Ribbit.chat = new Chat(slug);
-  Ribbit.chat.start();
-  return Ribbit.view = new ChatView(Ribbit.chat);
+  Ribbit.view = new ChatView(Ribbit.chat);
+  return Ribbit.chat.start();
 });

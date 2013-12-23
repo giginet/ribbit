@@ -20,3 +20,15 @@ Ribbit.models.User = (function() {
   return User;
 
 })();
+
+Ribbit.models.Room = (function() {
+  function Room(json) {
+    this.title = json['title'];
+    this.description = json['description'];
+    this.image = json['image'];
+    this.scope = json['scope'];
+  }
+
+  return Room;
+
+})();

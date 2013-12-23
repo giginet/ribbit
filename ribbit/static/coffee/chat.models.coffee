@@ -9,3 +9,10 @@ class Ribbit.models.User
     @username = json['username']
     @screen_name = json['screen_name']
     @avatar = json['avatar']
+
+class Ribbit.models.Room
+  constructor : (json) ->
+    @title = json['title']
+    @description = json['description']
+    @image = json['image']
+    @scope = json['scope']

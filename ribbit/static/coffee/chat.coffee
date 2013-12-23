@@ -1,13 +1,18 @@
 Ribbit = {}
 class Chat
   constructor : (@slug='') ->
-    @socket = new WebSocket("ws://localhost:8060/ws?#{@slug}")
+    @HOST = "localhost:8060"
+    @socket = new WebSocket("ws://#{@HOST}/ws?#{@slug}")
     @socket.onopen = @onConnected
     @socket.onclose = @onDisconnected
     @socket.onmessage = @onMessaged
 
   start : () ->
-    @
+    $.getJSON("http://#{@HOST}/api/messages.json?room=#{@slug}", (data) ->
+      for messageJSON in data.reverse()
+        message = new Ribbit.models.Message(messageJSON)
+        Ribbit.view.addMessageView(message)
+    )
 
   onConnected : () =>
     @socket.send({room : @slug, action : 'start'})
@@ -16,15 +21,13 @@ class Chat
     @
 
   onMessaged : (e) =>
-    console.log(e.data)
-    recieved = JSON.parse(e.data)
     try
       recieved = JSON.parse(e.data)
     catch error
       recieved = {}
     if recieved['action'] is 'receive'
       message = new Ribbit.models.Message(recieved['message'])
-      Ribbit.view.$messageList.append(Ribbit.view.createView(message).fadeIn('fast'))
+      Ribbit.view.addMessageView(message)
     else if recieved['action'] is 'error'
       alert(recieved['body'])
 
@@ -53,17 +56,17 @@ class ChatView
         submit(e)
     )
 
-  createView : (message) ->
+  addMessageView : (message) ->
     $view = @$messageTemplate.clone()
     $view.show()
     $view.find(".author").text("#{message.author['screen_name']}(@#{message.author['username']})")
     $view.find(".body").text(message.body)
-    $view.find(".avatar").css({'background-image': "url(#{message.author['avatar']})"})
-    $view
+#    $view.find(".avatar").css({'background-image': "url(#{message.author['avatar']})"})
+    @$messageList.append($view.fadeIn('fast'))
 
 $ ->
   slug = $('#room-slug').val()
   Ribbit.chat = new Chat(slug)
-  Ribbit.chat.start()
   Ribbit.view = new ChatView(Ribbit.chat)
+  Ribbit.chat.start()
 
