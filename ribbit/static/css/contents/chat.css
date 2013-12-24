@@ -72,8 +72,15 @@
   border: 1px #999 solid;
   border-radius: 4px;
   margin: 10px;
+  position: relative;
 }
-/* line 56, ../../sass/contents/chat.scss */
+/* line 57, ../../sass/contents/chat.scss */
+.message .created_at {
+  position: absolute;
+  right: 5px;
+  bottom: 3px;
+}
+/* line 63, ../../sass/contents/chat.scss */
 .message .avatar {
   background: #eeeeee;
   background-repeat: no-repeat;
@@ -86,13 +93,13 @@
   float: left;
   box-shadow: 0px 0px 0.5px 1.5px #666 inset;
 }
-/* line 69, ../../sass/contents/chat.scss */
+/* line 76, ../../sass/contents/chat.scss */
 .message .main-section {
   border-left: 1px #999 solid;
   margin-left: 84px;
   min-height: 84px;
 }
-/* line 75, ../../sass/contents/chat.scss */
+/* line 82, ../../sass/contents/chat.scss */
 .message .author {
   font-weight: bold;
   padding: 3px 3px 0;
@@ -100,12 +107,12 @@
   position: relative;
   height: 20px;
 }
-/* line 83, ../../sass/contents/chat.scss */
+/* line 90, ../../sass/contents/chat.scss */
 .message .body {
   padding: 3px 7px 0;
 }
 
-/* line 88, ../../sass/contents/chat.scss */
+/* line 95, ../../sass/contents/chat.scss */
 #content {
   width: 100%;
   position: absolute;
@@ -113,15 +120,14 @@
   bottom: 0;
 }
 
-/* line 93, ../../sass/contents/chat.scss */
+/* line 100, ../../sass/contents/chat.scss */
 #message-form {
   padding: 0;
   min-width: 800px;
   height: 100px;
-  background-color: red;
 }
 
-/* line 100, ../../sass/contents/chat.scss */
+/* line 106, ../../sass/contents/chat.scss */
 #message-box {
   margin: 0;
   width: auto;
@@ -131,7 +137,7 @@
   right: 100px;
 }
 
-/* line 107, ../../sass/contents/chat.scss */
+/* line 113, ../../sass/contents/chat.scss */
 #send-button {
   width: 100px;
   height: 100px;

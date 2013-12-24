@@ -63,6 +63,12 @@ class ChatView
     $view.show()
     $view.find(".author").text("#{message.author['screen_name']}(@#{message.author['username']})")
     $view.find(".body").text(message.body)
+    $time = $view.find(".created_at")
+    $time.text(moment(message.created_at).fromNow())
+    window.setInterval(->
+      $time.text(moment(message.created_at).fromNow())
+    , 1000)
+
     $view.attr('id', message.domID)
 #    $view.find(".avatar").css({'background-image': "url(#{message.author['avatar']})"})
     @$messageList.append($view.fadeIn('fast'))

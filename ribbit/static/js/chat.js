@@ -97,11 +97,16 @@ ChatView = (function() {
   }
 
   ChatView.prototype.addMessageView = function(message) {
-    var $view;
+    var $time, $view;
     $view = this.$messageTemplate.clone();
     $view.show();
     $view.find(".author").text("" + message.author['screen_name'] + "(@" + message.author['username'] + ")");
     $view.find(".body").text(message.body);
+    $time = $view.find(".created_at");
+    $time.text(moment(message.created_at).fromNow());
+    window.setInterval(function() {
+      return $time.text(moment(message.created_at).fromNow());
+    }, 1000);
     $view.attr('id', message.domID);
     return this.$messageList.append($view.fadeIn('fast'));
   };

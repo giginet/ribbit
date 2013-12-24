@@ -52,6 +52,13 @@ $boxHeight: $imageSize + $margin * 2;
   border: 1px #999 solid;
   border-radius: 4px;
   margin: $margin;
+  position: relative;
+
+  .created_at {
+    position : absolute;
+    right: 5px;
+    bottom: 3px;
+  }
 
   .avatar {
     background: #eeeeee;
@@ -94,7 +101,6 @@ $boxHeight: $imageSize + $margin * 2;
   padding: 0;
   min-width: $min-width;
   height: $footer-height;
-  background-color: red;
 }
 
 #message-box {
