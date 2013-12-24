@@ -1,10 +1,15 @@
 @import "../partials/_constants";
 @import "compass/layout.scss";
 
-@include sticky-footer(100px, '#root', '#root-footer', '#message-form');
+$footer-height: 100px;
+$room-info-height: 100px;
+$sidebar-width: 300px;
+@include sticky-footer($footer-height, '#root', '#root-footer', '#message-form');
 
 #room-info {
+  overflow-x: hidden;
   margin: 10px;
+  height: $room-info-height;
 
   legend {
     margin-left: 15px;
@@ -12,9 +17,22 @@
 
   nav {
     margin: 5px 15px;
-    width: 100%;
   }
 
+}
+
+.two-column {
+  min-width: $min-width;
+  #room-main {
+    min-width: $min-width - $sidebar-width;
+    @include stretch(0, $sidebar-width, $footer-height, 0);
+    float: left;
+  }
+}
+
+#room-toolbar {
+  width: $sidebar-width;
+  float: right;
 }
 
 #message-list {
@@ -69,6 +87,7 @@ $boxHeight: $imageSize + $margin * 2;
 
 #message-form {
   padding: 0;
+  min-width: $min-width;
   height: 100px;
   background-color: red;
 }

@@ -6,28 +6,36 @@
 {% block css %}<link rel="stylesheet" href="{{ STATIC_URL }}css/contents/chat.css" type="text/css">{% endblock %}
 {% block content %}
 <div id="root">
-    <section id="room-info">
-        <h1>{{ object.title }}</h1>
-        <legend>{{ object.description }}</legend>
-        <nav>
-            <span><a href="{% url 'rooms_room_update' room.slug %}">Manage</a></span>
-            |
-            <span>
-                <a href="">Leave</a>
-                <form style="display: none;" method="POST" action="{% url 'rooms_room_leave' room.slug %}">{% csrf_token %}</form>
-            </span>
-        </nav>
-    </section>
-    <input type="hidden" id="room-slug" value="{{ object.slug }}">
-    <section id="message-list">
-        <article class="message" style="display: none;">
-            <div class="avatar"></div>
-            <section class="main-section">
-                <div class="author"></div>
-                <div class="body"></div>
+    <section class="two-column">
+        <section id="room-main">
+            <section id="room-info">
+                <h1>{{ object.title }}</h1>
+                <legend>{{ object.description }}</legend>
+                <nav>
+                    <span><a href="{% url 'rooms_room_update' room.slug %}">Manage</a></span>
+                    |
+                    <span>
+                        <a href="">Leave</a>
+                        <form style="display: none;" method="POST" action="{% url 'rooms_room_leave' room.slug %}">{% csrf_token %}</form>
+                    </span>
+                </nav>
+                <input type="hidden" id="room-slug" value="{{ object.slug }}">
             </section>
-        </article>
+            <section id="message-list">
+                <article class="message" style="display: none;">
+                    <div class="avatar"></div>
+                    <section class="main-section">
+                        <div class="author"></div>
+                        <div class="body"></div>
+                    </section>
+                </article>
+            </section>
+        </section>
+        <section id="room-toolbar">
+            This is a toolabr
+        </section>
     </section>
+
     <div id="root-footer"></div>
 </div>
 <section id="message-form">
