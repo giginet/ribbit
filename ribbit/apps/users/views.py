@@ -1,8 +1,8 @@
 from django import forms
 from django.conf import settings
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, PasswordResetForm
 from django.contrib.auth import login as auth_login, logout as auth_logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import AuthenticationForm
 from django.http import HttpResponseRedirect, HttpResponseNotAllowed
 from django.utils.decorators import method_decorator
 from django.views.decorators.debug import sensitive_post_parameters
@@ -11,6 +11,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic.list import ListView
 from models import User
+from forms import RibbitUserChangeForm, RibbitUserCreationForm
 
 class LoginView(FormView):
 
@@ -47,10 +48,11 @@ class LogoutView(View):
 
 class UserCreateView(CreateView):
     model = User
-    form_class = UserCreationForm
+    form_class = RibbitUserCreationForm
 
 class UserUpdateView(UpdateView):
     model = User
+    form_class = RibbitUserChangeForm
 
     def get_object(self, queryset=None):
         return self.request.user

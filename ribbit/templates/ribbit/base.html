@@ -23,13 +23,13 @@
         {% if user.is_authenticated %}
             <ul class="user-menu">
                 <li class="nav-item user">
-                    <a href="">
+                    <a href="{% url "users_user_detail" username=user.username %}">
                         <div class="avatar"></div>
                         <span>{{ user.screen_name }}</span>
                     </a>
                 </li>
                 <li class="nav-item preferences">
-                    <a href="#!" alt="Preferences">
+                    <a href="{% url "users_user_update" %}" alt="Preferences">
                         <div class="nav-image"></div>
                     </a>
                 </li>

@@ -1,6 +1,7 @@
 {% extends "ribbit/base.html" %}
 {% block content %}
-    <form action="" method="post">
+    <form method="post"> {% csrf_token %}
         {{ form }}
+        <input type="submit" value="Send">
     </form>
 {% endblock %}
