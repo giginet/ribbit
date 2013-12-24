@@ -47,7 +47,7 @@ $sidebar-width: 300px;
 
 $imageSize: 64px;
 $margin: 10px;
-$boxHeight: $imageSize + $margin * 2;
+$box-height: $imageSize + $margin * 2;
 .message {
   border: 1px #999 solid;
   border-radius: 4px;
@@ -80,7 +80,8 @@ $boxHeight: $imageSize + $margin * 2;
   .main-section {
     border-left: 1px #999 solid;
     margin-left: $margin + $imageSize + $margin;
-    min-height: $boxHeight;
+    min-height: $box-height;
+    padding-bottom: 12px;
   }
 
   .author {
@@ -93,6 +94,8 @@ $boxHeight: $imageSize + $margin * 2;
 
   .body {
     padding: 3px 7px 0;
+    margin-bottom: 12px;
+    word-wrap: break-word;
   }
 }
 
