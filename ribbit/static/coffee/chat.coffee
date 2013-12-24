@@ -12,6 +12,7 @@ class Chat
       for messageJSON in data.reverse()
         message = new Ribbit.models.Message(messageJSON)
         Ribbit.view.addMessageView(message)
+      Ribbit.view.scrollToMessage(message)
     )
 
   onConnected : () =>
@@ -28,6 +29,7 @@ class Chat
     if recieved['action'] is 'receive'
       message = new Ribbit.models.Message(recieved['message'])
       Ribbit.view.addMessageView(message)
+      Ribbit.view.scrollToMessage(message)
     else if recieved['action'] is 'error'
       alert(recieved['body'])
 
@@ -61,8 +63,16 @@ class ChatView
     $view.show()
     $view.find(".author").text("#{message.author['screen_name']}(@#{message.author['username']})")
     $view.find(".body").text(message.body)
+    $view.attr('id', message.domID)
 #    $view.find(".avatar").css({'background-image': "url(#{message.author['avatar']})"})
     @$messageList.append($view.fadeIn('fast'))
+
+  scrollToMessage : (message) ->
+    speed = 500
+    $target = $("##{message.domID}")
+    $list = $("#message-list")
+    position = $target.position().top + $list.scrollTop()
+    $list.animate({scrollTop : position}, speed, "swing")
 
 $ ->
   slug = $('#room-slug').val()

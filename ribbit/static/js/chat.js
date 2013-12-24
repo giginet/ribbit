@@ -18,15 +18,14 @@ Chat = (function() {
 
   Chat.prototype.start = function() {
     return $.getJSON("http://" + this.HOST + "/api/messages.json?room=" + this.slug, function(data) {
-      var message, messageJSON, _i, _len, _ref, _results;
+      var message, messageJSON, _i, _len, _ref;
       _ref = data.reverse();
-      _results = [];
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         messageJSON = _ref[_i];
         message = new Ribbit.models.Message(messageJSON);
-        _results.push(Ribbit.view.addMessageView(message));
+        Ribbit.view.addMessageView(message);
       }
-      return _results;
+      return Ribbit.view.scrollToMessage(message);
     });
   };
 
@@ -51,7 +50,8 @@ Chat = (function() {
     }
     if (recieved['action'] === 'receive') {
       message = new Ribbit.models.Message(recieved['message']);
-      return Ribbit.view.addMessageView(message);
+      Ribbit.view.addMessageView(message);
+      return Ribbit.view.scrollToMessage(message);
     } else if (recieved['action'] === 'error') {
       return alert(recieved['body']);
     }
@@ -102,7 +102,19 @@ ChatView = (function() {
     $view.show();
     $view.find(".author").text("" + message.author['screen_name'] + "(@" + message.author['username'] + ")");
     $view.find(".body").text(message.body);
+    $view.attr('id', message.domID);
     return this.$messageList.append($view.fadeIn('fast'));
+  };
+
+  ChatView.prototype.scrollToMessage = function(message) {
+    var $list, $target, position, speed;
+    speed = 500;
+    $target = $("#" + message.domID);
+    $list = $("#message-list");
+    position = $target.position().top + $list.scrollTop();
+    return $list.animate({
+      scrollTop: position
+    }, speed, "swing");
   };
 
   return ChatView;
