@@ -1,0 +1,7 @@
+{% extends "ribbit/base.html" %}
+{% block content %}
+    りすと
+    {% for user in object_list %}
+        <p>{{ user }}</p>
+    {% endfor %}
+{% endblock %}

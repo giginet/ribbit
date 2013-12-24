@@ -37,3 +37,7 @@ class User(AbstractUser):
             'avatar': ''
         }
         return dict
+
+    @models.permalink
+    def get_absolute_url(self):
+        return ('users_user_detail', (), {'username' : self.username})

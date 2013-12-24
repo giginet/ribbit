@@ -13,6 +13,7 @@ admin.autodiscover()
 urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^rooms/', include('ribbit.apps.rooms.urls')),
+    url(r'^users/', include('ribbit.apps.users.urls')),
     url(r'^api/', include('ribbit.apps.api.routers')),
     url(r'^login/$', LoginView.as_view(), name='users_user_login'),
     url(r'^logout/$', LogoutView.as_view(), name='users_user_logout'),
