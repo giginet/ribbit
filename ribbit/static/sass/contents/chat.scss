@@ -1,3 +1,27 @@
+@import "../partials/_constants";
+@import "compass/layout.scss";
+
+@include sticky-footer(100px, '#root', '#root-footer', '#message-form');
+
+#room-info {
+  margin: 10px;
+
+  legend {
+    margin-left: 15px;
+  }
+
+  nav {
+    margin: 5px 15px;
+    width: 100%;
+  }
+
+}
+
+#message-list {
+  max-height: 500px;
+  overflow: scroll;
+}
+
 $imageSize: 64px;
 $margin: 10px;
 $boxHeight: $imageSize + $margin * 2;
@@ -38,8 +62,26 @@ $boxHeight: $imageSize + $margin * 2;
   }
 }
 
-#message-box {
-  width: 80%;
-  height: 100px;
+#content {
+  width: 100%;
+  @include stretch-y;
 }
 
+#message-form {
+  padding: 0;
+  height: 100px;
+  background-color: red;
+}
+
+#message-box {
+  margin: 0;
+  width: auto;
+  height: 94px;
+  @include stretch-x(0, 100px);
+}
+
+#send-button {
+  width: 100px;
+  height: 100px;
+  float: right;
+}

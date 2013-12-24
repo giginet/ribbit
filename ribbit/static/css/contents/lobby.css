@@ -1,8 +1,8 @@
-/* line 2, ../../sass/contents/lobby.scss */
+/* line 3, ../../sass/contents/lobby.scss */
 .room-list {
   margin: 10px;
 }
-/* line 6, ../../sass/contents/lobby.scss */
+/* line 7, ../../sass/contents/lobby.scss */
 .room-list table {
   width: 600px;
   border: 2px solid black;
@@ -53,17 +53,17 @@
 .room-list table th:first-child {
   border-right: 2px solid black;
 }
-/* line 15, ../../sass/contents/lobby.scss */
+/* line 16, ../../sass/contents/lobby.scss */
 .room-list tr.private td {
   background-color: #fcf8e9;
 }
-/* line 23, ../../sass/contents/lobby.scss */
+/* line 24, ../../sass/contents/lobby.scss */
 .room-list .room-icon-cell {
   width: 80px;
   position: relative;
   padding: 0;
 }
-/* line 27, ../../sass/contents/lobby.scss */
+/* line 28, ../../sass/contents/lobby.scss */
 .room-list .room-icon-cell img {
   margin: 8px;
   width: 64px;
@@ -71,12 +71,12 @@
   border: 1px #666666 solid;
   border-radius: 32px;
 }
-/* line 36, ../../sass/contents/lobby.scss */
+/* line 37, ../../sass/contents/lobby.scss */
 .room-list .room-name-cell {
   width: 300px;
   padding: 5px 15px;
 }
-/* line 42, ../../sass/contents/lobby.scss */
+/* line 43, ../../sass/contents/lobby.scss */
 .room-list .room-members-cell li {
   background-color: #eee;
   margin: 2px 2px;

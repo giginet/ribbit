@@ -1,10 +1,55 @@
-/* line 4, ../../sass/contents/chat.scss */
+/* line 10, ../../../../../../.rbenv/versions/1.9.3-p448/lib/ruby/gems/1.9.1/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
+html, body {
+  height: 100%;
+}
+
+/* line 12, ../../../../../../.rbenv/versions/1.9.3-p448/lib/ruby/gems/1.9.1/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
+#root {
+  clear: both;
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  margin-bottom: -100px;
+}
+/* line 18, ../../../../../../.rbenv/versions/1.9.3-p448/lib/ruby/gems/1.9.1/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
+#root #root-footer {
+  height: 100px;
+}
+
+/* line 20, ../../../../../../.rbenv/versions/1.9.3-p448/lib/ruby/gems/1.9.1/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/layout/_sticky-footer.scss */
+#message-form {
+  clear: both;
+  position: relative;
+  height: 100px;
+}
+
+/* line 6, ../../sass/contents/chat.scss */
+#room-info {
+  margin: 10px;
+}
+/* line 9, ../../sass/contents/chat.scss */
+#room-info legend {
+  margin-left: 15px;
+}
+/* line 13, ../../sass/contents/chat.scss */
+#room-info nav {
+  margin: 5px 15px;
+  width: 100%;
+}
+
+/* line 20, ../../sass/contents/chat.scss */
+#message-list {
+  max-height: 500px;
+  overflow: scroll;
+}
+
+/* line 28, ../../sass/contents/chat.scss */
 .message {
   border: 1px #999 solid;
   border-radius: 4px;
   margin: 10px;
 }
-/* line 9, ../../sass/contents/chat.scss */
+/* line 33, ../../sass/contents/chat.scss */
 .message .avatar {
   background: #eeeeee;
   background-repeat: no-repeat;
@@ -17,13 +62,13 @@
   float: left;
   box-shadow: 0px 0px 0.5px 1.5px #666 inset;
 }
-/* line 22, ../../sass/contents/chat.scss */
+/* line 46, ../../sass/contents/chat.scss */
 .message .main-section {
   border-left: 1px #999 solid;
   margin-left: 84px;
   min-height: 84px;
 }
-/* line 28, ../../sass/contents/chat.scss */
+/* line 52, ../../sass/contents/chat.scss */
 .message .author {
   font-weight: bold;
   padding: 3px 3px 0;
@@ -31,13 +76,39 @@
   position: relative;
   height: 20px;
 }
-/* line 36, ../../sass/contents/chat.scss */
+/* line 60, ../../sass/contents/chat.scss */
 .message .body {
   padding: 3px 7px 0;
 }
 
-/* line 41, ../../sass/contents/chat.scss */
-#message-box {
-  width: 80%;
+/* line 65, ../../sass/contents/chat.scss */
+#content {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+}
+
+/* line 70, ../../sass/contents/chat.scss */
+#message-form {
+  padding: 0;
   height: 100px;
+  background-color: red;
+}
+
+/* line 76, ../../sass/contents/chat.scss */
+#message-box {
+  margin: 0;
+  width: auto;
+  height: 94px;
+  position: absolute;
+  left: 0;
+  right: 100px;
+}
+
+/* line 83, ../../sass/contents/chat.scss */
+#send-button {
+  width: 100px;
+  height: 100px;
+  float: right;
 }
