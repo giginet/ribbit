@@ -54,6 +54,10 @@ $boxHeight: $imageSize + $margin * 2;
   margin: $margin;
   position: relative;
 
+  &.own-message {
+    background-color: #efefef;
+  }
+
   .created_at {
     position : absolute;
     right: 5px;

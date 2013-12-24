@@ -17,6 +17,10 @@ Chat = (function() {
   }
 
   Chat.prototype.start = function() {
+    return this;
+  };
+
+  Chat.prototype.loadLogs = function() {
     return $.getJSON("http://" + this.HOST + "/api/messages.json?room=" + this.slug, function(data) {
       var message, messageJSON, _i, _len, _ref;
       _ref = data.reverse();
@@ -52,6 +56,9 @@ Chat = (function() {
       message = new Ribbit.models.Message(recieved['message']);
       Ribbit.view.addMessageView(message);
       return Ribbit.view.scrollToMessage(message);
+    } else if (recieved['action'] === 'auth') {
+      this.currentUser = new Ribbit.models.User(recieved['user']);
+      return this.loadLogs();
     } else if (recieved['action'] === 'error') {
       return alert(recieved['body']);
     }
@@ -108,6 +115,9 @@ ChatView = (function() {
       return $time.text(moment(message.created_at).fromNow());
     }, 1000);
     $view.attr('id', message.domID);
+    if (message.isMine(Ribbit.chat.currentUser)) {
+      $view.addClass('own-message');
+    }
     return this.$messageList.append($view.fadeIn('fast'));
   };
 

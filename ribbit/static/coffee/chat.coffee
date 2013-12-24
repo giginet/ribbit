@@ -8,6 +8,9 @@ class Chat
     @socket.onmessage = @onMessaged
 
   start : () ->
+    @
+
+  loadLogs : () ->
     $.getJSON("http://#{@HOST}/api/messages.json?room=#{@slug}", (data) ->
       for messageJSON in data.reverse()
         message = new Ribbit.models.Message(messageJSON)
@@ -30,6 +33,9 @@ class Chat
       message = new Ribbit.models.Message(recieved['message'])
       Ribbit.view.addMessageView(message)
       Ribbit.view.scrollToMessage(message)
+    else if recieved['action'] is 'auth'
+      @currentUser = new Ribbit.models.User(recieved['user'])
+      @loadLogs()
     else if recieved['action'] is 'error'
       alert(recieved['body'])
 
@@ -70,6 +76,10 @@ class ChatView
     , 1000)
 
     $view.attr('id', message.domID)
+
+    if message.isMine(Ribbit.chat.currentUser)
+      $view.addClass('own-message')
+
 #    $view.find(".avatar").css({'background-image': "url(#{message.author['avatar']})"})
     @$messageList.append($view.fadeIn('fast'))
 

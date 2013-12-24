@@ -11,6 +11,10 @@ Ribbit.models.Message = (function() {
     this.domID = "message-" + this.id;
   }
 
+  Message.prototype.isMine = function(user) {
+    return this.author.id === (user != null ? user.id : void 0);
+  };
+
   return Message;
 
 })();

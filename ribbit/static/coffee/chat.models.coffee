@@ -9,6 +9,9 @@ class Ribbit.models.Message
     @updated_at = new Date(Date.parse(json['updated_at']))
     @domID = "message-#{@id}"
 
+  isMine : (user) ->
+    @author.id is user?.id
+
 class Ribbit.models.User
   constructor : (json) ->
     @id = json['id']

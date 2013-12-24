@@ -9,6 +9,7 @@ from rest_framework.renderers import JSONRenderer
 
 from ribbit.apps.messages.api.serializers import MessageSerializer
 from ribbit.apps.messages.models import Message
+from ribbit.apps.users.api.serializers import UserSerializer
 from ribbit.apps.rooms.models import Room
 
 class Client(pubsub.Client):
@@ -69,6 +70,11 @@ class Chat(ws.WS):
         elif not room.is_joinable(user) and not room.is_viewable(user):
             client.send_error('Permission Denied')
             self.pubsub(websocket, room).remove_client(client)
+        response = {
+            'action' : 'auth',
+            'user' : UserSerializer(user).data
+        }
+        client.connection.write(JSONRenderer().render(response))
 
     def on_message(self, websocket, message):
         """
