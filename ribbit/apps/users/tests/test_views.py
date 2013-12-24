@@ -177,7 +177,7 @@ class UserCreateTestCase(TestCase):
         """Test User can't create user with mismatch password"""
         c = Client()
         url = reverse('users_user_create')
-        response = c.post(url, {'username' : 'new_user2', 'password1' : 'password', 'password2' : 'missmatch_password'})
+        response = c.post(url, {'username' : 'new_user2', 'password1' : 'password', 'password2' : 'mismatch_password'})
         def get_not_exist():
             user = User.objects.get(username='new_user2')
         self.assertRaises(User.DoesNotExist, get_not_exist)
