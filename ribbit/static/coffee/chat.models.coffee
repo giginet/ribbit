@@ -3,6 +3,9 @@ class Ribbit.models.Message
   constructor : (json) ->
     @body = json['body']
     @author = new Ribbit.models.User(json['author'])
+    @room = new Ribbit.models.Room(json['room'])
+    @created_at = new Date(Date.parse(json['created_at']))
+    @updated_at = new Date(Date.parse(json['updated_at']))
 
 class Ribbit.models.User
   constructor : (json) ->
@@ -16,3 +19,4 @@ class Ribbit.models.Room
     @description = json['description']
     @image = json['image']
     @scope = json['scope']
+    @created_at = new Date(Date.parse(json['created_at']))

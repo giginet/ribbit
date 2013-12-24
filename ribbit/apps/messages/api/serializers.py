@@ -9,5 +9,5 @@ class MessageSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Message
-        fields = ('id', 'body', 'author', 'room',)
+        fields = ('id', 'body', 'author', 'room', 'created_at', 'updated_at',)
 

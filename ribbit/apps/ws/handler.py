@@ -5,6 +5,7 @@
 import time
 import json
 from pulsar.apps import ws, pubsub
+from rest_framework.renderers import JSONRenderer
 
 from ribbit.apps.messages.api.serializers import MessageSerializer
 from ribbit.apps.messages.models import Message
@@ -90,4 +91,4 @@ class Chat(ws.WS):
                     'action' : 'receive',
                     'message':  serializer.data
                 }
-                self.pubsub(websocket, room).publish(room.slug, json.dumps(response))
+                self.pubsub(websocket, room).publish(room.slug, JSONRenderer().render(response))
