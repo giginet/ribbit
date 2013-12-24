@@ -3,8 +3,13 @@
 
 $footer-height: 100px;
 $room-info-height: 100px;
+$message-list-height: 500px;
 $sidebar-width: 300px;
-@include sticky-footer($footer-height, '#root', '#root-footer', '#message-form');
+
+#content {
+  @include sticky-footer($footer-height, '#root', '#root-footer', '#message-form');
+  min-height: $header-height + $footer-height + $message-list-height;
+}
 
 #room-info {
   overflow-x: hidden;
@@ -36,7 +41,7 @@ $sidebar-width: 300px;
 }
 
 #message-list {
-  max-height: 500px;
+  height: $message-list-height;
   overflow: scroll;
 }
 
@@ -88,7 +93,7 @@ $boxHeight: $imageSize + $margin * 2;
 #message-form {
   padding: 0;
   min-width: $min-width;
-  height: 100px;
+  height: $footer-height;
   background-color: red;
 }
 
@@ -101,6 +106,6 @@ $boxHeight: $imageSize + $margin * 2;
 
 #send-button {
   width: 100px;
-  height: 100px;
+  height: $footer-height;
   float: right;
 }
