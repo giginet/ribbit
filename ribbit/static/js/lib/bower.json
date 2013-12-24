@@ -1,0 +1,21 @@
+{
+  "name": "ribbit",
+  "version": "0.0.0",
+  "homepage": "https://github.com/giginet/ribbit",
+  "authors": [
+    "giginet <giginet.net@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "momentjs": "~2.5.0",
+    "underscore": "~1.5.2",
+    "jquery": "~2.0.3"
+  }
+}
