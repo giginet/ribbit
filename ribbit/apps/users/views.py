@@ -2,7 +2,7 @@ from django import forms
 from django.conf import settings
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login as auth_login, logout as auth_logout
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponseNotAllowed
 from django.utils.decorators import method_decorator
 from django.views.decorators.debug import sensitive_post_parameters
 from django.views.generic import FormView, View
@@ -36,3 +36,6 @@ class LogoutView(View):
         redirect_to = settings.LOGIN_URL
         auth_logout(request)
         return HttpResponseRedirect(redirect_to)
+
+    def get(self, request, *args, **kwargs):
+        return HttpResponseNotAllowed('')
