@@ -43,6 +43,7 @@ INSTALLED_APPS = (
     'ribbit.apps.users',
     'ribbit.apps.rooms',
     'ribbit.apps.messages',
+    'ribbit.apps.mentions',
 )
 
 MIDDLEWARE_CLASSES = (
