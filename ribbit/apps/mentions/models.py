@@ -1,11 +1,28 @@
+import re
 from django.db import models
 from django.utils.translation import ugettext as _
 from ribbit.apps.users.models import User
 from ribbit.apps.messages.models import Message
 
 class MentionManager(models.Manager):
-    def create_from_message(self, message):
-        return None
+    MENTION_REGEX = r'@(?P<username>[\w-]+)'
+
+    def create_from_message(self, message, in_reply_to=None):
+        names = re.findall(self.MENTION_REGEX, message.body)
+        if 'all' in names:
+            room_members = message.room.members.values_list('username')
+            names.remove('all')
+            [names.append(member[0]) for member in room_members]
+        users_set = set(names) # unique!
+        pks = []
+        try:
+            users = User.objects.filter(username__in=users_set)
+            for user in users:
+                mention = self.create(message=message, in_reply_to=in_reply_to, user=user)
+                pks.append(mention.pk)
+        except:
+            pass
+        return self.filter(pk__in=pks).order_by('user__pk')
 
 class Mention(models.Model):
     user = models.ForeignKey(User, verbose_name=_('User'))
