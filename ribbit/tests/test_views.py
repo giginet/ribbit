@@ -4,8 +4,8 @@ from django.core.urlresolvers import reverse
 
 from django.conf import settings
 
-from ribbit.apps.rooms.factory_boy import RoomFactory, RoleFactory
-from ribbit.apps.users.factory_boy import UserFactory
+from ribbit.apps.rooms.tests.factory_boy import RoomFactory
+from ribbit.apps.users.tests.factory_boy import UserFactory
 
 class RibbitIndexViewTestCase(TestCase):
     def setUp(self):

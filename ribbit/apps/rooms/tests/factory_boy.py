@@ -1,7 +1,7 @@
 import factory
-from models import Room, Role
+from ..models import Room, Role
 
-from ribbit.apps.users.factory_boy import UserFactory
+from ribbit.apps.users.tests.factory_boy import UserFactory
 
 class RoleFactory(factory.django.DjangoModelFactory):
     FACTORY_FOR = Role

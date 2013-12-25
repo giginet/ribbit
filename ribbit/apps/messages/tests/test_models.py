@@ -1,12 +1,10 @@
 from django.test import TestCase
 
-from ribbit.apps.users.factory_boy import UserFactory
-from ribbit.apps.rooms.factory_boy import RoomFactory
-
-from ribbit.apps.users.models import User
+from ribbit.apps.users.tests.factory_boy import UserFactory
+from ribbit.apps.rooms.tests.factory_boy import RoomFactory
 
 from ribbit.apps.messages.models import Message
-from ribbit.apps.messages.factory_boy import MessageFactory
+from ribbit.apps.messages.tests.factory_boy import MessageFactory
 
 class MessageTestCase(TestCase):
     def setUp(self):

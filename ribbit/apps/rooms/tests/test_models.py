@@ -2,9 +2,9 @@ from django.test import TestCase
 from django.contrib.auth.models import Group
 from django.db import IntegrityError
 
-from ribbit.apps.users.factory_boy import UserFactory
+from ribbit.apps.users.tests.factory_boy import UserFactory
 from ribbit.apps.rooms.models import Room, Role
-from ribbit.apps.rooms.factory_boy import RoomFactory
+from ribbit.apps.rooms.tests.factory_boy import RoomFactory
 
 class RoomTestCase(TestCase):
     def setUp(self):
