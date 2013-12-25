@@ -16,7 +16,14 @@ from forms import RibbitUserChangeForm, RibbitUserCreationForm
 class LoginView(FormView):
 
     class CustomAuthenticationForm(AuthenticationForm):
-        username = forms.CharField(widget=forms.TextInput(attrs={'class': 'username', 'placeholder': 'Username'}))
+        username = forms.RegexField(
+            label='Username',
+            max_length=30,
+            regex=r'^[\w-]+$',
+            help_text = 'Required. 30 characters or fewer. Alphanumeric characters only (letters, digits, hyphens and underscores).',
+            error_message = 'This value must contain only letters, numbers, hyphens and underscores.',
+            widget=forms.TextInput(attrs={'class': 'username', 'placeholder': 'Username'})
+        )
         password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'password', 'placeholder':'Password'}))
 
     form_class = CustomAuthenticationForm
