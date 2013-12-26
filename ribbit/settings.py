@@ -121,3 +121,11 @@ STATICFILES_FINDERS = (
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, 'ribbit', 'templates'),
 )
+
+USERNAME_BLACKLISTS = (
+    'update',
+    'all',
+    'signup',
+    'login',
+    'logout'
+)

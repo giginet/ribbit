@@ -10,3 +10,4 @@ class UserFactory(factory.django.DjangoModelFactory):
     username = factory.sequence(lambda n: 'kawaztan{0}'.format(n))
     email = 'webmaster@kawaz.org'
     screen_name = 'Kawaz tan'
+    password = 'pass'

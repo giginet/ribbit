@@ -1,5 +1,6 @@
 from django.test import TestCase
 from django.core.urlresolvers import reverse
+from django.core.exceptions import ValidationError
 
 from ribbit.apps.users.tests.factory_boy import UserFactory
 
@@ -19,6 +20,11 @@ class UserTestCase(TestCase):
         message = UserFactory.create(username='kawaztan', screen_name='Kawaz tan')
         self.assertEqual(unicode(message), 'Kawaz tan(kawaztan)', '__unicode__() returns correct value')
 
+    def test_screen_name(self):
+        """Test set username as screen_name when screen_name is blank"""
+        user = UserFactory.create(screen_name='')
+        self.assertEqual(user.screen_name, user.username)
+
     def test_get_absolute_url(self):
         """Test get_absolute_url() returns correct URL."""
         user = UserFactory.create()
@@ -30,3 +36,22 @@ class UserTestCase(TestCase):
         self.assertEqual(User._meta.verbose_name.title(), 'User', 'Meta.verbose_name is correct')
         self.assertEqual(User._meta.verbose_name_plural.title(), 'Users', 'Meta.verbose_name_plural is correct')
 
+    def test_blacklist_name(self):
+        """Test username contains blacklists is not permitted"""
+        for name in ['update', 'signup', 'all', 'login', 'logout']:
+            def create_user():
+                user = User.objects.create(username=name, password='pass')
+            self.assertRaises(ValidationError, create_user)
+
+    def test_not_alphabetical_name(self):
+        """Test username contains not alphabetical characters is not permitted"""
+        for name in ['*-*', 'fig@', ':)', '::::::::::',]:
+            def create_user():
+                user = User.objects.create(username=name, password='pass')
+            self.assertRaises(ValidationError, create_user)
+
+    def test_name(self):
+        """Test username contains alphabetical characters is permitted"""
+        for name in ['kawaztan', 'kawaztan_2', '123456789', '__init__', 'kawaztan-----', '----------', '______']:
+            user = UserFactory.create(username=name, password='pass')
+            self.assertIsNotNone(user)
