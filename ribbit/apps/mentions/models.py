@@ -1,5 +1,7 @@
 import re
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.utils.translation import ugettext as _
 from ribbit.apps.users.models import User
 from ribbit.apps.messages.models import Message
@@ -38,3 +40,10 @@ class Mention(models.Model):
     class Meta:
         verbose_name = _('Mention')
         verbose_name_plural = _('Mentions')
+
+@receiver(post_save, sender=Message)
+def create_mention(**kwargs):
+    created = kwargs.get('created')
+    instance = kwargs.get('instance')
+    if created:
+        Mention.objects.create_from_message(instance)

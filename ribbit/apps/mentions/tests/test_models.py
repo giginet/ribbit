@@ -131,3 +131,30 @@ class MentionModelTestCase(TestCase):
         """Test Meta class returns correct values"""
         self.assertEqual(Mention._meta.verbose_name.title(), 'Mention')
         self.assertEqual(Mention._meta.verbose_name_plural.title(), 'Mentions')
+
+class MentionSignalTestCase(TestCase):
+    def setUp(self):
+        self.user0 = UserFactory.create(username='user0')
+        self.user1 = UserFactory.create(username='user1')
+        self.user2 = UserFactory.create(username='user2')
+
+    def test_create_mention(self):
+        """Test mention will be created when message was published"""
+        message = MessageFactory.create(body=u'@user0 @user1 Hello!!!!!!!')
+        self.assertIsNotNone(Mention.objects.get(message=message, user=self.user0))
+        self.assertIsNotNone(Mention.objects.get(message=message, user=self.user1))
+
+    def test_create_all_mention(self):
+        """Test mentions will be created when message which contains @all was published"""
+        room = RoomFactory.create(author=self.user0)
+        room.add_member(self.user0)
+        room.add_member(self.user2)
+        message = MessageFactory.create(body='@all Hello, every one. This is a broadcast message', room=room)
+        qs = Mention.objects.filter(message=message)
+        self.assertEqual(qs.count(), 2)
+        self.assertEqual(qs[0].user, self.user0)
+        self.assertEqual(qs[0].message, message)
+        self.assertFalse(qs[0].is_read)
+        self.assertEqual(qs[1].user, self.user2)
+        self.assertEqual(qs[1].message, message)
+        self.assertFalse(qs[1].is_read)
