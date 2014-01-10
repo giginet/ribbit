@@ -132,6 +132,14 @@ class MentionModelTestCase(TestCase):
         self.assertEqual(Mention._meta.verbose_name.title(), 'Mention')
         self.assertEqual(Mention._meta.verbose_name_plural.title(), 'Mentions')
 
+    def test_ordering(self):
+        """Test newest mention is top of the querysets"""
+        mention0 = MentionFactory.create()
+        mention1 = MentionFactory.create()
+        qs = Mention.objects.all()
+        self.assertEqual(qs[0], mention1)
+        self.assertEqual(qs[1], mention0)
+
 class MentionSignalTestCase(TestCase):
     def setUp(self):
         self.user0 = UserFactory.create(username='user0')

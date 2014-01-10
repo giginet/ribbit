@@ -38,6 +38,7 @@ class Mention(models.Model):
         return self.message.__unicode__()
 
     class Meta:
+        ordering = ('-message__created_at',)
         verbose_name = _('Mention')
         verbose_name_plural = _('Mentions')
 
