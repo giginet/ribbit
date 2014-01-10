@@ -6,9 +6,10 @@ from django.core.urlresolvers import reverse
 from ribbit.apps.rooms.tests.factory_boy import RoomFactory
 from ribbit.apps.users.tests.factory_boy import UserFactory
 from ribbit.apps.messages.tests.factory_boy import MessageFactory
+from ..models import Mention
 from factory_boy import MentionFactory
 
-class MentionAPITestCase(TestCase):
+class MentionListAPITestCase(TestCase):
     def setUp(self):
         self.user = UserFactory()
         self.user.set_password('password')
@@ -81,3 +82,65 @@ class MentionAPITestCase(TestCase):
         response_json = json.loads(response.content)
         self.assertEqual(len(response_json), 1)
         self.assertEqual(response_json[0]['id'], mention1.pk)
+
+class MentionMarkReadAPITestCase(TestCase):
+    def setUp(self):
+        self.user = UserFactory()
+        self.user.set_password('password')
+        self.user.save()
+        self.room0 = RoomFactory()
+        self.room1 = RoomFactory()
+        self.message0 = MessageFactory()
+        self.message1 = MessageFactory()
+
+    def test_not_authorized_user(self):
+        """Test not authorized user cant access to the API"""
+        c = Client()
+        mention = MentionFactory()
+        response = c.post(reverse('mention-mark-read', args=(mention.pk,)))
+        dict = json.loads(response.content)
+        self.assertIsNotNone(dict.get('detail'))
+        self.assertEqual(response.status_code, 403)
+
+    def test_get(self):
+        """Test user can't access mark-read using GET method"""
+        mention = MentionFactory(user=self.user)
+        c = Client()
+        response = c.get(reverse('mention-mark-read', args=(mention.pk,)))
+        self.assertEqual(response.status_code, 405)
+
+    def test_mark_read(self):
+        """Test user make own mention to mark read"""
+        c = Client()
+        mention = MentionFactory(user=self.user)
+        self.assertTrue(c.login(username=self.user.username, password='password'))
+        self.assertFalse(mention.is_read)
+        response = c.post(reverse('mention-mark-read', args=(mention.pk,)))
+        response_json = json.loads(response.content)
+        self.assertEqual(response_json['detail'], 'Mention %d was read' % mention.pk)
+        self.assertEqual(response.status_code, 200)
+        mention = Mention.objects.get(pk=mention.pk)
+        self.assertTrue(mention.is_read)
+
+    def test_mark_read_with_not_owner(self):
+        """Test user can't make other's mention to mark read"""
+        c = Client()
+        mention = MentionFactory()
+        self.assertTrue(c.login(username=self.user.username, password='password'))
+        self.assertFalse(mention.is_read)
+        response = c.post(reverse('mention-mark-read', args=(mention.pk,)))
+        response_json = json.loads(response.content)
+        self.assertEqual(response_json['detail'], 'Permission Denied')
+        self.assertEqual(response.status_code, 403)
+        self.assertFalse(mention.is_read)
+
+    def test_mark_read_with_invalid_mention(self):
+        """Test user can't make other's mention to mark read"""
+        c = Client()
+        mention = MentionFactory(user=self.user)
+        self.assertTrue(c.login(username=self.user.username, password='password'))
+        self.assertFalse(mention.is_read)
+        response = c.post(reverse('mention-mark-read', args=(-1,)))
+        response_json = json.loads(response.content)
+        self.assertEqual(response.status_code, 404)
+        self.assertFalse(mention.is_read)
