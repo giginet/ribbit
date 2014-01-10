@@ -1,3 +1,6 @@
 from django.contrib import admin
+from models import Mention
 
-# Register your models here.
+class MentionAdmin(admin.ModelAdmin):
+    pass
+admin.site.register(Mention, MentionAdmin)
