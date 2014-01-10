@@ -8,4 +8,4 @@ install:
   - pip install -q -e . --use-mirrors
   - python setup.py -q install
 script:
-  - python setup.py test
+  - python runtests.py
