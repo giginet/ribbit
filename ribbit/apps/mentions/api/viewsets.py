@@ -2,6 +2,7 @@ from django.shortcuts import get_object_or_404
 
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
 
 from serializers import MentionSerializer
 from ..models import Mention
@@ -10,6 +11,9 @@ class MentionViewSet(ViewSet):
     """
     The ViewSet of Mention model
     """
+
+    permission_classes = [IsAuthenticated]
+
     def list(self, request, format=None):
         user = request.GET.get('user', '')
         room = request.GET.get('room', '')

@@ -1,10 +1,10 @@
 from rest_framework import serializers
 from ribbit.apps.messages.api.serializers import MessageSerializer
-from ribbit.apps.rooms.api.serializers import RoomSerializer
+from ribbit.apps.users.api.serializers import UserSerializer
 from ..models import Mention
 
 class MentionSerializer(serializers.ModelSerializer):
-    room = RoomSerializer()
+    user = UserSerializer()
     message = MessageSerializer()
     in_reply_to = MessageSerializer()
 
